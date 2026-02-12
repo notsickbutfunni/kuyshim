@@ -51,6 +51,7 @@ def trim_silence(audio: np.ndarray, threshold: float) -> np.ndarray:
     mask = np.abs(audio) >= threshold
     if not np.any(mask):
         return audio
+    
     start = int(np.argmax(mask))
     end = len(audio) - int(np.argmax(mask[::-1]))
     return audio[start:end]
