@@ -4,3 +4,6 @@ numpy
 soundfile
 python-multipart
 pytest
+librosa
+torch
+tqdm
