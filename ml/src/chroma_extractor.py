@@ -21,6 +21,7 @@ def compute_chroma_from_audio(audio: np.ndarray, sr: int, config: ChromaConfig) 
         sr=sr,
         hop_length=config.hop_length,
         n_chroma=config.n_chroma,
+        bins_per_octave=config.n_chroma,
         n_octaves=config.n_octaves,
     )
     return _pad_or_trim(chroma, config.target_frames)
