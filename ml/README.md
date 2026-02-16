@@ -29,20 +29,19 @@ ml/
 ├── data/
 │   ├── raw_samples/          # Original dombra recordings
 │   ├── processed/            # Preprocessed audio
-│   └── annotations/          # Labels for training
+│   └── annotations/          # Labels CSV and notes
 ├── models/
-│   ├── trained_models/       # Saved models (.pb, .pth, .h5)
-│   └── model_definitions.py
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_preprocessing.ipynb
-│   └── 03_model_training.ipynb
+│   └── trained_models/       # Saved models (.pth)
+├── notebooks/                # Exploration notebooks (optional)
 ├── src/
-│   ├── audio_processor.py    # Preprocessing pipeline
-│   ├── feature_extractor.py  # Feature extraction
-│   ├── chord_detector.py     # Chord recognition
-│   ├── performance_evaluator.py  # Scoring logic
-│   └── inference_api.py      # REST API for serving
+│   ├── audio_processor.py    # Preprocessing helpers
+│   ├── chroma_extractor.py   # CQT chroma features
+│   ├── dataset_builder.py    # Build .npy dataset from labels CSV
+│   ├── dataset_schema.py     # Label schema + basic chord list
+│   ├── feature_extractor.py  # Lightweight spectral features
+│   ├── model.py              # CNN model definition (PyTorch)
+│   ├── predict.py            # Single-file prediction
+│   └── train_cnn.py          # Training loop
 ├── requirements.txt
 └── README.md
 ```
