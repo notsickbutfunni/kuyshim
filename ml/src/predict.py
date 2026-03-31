@@ -7,13 +7,12 @@ import numpy as np
 import torch
 
 from .chroma_extractor import ChromaConfig, compute_chroma_from_file
-from .dataset_schema import BASIC_CHORDS
 from .model import build_model
 
 
 def predict(audio_path: str, model_path: str, chord_list: List[str] | None = None) -> None:
     if chord_list is None:
-        chord_list = BASIC_CHORDS
+        chord_list 
 
     chroma, _ = compute_chroma_from_file(audio_path, ChromaConfig())
     x = torch.tensor(chroma, dtype=torch.float32).unsqueeze(0).unsqueeze(0)

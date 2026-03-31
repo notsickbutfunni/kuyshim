@@ -8,8 +8,6 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-
-from .dataset_schema import BASIC_CHORDS
 from .model import build_model
 
 
@@ -45,7 +43,7 @@ def train(dataset_path: str, output_path: str, epochs: int = 5, batch_size: int 
     train_loader = DataLoader(ChromaDataset(train_data), batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(ChromaDataset(val_data), batch_size=batch_size)
 
-    model = build_model(num_classes=len(BASIC_CHORDS))
+    model = build_model(num_classes=len())
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
