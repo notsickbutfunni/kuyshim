@@ -6,4 +6,11 @@ python-multipart
 pytest
 librosa
 torch
+torchvision
 tqdm
+pydub
+scikit-learn
+matplotlib
+seaborn
+pandas
+joblib
