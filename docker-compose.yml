@@ -1,0 +1,81 @@
+# ═══════════════════════════════════════════════════════════════
+#  Dombra Master — Full Stack Docker Compose
+#  Services: PostgreSQL · FastAPI Backend · ML Service · Flutter Web
+#
+#  Usage:
+#    docker compose up --build        # build & start all services
+#    docker compose up --build -d     # same, but in background
+#    docker compose down              # stop all services
+#    docker compose down -v           # stop & remove volumes (wipes DB)
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  # ── PostgreSQL Database ────────────────────────────────────
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kui_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d kui_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kuyshim
+
+  # ── FastAPI Backend ────────────────────────────────────────
+  backend:
+    build: ./kui_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./kui_backend:/code
+      - storage_data:/code/storage
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/kui_db
+      ML_SERVICE_URL: http://ml:8001
+    depends_on:
+      db:
+        condition: service_healthy
+      ml:
+        condition: service_started
+    networks:
+      - kuyshim
+
+  # ── ML Service (PyTorch inference) ─────────────────────────
+  ml:
+    build: ./ml
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./ml/models:/app/models
+    networks:
+      - kuyshim
+
+  # ── Flutter Web (served via Nginx) ─────────────────────────
+  flutter-web:
+    build: ./flutter_app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - kuyshim
+
+volumes:
+  pg_data:
+  storage_data:
+
+networks:
+  kuyshim:
+    driver: bridge

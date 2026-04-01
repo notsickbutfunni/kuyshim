@@ -1,0 +1,13 @@
+.dart_tool/
+.idea/
+build/
+android/
+ios/
+macos/
+linux/
+windows/
+test/
+.git/
+*.iml
+.metadata
+analyze_output.txt
