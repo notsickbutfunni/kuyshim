@@ -5,6 +5,7 @@ soundfile
 python-multipart
 pytest
 librosa
+basic-pitch
 torch
 torchvision
 tqdm

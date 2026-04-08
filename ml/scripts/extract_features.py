@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 from pathlib import Path
 
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
+
+from src.augmentation import AudioAugmentor, AugmentationConfig
 
 
 def load_labels_from_metadata(metadata_csv: Path) -> dict[str, str]:
@@ -28,6 +31,12 @@ def load_labels_from_metadata(metadata_csv: Path) -> dict[str, str]:
 def infer_label(file_name: str, labels_map: dict[str, str]) -> str:
     if file_name in labels_map:
         return labels_map[file_name]
+
+    lower_name = file_name.lower()
+    transfer_match = re.match(r"^(s[12]_f\d+)", lower_name)
+    if transfer_match:
+        return transfer_match.group(1)
+
     prefix = file_name.split("_note_")[0]
     return prefix if prefix else "UNK"
 
@@ -62,6 +71,15 @@ def main() -> None:
     parser.add_argument("--n-mels", type=int, default=128)
     parser.add_argument("--save-plots", action="store_true")
     parser.add_argument("--plot-limit", type=int, default=100, help="Max number of segments to plot")
+    parser.add_argument("--augment", action="store_true", help="Enable audio-domain augmentation")
+    parser.add_argument("--aug-copies", type=int, default=0, help="Number of augmented copies per file")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--stretch-min", type=float, default=0.95)
+    parser.add_argument("--stretch-max", type=float, default=1.05)
+    parser.add_argument("--max-pitch-cents", type=float, default=20.0)
+    parser.add_argument("--noise-snr-min", type=float, default=18.0)
+    parser.add_argument("--noise-snr-max", type=float, default=28.0)
+    parser.add_argument("--noise-dir", default=None, help="Optional folder with background noise .wav files")
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir).resolve()
@@ -74,11 +92,26 @@ def main() -> None:
     if not wav_files:
         raise SystemExit(f"No .wav files found in {input_dir}")
 
+    augmentor: AudioAugmentor | None = None
+    if args.augment and args.aug_copies > 0:
+        augmentor = AudioAugmentor(
+            AugmentationConfig(
+                stretch_min=args.stretch_min,
+                stretch_max=args.stretch_max,
+                max_pitch_cents=args.max_pitch_cents,
+                noise_snr_min_db=args.noise_snr_min,
+                noise_snr_max_db=args.noise_snr_max,
+                noise_dir=args.noise_dir,
+                seed=args.seed,
+            )
+        )
+
     mfcc_summary_list: list[np.ndarray] = []
     cqt_list: list[np.ndarray] = []
     mel_list: list[np.ndarray] = []
     labels: list[str] = []
     names: list[str] = []
+    augmented_samples = 0
 
     plots_saved = 0
     for wav_path in wav_files:
@@ -86,48 +119,57 @@ def main() -> None:
         if len(y) == 0:
             continue
 
-        mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=args.n_mfcc)
-        cqt = np.abs(librosa.cqt(y, sr=sr, n_bins=84, bins_per_octave=12))
-        mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=args.n_mels)
-
-        cqt = pad_or_trim(cqt, args.target_frames)
-        mel = pad_or_trim(mel, args.target_frames)
-
-        mfcc_mean = np.mean(mfcc, axis=1)
-        mfcc_std = np.std(mfcc, axis=1)
-        mfcc_summary = np.concatenate([mfcc_mean, mfcc_std], axis=0)
+        samples: list[tuple[np.ndarray, str]] = [(y, wav_path.name)]
+        if augmentor is not None:
+            for aug_idx in range(args.aug_copies):
+                y_aug, _meta = augmentor.augment(y, sr)
+                samples.append((y_aug, f"{wav_path.stem}__aug{aug_idx+1}.wav"))
+                augmented_samples += 1
 
         label = infer_label(wav_path.name, labels_map)
 
-        mfcc_summary_list.append(mfcc_summary.astype(np.float32))
-        cqt_list.append(cqt.astype(np.float32))
-        mel_list.append(mel.astype(np.float32))
-        labels.append(label)
-        names.append(wav_path.name)
+        for sample_audio, sample_name in samples:
+            mfcc = librosa.feature.mfcc(y=sample_audio, sr=sr, n_mfcc=args.n_mfcc)
+            cqt = np.abs(librosa.cqt(sample_audio, sr=sr, n_bins=84, bins_per_octave=12))
+            mel = librosa.feature.melspectrogram(y=sample_audio, sr=sr, n_mels=args.n_mels)
 
-        if args.save_plots and plots_saved < args.plot_limit:
-            mel_db = librosa.power_to_db(mel, ref=np.max)
-            cqt_db = librosa.amplitude_to_db(cqt, ref=np.max)
+            cqt = pad_or_trim(cqt, args.target_frames)
+            mel = pad_or_trim(mel, args.target_frames)
 
-            save_feature_plot(
-                feature=mfcc,
-                title=f"MFCC - {wav_path.name}",
-                out_path=out_dir / "plots" / "mfcc" / f"{wav_path.stem}_mfcc.png",
-                y_axis=None,
-            )
-            save_feature_plot(
-                feature=cqt_db,
-                title=f"CQT - {wav_path.name}",
-                out_path=out_dir / "plots" / "cqt" / f"{wav_path.stem}_cqt.png",
-                y_axis="cqt_note",
-            )
-            save_feature_plot(
-                feature=mel_db,
-                title=f"Mel Spectrogram - {wav_path.name}",
-                out_path=out_dir / "plots" / "mel" / f"{wav_path.stem}_mel.png",
-                y_axis="mel",
-            )
-            plots_saved += 1
+            mfcc_mean = np.mean(mfcc, axis=1)
+            mfcc_std = np.std(mfcc, axis=1)
+            mfcc_summary = np.concatenate([mfcc_mean, mfcc_std], axis=0)
+
+            mfcc_summary_list.append(mfcc_summary.astype(np.float32))
+            cqt_list.append(cqt.astype(np.float32))
+            mel_list.append(mel.astype(np.float32))
+            labels.append(label)
+            names.append(sample_name)
+
+            if args.save_plots and plots_saved < args.plot_limit:
+                mel_db = librosa.power_to_db(mel, ref=np.max)
+                cqt_db = librosa.amplitude_to_db(cqt, ref=np.max)
+
+                sample_stem = Path(sample_name).stem
+                save_feature_plot(
+                    feature=mfcc,
+                    title=f"MFCC - {sample_name}",
+                    out_path=out_dir / "plots" / "mfcc" / f"{sample_stem}_mfcc.png",
+                    y_axis=None,
+                )
+                save_feature_plot(
+                    feature=cqt_db,
+                    title=f"CQT - {sample_name}",
+                    out_path=out_dir / "plots" / "cqt" / f"{sample_stem}_cqt.png",
+                    y_axis="cqt_note",
+                )
+                save_feature_plot(
+                    feature=mel_db,
+                    title=f"Mel Spectrogram - {sample_name}",
+                    out_path=out_dir / "plots" / "mel" / f"{sample_stem}_mel.png",
+                    y_axis="mel",
+                )
+                plots_saved += 1
 
     X_mfcc = np.stack(mfcc_summary_list, axis=0)
     X_cqt = np.stack(cqt_list, axis=0)
@@ -150,6 +192,8 @@ def main() -> None:
             writer.writerow([file_names[i], y_labels[i], *X_mfcc[i].tolist()])
 
     print(f"Processed segments: {len(file_names)}")
+    if augmentor is not None:
+        print(f"Augmented samples created: {augmented_samples}")
     print(f"Saved arrays in: {out_dir}")
     print(f"Saved MFCC table: {csv_path}")
     if args.save_plots:
