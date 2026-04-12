@@ -1,5 +1,0 @@
-{
-  "name": "Dombra Master",
-  "description": "A comprehensive learning and tuning app for the Kazakh Dombra, featuring real-time feedback and interactive lessons.",
-  "requestFramePermissions": ["microphone"]
-}

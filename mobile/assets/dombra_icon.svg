@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #1A1D20; }
+      .emerald { fill: #059669; }
+      .white { fill: #FFFFFF; }
+      .white-stroke { stroke: #FFFFFF; stroke-width: 4; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <!-- Deep dark charcoal background -->
+  <rect class="bg" width="512" height="512" rx="112" ry="112" />
+
+  <g transform="translate(0, -6)">
+    <!-- DOMBRA SILHOUETTE -->
+    
+    <!-- Tuning Peg Extensions -->
+    <rect class="emerald" x="220" y="70" width="24" height="12" rx="6" />
+    <rect class="emerald" x="268" y="70" width="24" height="12" rx="6" />
+    
+    <!-- Tuning Peg White Accents -->
+    <circle class="white" cx="214" cy="76" r="6" />
+    <circle class="white" cx="298" cy="76" r="6" />
+
+    <!-- Headstock -->
+    <path class="emerald" d="M 236 64 L 256 48 L 276 64 L 276 112 L 236 112 Z" />
+    
+    <!-- Neck -->
+    <rect class="emerald" x="242" y="112" width="28" height="160" />
+
+    <!-- Body (Pear/Tear-drop shape) -->
+    <path class="emerald" d="M 242 272 
+             C 172 296, 148 356, 148 416 
+             C 148 468, 196 492, 256 492 
+             C 316 492, 364 468, 364 416 
+             C 364 356, 340 296, 270 272 Z" />
+
+    <!-- Nut -->
+    <rect class="white" x="234" y="108" width="44" height="6" rx="3" />
+
+    <!-- Sound Hole Outer Ring -->
+    <circle class="white" cx="256" cy="380" r="32" />
+    <!-- Sound Hole Inner Cutout (Matches background) -->
+    <circle class="bg" cx="256" cy="380" r="26" />
+    
+    <!-- Central Geometric Accent (Kazakh motif inspiration) -->
+    <polygon class="emerald" points="256,368 268,380 256,392 244,380" />
+
+    <!-- 2 Strings -->
+    <line class="white-stroke" x1="250" y1="58" x2="250" y2="456" />
+    <line class="white-stroke" x1="262" y1="58" x2="262" y2="456" />
+
+    <!-- Bridge -->
+    <rect class="white" x="232" y="448" width="48" height="8" rx="4" />
+    
+    <!-- Bridge Pins -->
+    <circle class="bg" cx="250" cy="452" r="2" />
+    <circle class="bg" cx="262" cy="452" r="2" />
+  </g>
+</svg>

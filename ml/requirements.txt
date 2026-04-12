@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+numpy
+soundfile
+python-multipart
+pytest
+librosa
+basic-pitch
+torch
+torchvision
+tqdm
+pydub
+scikit-learn
+matplotlib
+seaborn
+pandas
+joblib

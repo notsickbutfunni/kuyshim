@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kui_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d kui_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+      - storage_data:/code/storage
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/kui_db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pg_data:
+  storage_data:
