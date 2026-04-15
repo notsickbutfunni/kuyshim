@@ -96,7 +96,7 @@ class AppStrings {
   final String notificationsSub;
   final String saveChanges;
 
-  // ── Tuner ──────────────────────────────────────────────────
+  // ── Tuner / Recognition ────────────────────────────────────
   final String precisionTuner;
   final String startListening;
   final String playAString;
@@ -106,6 +106,17 @@ class AppStrings {
   final String upperString;
   final String lowerString;
   final String reference;
+  final String kuiRecognition;
+  final String tapToRecognize;
+  final String recording;
+  final String analyzingAudio;
+  final String chordDetected;
+  final String confidence;
+  final String topPredictions;
+  final String mlOffline;
+  final String tryAgain;
+  final String recordingSeconds;
+  final String noMicrophone;
 
   // ── Badges ─────────────────────────────────────────────────
   final String badgeFastFingers;
@@ -208,6 +219,17 @@ class AppStrings {
     required this.upperString,
     required this.lowerString,
     required this.reference,
+    required this.kuiRecognition,
+    required this.tapToRecognize,
+    required this.recording,
+    required this.analyzingAudio,
+    required this.chordDetected,
+    required this.confidence,
+    required this.topPredictions,
+    required this.mlOffline,
+    required this.tryAgain,
+    required this.recordingSeconds,
+    required this.noMicrophone,
     required this.badgeFastFingers,
     required this.badgeTraditionKeeper,
     required this.badgePerfectAdai,
@@ -313,6 +335,17 @@ const AppStrings en = AppStrings(
   upperString: 'Upper String',
   lowerString: 'Lower String',
   reference: 'Reference',
+  kuiRecognition: 'Küi Recognition',
+  tapToRecognize: 'Tap to recognize',
+  recording: 'Recording...',
+  analyzingAudio: 'Analyzing audio...',
+  chordDetected: 'Chord Detected',
+  confidence: 'Confidence',
+  topPredictions: 'Top Predictions',
+  mlOffline: 'ML service offline',
+  tryAgain: 'Try Again',
+  recordingSeconds: 'seconds',
+  noMicrophone: 'Microphone not available',
   badgeFastFingers: 'Fast Fingers',
   badgeTraditionKeeper: 'Tradition Keeper',
   badgePerfectAdai: 'Perfect Adai',
@@ -417,6 +450,17 @@ const AppStrings kz = AppStrings(
   upperString: 'Жоғарғы ішек',
   lowerString: 'Төменгі ішек',
   reference: 'Анықтама',
+  kuiRecognition: 'Күй тану',
+  tapToRecognize: 'Тану үшін басыңыз',
+  recording: 'Жазып алу...',
+  analyzingAudio: 'Аудио талданып жатыр...',
+  chordDetected: 'Аккорд анықталды',
+  confidence: 'Сенімділік',
+  topPredictions: 'Үздік болжамдар',
+  mlOffline: 'ML сервисі қолжетімсіз',
+  tryAgain: 'Қайталау',
+  recordingSeconds: 'секунд',
+  noMicrophone: 'Микрофон қолжетімсіз',
   badgeFastFingers: 'Жылдам саусақтар',
   badgeTraditionKeeper: 'Дәстүр сақтаушы',
   badgePerfectAdai: 'Тамаша Адай',
@@ -521,6 +565,17 @@ const AppStrings ru = AppStrings(
   upperString: 'Верхняя струна',
   lowerString: 'Нижняя струна',
   reference: 'Эталон',
+  kuiRecognition: 'Распознавание Күй',
+  tapToRecognize: 'Нажмите для распознавания',
+  recording: 'Запись...',
+  analyzingAudio: 'Анализ аудио...',
+  chordDetected: 'Аккорд определён',
+  confidence: 'Уверенность',
+  topPredictions: 'Лучшие предсказания',
+  mlOffline: 'ML сервис недоступен',
+  tryAgain: 'Повторить',
+  recordingSeconds: 'секунд',
+  noMicrophone: 'Микрофон недоступен',
   badgeFastFingers: 'Быстрые пальцы',
   badgeTraditionKeeper: 'Хранитель традиций',
   badgePerfectAdai: 'Идеальный Адай',

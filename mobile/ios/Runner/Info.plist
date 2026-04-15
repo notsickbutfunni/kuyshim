@@ -42,5 +42,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Kuyshim needs microphone access to record your dombra playing for chord recognition.</string>
 </dict>
 </plist>

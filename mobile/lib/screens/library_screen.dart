@@ -613,14 +613,14 @@ class _LessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accentColor = isPro ? KColors.violet : KColors.emerald;
-    final cardWidth = screenWidth * 0.28;
-    final cardRadius = screenHeight * 0.08;
-    final overlayPad = screenHeight * 0.03;
-    final labelFontSize = screenHeight * 0.022;
-    final titleFontSize = screenHeight * 0.04;
-    final composerFontSize = screenHeight * 0.022;
-    final descFontSize = screenHeight * 0.025;
-    final noteDotSize = screenHeight * 0.025;
+    final cardWidth = screenWidth * 0.35;
+    final cardRadius = screenHeight * 0.06;
+    final overlayPad = screenHeight * 0.02;
+    final labelFontSize = screenHeight * 0.02;
+    final titleFontSize = screenHeight * 0.035;
+    final composerFontSize = screenHeight * 0.02;
+    final descFontSize = screenHeight * 0.022;
+    final noteDotSize = screenHeight * 0.022;
 
     return GestureDetector(
       onTap: isLocked ? null : onTap,
@@ -643,8 +643,8 @@ class _LessonCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Image area
-              Flexible(
-                flex: 3,
+              Expanded(
+                flex: 1,
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -815,12 +815,13 @@ class _LessonCard extends StatelessWidget {
 
               // Text content
               Expanded(
+                flex: 1,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
-                    screenWidth * 0.015,
-                    screenHeight * 0.02,
-                    screenWidth * 0.015,
-                    screenHeight * 0.025,
+                    screenWidth * 0.012,
+                    screenHeight * 0.015,
+                    screenWidth * 0.012,
+                    screenHeight * 0.015,
                   ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -937,7 +938,7 @@ class _LessonCard extends StatelessWidget {
                                               .play_arrow,
                                           size:
                                               screenHeight *
-                                                  0.035,
+                                                  0.025,
                                           color: isPro
                                               ? Colors
                                                   .white
@@ -957,7 +958,7 @@ class _LessonCard extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize:
                                             screenHeight *
-                                                0.03),
+                                                0.022),
                                   ),
                                   style: ElevatedButton
                                       .styleFrom(
@@ -987,7 +988,7 @@ class _LessonCard extends StatelessWidget {
                                         .symmetric(
                                       vertical:
                                           screenHeight *
-                                              0.02,
+                                              0.015,
                                     ),
                                     shape:
                                         RoundedRectangleBorder(
@@ -995,7 +996,7 @@ class _LessonCard extends StatelessWidget {
                                           BorderRadius
                                               .circular(
                                                   screenHeight *
-                                                      0.035),
+                                                      0.025),
                                     ),
                                   ),
                                 ),
