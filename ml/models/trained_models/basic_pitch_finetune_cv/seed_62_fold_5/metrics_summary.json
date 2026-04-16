@@ -1,0 +1,64 @@
+{
+  "best_val_total": 1.6651680320501328,
+  "best_epoch": 12,
+  "split_sizes": {
+    "train": 98,
+    "val": 58,
+    "test": 39
+  },
+  "test_onset_bce": 0.9041385889053345,
+  "test_frame_bce": 0.9041038155555725,
+  "test_total": 1.808242416381836,
+  "val_metrics": {
+    "onset": {
+      "precision_micro": 0.08745247148122713,
+      "recall_micro": 0.79310344813912,
+      "f1_micro": 0.15753424478091574,
+      "precision_macro": 0.27347284731686594,
+      "recall_macro": 0.8249999933750001,
+      "f1_macro": 0.30873347199383466,
+      "precision_weighted": 0.3168658923294244,
+      "recall_weighted": 0.793103442449465,
+      "f1_weighted": 0.34152493683372476,
+      "pr_auc_macro": 0.25620910455958856
+    },
+    "frame": {
+      "precision_micro": 0.08958333333146701,
+      "recall_micro": 0.7413793102170035,
+      "f1_micro": 0.15985129918561106,
+      "precision_macro": 0.256117133818159,
+      "recall_macro": 0.7874999935625,
+      "f1_macro": 0.3049194998549075,
+      "precision_weighted": 0.2925963307709325,
+      "recall_weighted": 0.7413793047859691,
+      "f1_weighted": 0.3296272980711056,
+      "pr_auc_macro": 0.24131748281789
+    }
+  },
+  "test_metrics": {
+    "onset": {
+      "precision_micro": 0.0668151447646589,
+      "recall_micro": 0.7692307690335306,
+      "f1_micro": 0.12295081819646937,
+      "precision_macro": 0.0913302149906553,
+      "recall_macro": 0.37499999812499996,
+      "f1_macro": 0.11284741031732884,
+      "precision_weighted": 0.18734403070202524,
+      "recall_weighted": 0.7692307651873767,
+      "f1_weighted": 0.23148186725824327,
+      "pr_auc_macro": 0.29791950967782166
+    },
+    "frame": {
+      "precision_micro": 0.05721393034683547,
+      "recall_micro": 0.5897435895923734,
+      "f1_micro": 0.10430838840565405,
+      "precision_macro": 0.058966660428587045,
+      "recall_macro": 0.2874999985625,
+      "f1_macro": 0.08214312979598307,
+      "precision_weighted": 0.12095725213018951,
+      "recall_weighted": 0.5897435866436556,
+      "f1_weighted": 0.1684987277434271,
+      "pr_auc_macro": 0.30646586693464367
+    }
+  }
+}

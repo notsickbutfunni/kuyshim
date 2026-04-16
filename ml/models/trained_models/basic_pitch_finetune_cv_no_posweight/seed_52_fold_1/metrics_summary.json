@@ -1,0 +1,64 @@
+{
+  "best_val_total": 0.1960769941409429,
+  "best_epoch": 20,
+  "split_sizes": {
+    "train": 136,
+    "val": 20,
+    "test": 39
+  },
+  "test_onset_bce": 0.12359008640050888,
+  "test_frame_bce": 0.12631412595510483,
+  "test_total": 0.24990421235561372,
+  "val_metrics": {
+    "onset": {
+      "precision_micro": 0.9999999987499999,
+      "recall_micro": 0.3999999998,
+      "f1_micro": 0.5714285669387756,
+      "precision_macro": 0.19999999800000004,
+      "recall_macro": 0.19999999800000004,
+      "f1_macro": 0.19999999700000007,
+      "precision_weighted": 0.39999999580000006,
+      "recall_weighted": 0.39999999580000006,
+      "f1_weighted": 0.39999999380000006,
+      "pr_auc_macro": 0.6927350427350427
+    },
+    "frame": {
+      "precision_micro": 0.8749999989062499,
+      "recall_micro": 0.34999999982499996,
+      "f1_micro": 0.49999999556122454,
+      "precision_macro": 0.17499999825000004,
+      "recall_macro": 0.17499999825000004,
+      "f1_macro": 0.17499999737500005,
+      "precision_weighted": 0.34999999632500006,
+      "recall_weighted": 0.34999999632500006,
+      "f1_weighted": 0.3499999945750001,
+      "pr_auc_macro": 0.7513888888888889
+    }
+  },
+  "test_metrics": {
+    "onset": {
+      "precision_micro": 0.1111111110493827,
+      "recall_micro": 0.051282051268902035,
+      "f1_micro": 0.07017543425053889,
+      "precision_macro": 0.04999999950000001,
+      "recall_macro": 0.024999999875,
+      "f1_macro": 0.033333332888888886,
+      "precision_weighted": 0.10256410151216307,
+      "recall_weighted": 0.05128205101249178,
+      "f1_weighted": 0.06837606744685513,
+      "pr_auc_macro": 0.3046745772072784
+    },
+    "frame": {
+      "precision_micro": 0.09999999995,
+      "recall_micro": 0.051282051268902035,
+      "f1_micro": 0.06779660566503908,
+      "precision_macro": 0.03749999968750001,
+      "recall_macro": 0.024999999875,
+      "f1_macro": 0.029166666256944446,
+      "precision_weighted": 0.07692307626232742,
+      "recall_weighted": 0.05128205101249178,
+      "f1_weighted": 0.05982905897326321,
+      "pr_auc_macro": 0.27067591066105495
+    }
+  }
+}

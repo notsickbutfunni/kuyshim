@@ -1,0 +1,65 @@
+{
+  "num_runs": 2,
+  "config": {
+    "folds": 2,
+    "seeds": [
+      42
+    ],
+    "epochs": 1,
+    "freeze_epochs": 5,
+    "val_size": 0.2,
+    "pos_weight_mode": "balanced"
+  },
+  "aggregate": {
+    "best_val_total": {
+      "mean": 1.969929325580597,
+      "std": 0.005748260021209761
+    },
+    "test_total": {
+      "mean": 2.009819635978112,
+      "std": 0.0064412538821880805
+    },
+    "test_onset_f1_weighted": {
+      "mean": 0.03537471035786682,
+      "std": 0.01750296048855657
+    },
+    "test_frame_f1_weighted": {
+      "mean": 0.014131486990103541,
+      "std": 0.002819687703795806
+    },
+    "test_onset_pr_auc_macro": {
+      "mean": 0.07432842176593793,
+      "std": 0.006199082437154994
+    },
+    "test_frame_pr_auc_macro": {
+      "mean": 0.07083815323184046,
+      "std": 0.008376821578310878
+    }
+  },
+  "runs": [
+    {
+      "run": "seed_42_fold_1",
+      "seed": 42,
+      "fold": 1,
+      "best_epoch": 1,
+      "best_val_total": 1.9756775856018067,
+      "test_total": 2.003378382095924,
+      "test_onset_f1_weighted": 0.0528776708464234,
+      "test_frame_f1_weighted": 0.016951174693899347,
+      "test_onset_pr_auc_macro": 0.06812933932878293,
+      "test_frame_pr_auc_macro": 0.062461331653529586
+    },
+    {
+      "run": "seed_42_fold_2",
+      "seed": 42,
+      "fold": 2,
+      "best_epoch": 1,
+      "best_val_total": 1.9641810655593872,
+      "test_total": 2.0162608898603,
+      "test_onset_f1_weighted": 0.01787174986931025,
+      "test_frame_f1_weighted": 0.011311799286307735,
+      "test_onset_pr_auc_macro": 0.08052750420309292,
+      "test_frame_pr_auc_macro": 0.07921497481015134
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "sr": 22050,
+  "n_bins": 84,
+  "bins_per_octave": 12,
+  "target_frames": 256
+}

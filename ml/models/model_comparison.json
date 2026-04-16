@@ -1,0 +1,26 @@
+{
+  "cnn": {
+    "model": "CNN minimal_v2",
+    "num_files": 209,
+    "top1_acc": 0.3444976076555024,
+    "top3_acc": 0.5980861244019139,
+    "top5_acc": 0.6985645933014354,
+    "latency_ms_mean": 6.278969375327515,
+    "latency_ms_p95": 8.800240047276018,
+    "params": 159880,
+    "inference_complexity": "low",
+    "latency_ms_median": 5.994400009512901
+  },
+  "crnn": {
+    "model": "CRNN crnn_v1",
+    "num_files": 209,
+    "top1_acc": 0.0861244019138756,
+    "top3_acc": 0.2631578947368421,
+    "top5_acc": 0.32057416267942584,
+    "latency_ms_mean": 41.157780862391064,
+    "latency_ms_p95": 47.253720136359334,
+    "params": 1457768,
+    "inference_complexity": "medium",
+    "latency_ms_median": 41.068000020459294
+  }
+}

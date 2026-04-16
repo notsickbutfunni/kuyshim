@@ -1,0 +1,64 @@
+{
+  "best_val_total": 0.22218095064163207,
+  "best_epoch": 14,
+  "split_sizes": {
+    "train": 117,
+    "val": 39,
+    "test": 39
+  },
+  "test_onset_bce": 0.10455177277326584,
+  "test_frame_bce": 0.10265641659498215,
+  "test_total": 0.20720818936824797,
+  "val_metrics": {
+    "onset": {
+      "precision_micro": 0.1290322580228928,
+      "recall_micro": 0.10256410253780407,
+      "f1_micro": 0.11428570931836755,
+      "precision_macro": 0.08124999923437501,
+      "recall_macro": 0.09999999900000002,
+      "f1_macro": 0.08499999875500001,
+      "precision_weighted": 0.08333333252670942,
+      "recall_weighted": 0.10256410151216307,
+      "f1_weighted": 0.0871794858802104,
+      "pr_auc_macro": 0.23877484816332456
+    },
+    "frame": {
+      "precision_micro": 0.13333333328888888,
+      "recall_micro": 0.10256410253780407,
+      "f1_micro": 0.11594202403696723,
+      "precision_macro": 0.09999999900000002,
+      "recall_macro": 0.09999999900000002,
+      "f1_macro": 0.09999999850000002,
+      "precision_weighted": 0.10256410151216307,
+      "recall_weighted": 0.10256410151216307,
+      "f1_weighted": 0.10256410099934256,
+      "pr_auc_macro": 0.2755098654076585
+    }
+  },
+  "test_metrics": {
+    "onset": {
+      "precision_micro": 0.3076923075739645,
+      "recall_micro": 0.20512820507560814,
+      "f1_micro": 0.24615384127810658,
+      "precision_macro": 0.17083333174305557,
+      "recall_macro": 0.19999999800000004,
+      "f1_macro": 0.1791666640381945,
+      "precision_weighted": 0.17521367353769451,
+      "recall_weighted": 0.20512820302432613,
+      "f1_weighted": 0.18376068101769671,
+      "pr_auc_macro": 0.4428669758603969
+    },
+    "frame": {
+      "precision_micro": 0.37037037023319613,
+      "recall_micro": 0.2564102563445102,
+      "f1_micro": 0.30303029810376503,
+      "precision_macro": 0.1895833316649306,
+      "recall_macro": 0.24999999750000007,
+      "f1_macro": 0.2058333303626389,
+      "precision_weighted": 0.19444444268340458,
+      "recall_weighted": 0.25641025378040766,
+      "f1_weighted": 0.211111108010114,
+      "pr_auc_macro": 0.46186413232812135
+    }
+  }
+}

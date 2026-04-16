@@ -1,0 +1,59 @@
+{
+  "best_val_total": 1.3714392632246017,
+  "best_epoch": 19,
+  "test_onset_bce": 1.2727303107579548,
+  "test_frame_bce": 1.2111679315567017,
+  "test_total": 2.4838982423146567,
+  "val_metrics": {
+    "onset": {
+      "precision_micro": 0.15123456789656683,
+      "recall_micro": 0.8596491226562019,
+      "f1_micro": 0.2572178452110415,
+      "precision_macro": 0.4094766579096036,
+      "recall_macro": 0.8624999931874999,
+      "f1_macro": 0.4648126971380804,
+      "precision_weighted": 0.4561490320546571,
+      "recall_weighted": 0.8596491166035705,
+      "f1_weighted": 0.5012761165934324,
+      "pr_auc_macro": 0.4320284216315496
+    },
+    "frame": {
+      "precision_micro": 0.164473684205116,
+      "recall_micro": 0.8771929823022468,
+      "f1_micro": 0.277008307574681,
+      "precision_macro": 0.4194654502153977,
+      "recall_macro": 0.8749999931250001,
+      "f1_macro": 0.469392132142288,
+      "precision_weighted": 0.4720698776286644,
+      "recall_weighted": 0.8771929761618961,
+      "f1_weighted": 0.5139173645472286,
+      "pr_auc_macro": 0.41332015590928833
+    }
+  },
+  "test_metrics": {
+    "onset": {
+      "precision_micro": 0.024793388427703025,
+      "recall_micro": 0.13636363630165288,
+      "f1_micro": 0.04195803934862357,
+      "precision_macro": 0.031249999859375,
+      "recall_macro": 0.07499999925000002,
+      "f1_macro": 0.043333332768888885,
+      "precision_weighted": 0.05681818153667355,
+      "recall_weighted": 0.13636363493801654,
+      "f1_weighted": 0.07878787772580348,
+      "pr_auc_macro": 0.2901315789473684
+    },
+    "frame": {
+      "precision_micro": 0.03418803418511213,
+      "recall_micro": 0.18181818173553718,
+      "f1_micro": 0.05755395416179299,
+      "precision_macro": 0.032738095114937645,
+      "recall_macro": 0.09999999900000002,
+      "f1_macro": 0.04791666606163194,
+      "precision_weighted": 0.05952380927283034,
+      "recall_weighted": 0.18181817991735538,
+      "f1_weighted": 0.08712121098154846,
+      "pr_auc_macro": 0.3439605368176797
+    }
+  }
+}

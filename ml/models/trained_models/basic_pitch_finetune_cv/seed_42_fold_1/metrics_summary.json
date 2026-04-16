@@ -1,0 +1,64 @@
+{
+  "best_val_total": 1.5583641529083252,
+  "best_epoch": 10,
+  "split_sizes": {
+    "train": 117,
+    "val": 39,
+    "test": 39
+  },
+  "test_onset_bce": 0.8997104883193969,
+  "test_frame_bce": 0.8563121676445007,
+  "test_total": 1.7560226440429687,
+  "val_metrics": {
+    "onset": {
+      "precision_micro": 0.15499999999225,
+      "recall_micro": 0.7948717946679815,
+      "f1_micro": 0.2594142231886697,
+      "precision_macro": 0.16846033270679442,
+      "recall_macro": 0.39999999787500007,
+      "f1_macro": 0.19373963518317736,
+      "precision_weighted": 0.34189665308901346,
+      "recall_weighted": 0.7948717905654175,
+      "f1_weighted": 0.39100437983478575,
+      "pr_auc_macro": 0.2990015645586298
+    },
+    "frame": {
+      "precision_micro": 0.14634146340749554,
+      "recall_micro": 0.7692307690335306,
+      "f1_micro": 0.2459016366383365,
+      "precision_macro": 0.1747300811443801,
+      "recall_macro": 0.38749999793750006,
+      "f1_macro": 0.19706184792689896,
+      "precision_weighted": 0.3571996779585139,
+      "recall_weighted": 0.7692307650591717,
+      "f1_weighted": 0.4018984292352373,
+      "pr_auc_macro": 0.33751781755825877
+    }
+  },
+  "test_metrics": {
+    "onset": {
+      "precision_micro": 0.01704545454448605,
+      "recall_micro": 0.07692307690335305,
+      "f1_micro": 0.027906973771768838,
+      "precision_macro": 0.04583333299305556,
+      "recall_macro": 0.037499999812500004,
+      "f1_macro": 0.03916666609694445,
+      "precision_weighted": 0.09401709329498138,
+      "recall_weighted": 0.07692307651873767,
+      "f1_weighted": 0.0803418791526189,
+      "pr_auc_macro": 0.3212800886016661
+    },
+    "frame": {
+      "precision_micro": 0.027777777776234566,
+      "recall_micro": 0.1282051281722551,
+      "f1_micro": 0.04566209752507264,
+      "precision_macro": 0.07499999940625,
+      "recall_macro": 0.062499999687499995,
+      "f1_macro": 0.06249999920138889,
+      "precision_weighted": 0.15384615258875742,
+      "recall_weighted": 0.12820512753122945,
+      "f1_weighted": 0.12820512653407845,
+      "pr_auc_macro": 0.3118016412070636
+    }
+  }
+}
