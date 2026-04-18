@@ -5,8 +5,8 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class MlServiceUrl {
-  // From Android emulator, localhost is accessed via 10.0.2.2
-  static const String baseUrl = 'http://10.0.2.2:8001';
+  // localhost works with adb reverse port forwarding for physical devices
+  static const String baseUrl = 'http://localhost:8001';
 }
 
 /// Result of a chord prediction from the ML model.

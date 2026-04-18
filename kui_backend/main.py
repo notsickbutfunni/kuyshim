@@ -11,8 +11,14 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from database import engine, Base, Kui, User, Lesson, Progress, Performance, get_db
-from security import verify_password, get_password_hash, create_access_token, decode_access_token
+try:
+    # Package-style imports (when running from workspace root: `uvicorn kui_backend.main:app`)
+    from .database import engine, Base, Kui, User, Lesson, Progress, Performance, get_db
+    from .security import verify_password, get_password_hash, create_access_token, decode_access_token
+except ImportError:
+    # Module-style imports (when running inside `kui_backend/`: `uvicorn main:app`)
+    from database import engine, Base, Kui, User, Lesson, Progress, Performance, get_db
+    from security import verify_password, get_password_hash, create_access_token, decode_access_token
 
 # ── OAuth2-схема: указывает клиенту, куда слать логин ────────
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
@@ -514,4 +520,4 @@ def get_performances(
 
 
 # ── Register the API router with the main app ────────────────
-app.include_router(api)
+app.include_router(api)
