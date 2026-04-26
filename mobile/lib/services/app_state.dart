@@ -89,21 +89,40 @@ class AppState extends ChangeNotifier {
   Future<void> _refreshLessons() async {
     List<Lesson> currentLessons = List.from(lesson_data.offlineLessons);
 
-    if (_isOnline && !_user.isGuest && _backendOnline) {
+    if (_isOnline && _backendOnline) {
+      // 1. Fetch all kuis from the unauthenticated endpoint (works for guests too)
       try {
-        final remoteData = await api.fetchLessons();
-        final remoteLessons = remoteData.map((json) => Lesson.fromJson(json)).toList();
+        final kuisData = await api.fetchKuis();
+        final remoteKuis = kuisData.map((json) => Lesson.fromJson(json)).toList();
         
-        // Merge offline and newly fetched remote lessons 
-        // Avoid duplicate IDs if the backend returns lessons we already have locally
         final localIds = currentLessons.map((e) => e.id).toSet();
-        for (final remoteInfo in remoteLessons) {
-          if (!localIds.contains(remoteInfo.id)) {
-            currentLessons.add(remoteInfo);
+        for (final kui in remoteKuis) {
+          if (!localIds.contains(kui.id)) {
+            currentLessons.add(kui);
           }
         }
-      } catch (_) {
-        // If fetch fails, we just keep the offline lessons
+      } catch (e) {
+        print('Failed to fetch kuis: $e');
+      }
+
+      // 2. If logged in, also fetch lesson progress to update statuses
+      if (!_user.isGuest) {
+        try {
+          final remoteData = await api.fetchLessons();
+          final remoteLessons = remoteData.map((json) => Lesson.fromJson(json)).toList();
+          
+          // Update progress status for lessons that match
+          for (final remote in remoteLessons) {
+            final idx = currentLessons.indexWhere((l) => l.id == remote.id);
+            if (idx != -1 && remote.progressStatus != null) {
+              currentLessons[idx] = currentLessons[idx].copyWith(
+                progressStatus: remote.progressStatus,
+              );
+            }
+          }
+        } catch (e) {
+          print('Failed to fetch lesson progress: $e');
+        }
       }
     }
 

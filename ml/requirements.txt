@@ -1,17 +1,9 @@
-fastapi
-uvicorn
-numpy
-soundfile
-python-multipart
-pytest
-librosa
-basic-pitch
-torch
-torchvision
-tqdm
-pydub
-scikit-learn
-matplotlib
-seaborn
-pandas
-joblib
+# ML Inference Server dependencies
+torch>=2.0.0
+torchaudio>=2.0.0
+torchvision>=0.15.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9
+numpy>=1.24.0
+scikit-learn>=1.3.0

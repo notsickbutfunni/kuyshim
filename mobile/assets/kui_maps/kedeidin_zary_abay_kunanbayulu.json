@@ -1,0 +1,9878 @@
+{
+  "version": "2.0",
+  "meta": {
+    "title": "Kedeidin zary",
+    "artist": "Abay Kunanbayulu",
+    "audio_file": "kedeidin_zary_abay_kunanbayulu.wav",
+    "duration_sec": 118.947,
+    "bpm": 117.45,
+    "total_notes": 534,
+    "sherpe_count": 534,
+    "qagys_count": 0,
+    "tuning": {
+      "bass_string": "A2",
+      "treble_string": "D3",
+      "frets": 9
+    }
+  },
+  "fretboard": [
+    {
+      "midi": 45,
+      "hz": 110.0,
+      "name": "A2",
+      "string": "bass",
+      "fret": 0
+    },
+    {
+      "midi": 46,
+      "hz": 116.54,
+      "name": "A#2",
+      "string": "bass",
+      "fret": 1
+    },
+    {
+      "midi": 47,
+      "hz": 123.47,
+      "name": "B2",
+      "string": "bass",
+      "fret": 2
+    },
+    {
+      "midi": 48,
+      "hz": 130.81,
+      "name": "C3",
+      "string": "bass",
+      "fret": 3
+    },
+    {
+      "midi": 49,
+      "hz": 138.59,
+      "name": "C#3",
+      "string": "bass",
+      "fret": 4
+    },
+    {
+      "midi": 50,
+      "hz": 146.83,
+      "name": "D3",
+      "string": "both",
+      "fret": 0
+    },
+    {
+      "midi": 51,
+      "hz": 155.56,
+      "name": "D#3",
+      "string": "both",
+      "fret": 1
+    },
+    {
+      "midi": 52,
+      "hz": 164.81,
+      "name": "E3",
+      "string": "both",
+      "fret": 2
+    },
+    {
+      "midi": 53,
+      "hz": 174.61,
+      "name": "F3",
+      "string": "both",
+      "fret": 3
+    },
+    {
+      "midi": 54,
+      "hz": 185.0,
+      "name": "F#3",
+      "string": "both",
+      "fret": 4
+    },
+    {
+      "midi": 55,
+      "hz": 196.0,
+      "name": "G3",
+      "string": "treble",
+      "fret": 5
+    },
+    {
+      "midi": 56,
+      "hz": 207.65,
+      "name": "G#3",
+      "string": "treble",
+      "fret": 6
+    },
+    {
+      "midi": 57,
+      "hz": 220.0,
+      "name": "A3",
+      "string": "treble",
+      "fret": 7
+    },
+    {
+      "midi": 58,
+      "hz": 233.08,
+      "name": "A#3",
+      "string": "treble",
+      "fret": 8
+    },
+    {
+      "midi": 59,
+      "hz": 246.94,
+      "name": "B3",
+      "string": "treble",
+      "fret": 9
+    }
+  ],
+  "beat_times_sec": [
+    0.232,
+    0.813,
+    1.324,
+    1.834,
+    2.322,
+    2.81,
+    3.297,
+    3.785,
+    4.272,
+    4.783,
+    5.248,
+    5.712,
+    6.2,
+    6.687,
+    7.175,
+    7.639,
+    8.127,
+    8.591,
+    9.079,
+    9.543,
+    10.031,
+    10.495,
+    10.983,
+    11.471,
+    12.005,
+    12.516,
+    13.026,
+    13.537,
+    14.048,
+    14.559,
+    15.047,
+    15.557,
+    16.045,
+    16.533,
+    17.043,
+    17.554,
+    18.042,
+    18.53,
+    19.04,
+    19.551,
+    20.039,
+    20.55,
+    21.06,
+    21.571,
+    22.082,
+    22.593,
+    23.081,
+    23.591,
+    24.102,
+    24.59,
+    25.101,
+    25.588,
+    26.099,
+    26.61,
+    27.121,
+    27.632,
+    28.143,
+    28.63,
+    29.118,
+    29.605,
+    30.116,
+    30.604,
+    31.092,
+    31.602,
+    32.113,
+    32.601,
+    33.112,
+    33.622,
+    34.133,
+    34.621,
+    35.132,
+    35.643,
+    36.13,
+    36.641,
+    37.152,
+    37.663,
+    38.15,
+    38.661,
+    39.149,
+    39.636,
+    40.147,
+    40.658,
+    41.169,
+    41.68,
+    42.167,
+    42.678,
+    43.189,
+    43.723,
+    44.234,
+    44.745,
+    45.256,
+    45.767,
+    46.277,
+    46.788,
+    47.299,
+    47.787,
+    48.298,
+    48.808,
+    49.296,
+    49.807,
+    50.341,
+    50.852,
+    51.363,
+    51.897,
+    52.384,
+    52.918,
+    53.406,
+    53.917,
+    54.381,
+    54.822,
+    55.263,
+    55.728,
+    56.262,
+    56.75,
+    57.284,
+    57.748,
+    58.259,
+    58.723,
+    59.234,
+    59.768,
+    60.279,
+    60.79,
+    61.324,
+    61.835,
+    62.346,
+    62.856,
+    63.367,
+    63.901,
+    64.389,
+    64.9,
+    65.387,
+    65.921,
+    66.409,
+    66.92,
+    67.408,
+    67.918,
+    68.383,
+    68.894,
+    69.404,
+    69.939,
+    70.449,
+    70.96,
+    71.471,
+    71.982,
+    72.493,
+    73.004,
+    73.514,
+    74.048,
+    74.559,
+    75.093,
+    75.604,
+    76.115,
+    76.603,
+    77.113,
+    77.624,
+    78.135,
+    78.646,
+    79.157,
+    79.668,
+    80.179,
+    80.713,
+    81.223,
+    81.734,
+    82.245,
+    82.733,
+    83.29,
+    83.801,
+    84.288,
+    84.799,
+    85.333,
+    85.844,
+    86.355,
+    86.866,
+    87.377,
+    87.888,
+    88.398,
+    88.909,
+    89.397,
+    89.931,
+    90.442,
+    90.953,
+    91.463,
+    91.974,
+    92.485,
+    92.996,
+    93.484,
+    93.994,
+    94.505,
+    95.016,
+    95.527,
+    96.015,
+    96.502,
+    97.013,
+    97.524,
+    98.035,
+    98.545,
+    99.056,
+    99.567,
+    100.055,
+    100.566,
+    101.076,
+    101.564,
+    102.052,
+    102.539,
+    103.027,
+    103.538,
+    104.072,
+    104.583,
+    105.094,
+    105.628,
+    106.138,
+    106.649,
+    107.183,
+    107.717,
+    108.251,
+    108.785,
+    109.32,
+    109.854,
+    110.364,
+    110.852,
+    111.34
+  ],
+  "notes": [
+    {
+      "id": 0,
+      "time_ms": 255,
+      "time_sec": 0.255,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 1,
+      "time_ms": 395,
+      "time_sec": 0.395,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 2,
+      "time_ms": 557,
+      "time_sec": 0.557,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 3,
+      "time_ms": 697,
+      "time_sec": 0.697,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 4,
+      "time_ms": 813,
+      "time_sec": 0.813,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 5,
+      "time_ms": 952,
+      "time_sec": 0.952,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 6,
+      "time_ms": 1091,
+      "time_sec": 1.091,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 7,
+      "time_ms": 1207,
+      "time_sec": 1.207,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 8,
+      "time_ms": 1347,
+      "time_sec": 1.347,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 9,
+      "time_ms": 1463,
+      "time_sec": 1.463,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 10,
+      "time_ms": 1579,
+      "time_sec": 1.579,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 11,
+      "time_ms": 1718,
+      "time_sec": 1.718,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 12,
+      "time_ms": 1834,
+      "time_sec": 1.834,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 13,
+      "time_ms": 1950,
+      "time_sec": 1.95,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 14,
+      "time_ms": 2090,
+      "time_sec": 2.09,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 15,
+      "time_ms": 2183,
+      "time_sec": 2.183,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 16,
+      "time_ms": 2322,
+      "time_sec": 2.322,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 17,
+      "time_ms": 2438,
+      "time_sec": 2.438,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 18,
+      "time_ms": 2554,
+      "time_sec": 2.554,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 19,
+      "time_ms": 2694,
+      "time_sec": 2.694,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 20,
+      "time_ms": 2810,
+      "time_sec": 2.81,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 21,
+      "time_ms": 2926,
+      "time_sec": 2.926,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 22,
+      "time_ms": 3042,
+      "time_sec": 3.042,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 23,
+      "time_ms": 3181,
+      "time_sec": 3.181,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 24,
+      "time_ms": 3320,
+      "time_sec": 3.32,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 25,
+      "time_ms": 3437,
+      "time_sec": 3.437,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 26,
+      "time_ms": 3553,
+      "time_sec": 3.553,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 27,
+      "time_ms": 3669,
+      "time_sec": 3.669,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 28,
+      "time_ms": 3785,
+      "time_sec": 3.785,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 29,
+      "time_ms": 3901,
+      "time_sec": 3.901,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 30,
+      "time_ms": 4040,
+      "time_sec": 4.04,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 31,
+      "time_ms": 4156,
+      "time_sec": 4.156,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 32,
+      "time_ms": 4272,
+      "time_sec": 4.272,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 33,
+      "time_ms": 4412,
+      "time_sec": 4.412,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 34,
+      "time_ms": 4528,
+      "time_sec": 4.528,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 35,
+      "time_ms": 4644,
+      "time_sec": 4.644,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 36,
+      "time_ms": 4783,
+      "time_sec": 4.783,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 37,
+      "time_ms": 4899,
+      "time_sec": 4.899,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 38,
+      "time_ms": 5016,
+      "time_sec": 5.016,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 39,
+      "time_ms": 5108,
+      "time_sec": 5.108,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 40,
+      "time_ms": 5248,
+      "time_sec": 5.248,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 41,
+      "time_ms": 5364,
+      "time_sec": 5.364,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 42,
+      "time_ms": 5480,
+      "time_sec": 5.48,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 43,
+      "time_ms": 5596,
+      "time_sec": 5.596,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 44,
+      "time_ms": 5712,
+      "time_sec": 5.712,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 45,
+      "time_ms": 5828,
+      "time_sec": 5.828,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 46,
+      "time_ms": 5968,
+      "time_sec": 5.968,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 47,
+      "time_ms": 6060,
+      "time_sec": 6.06,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 48,
+      "time_ms": 6200,
+      "time_sec": 6.2,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 49,
+      "time_ms": 6316,
+      "time_sec": 6.316,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 50,
+      "time_ms": 6455,
+      "time_sec": 6.455,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 51,
+      "time_ms": 6571,
+      "time_sec": 6.571,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 52,
+      "time_ms": 6687,
+      "time_sec": 6.687,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 53,
+      "time_ms": 6803,
+      "time_sec": 6.803,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 54,
+      "time_ms": 6943,
+      "time_sec": 6.943,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 55,
+      "time_ms": 7036,
+      "time_sec": 7.036,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 56,
+      "time_ms": 7175,
+      "time_sec": 7.175,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 57,
+      "time_ms": 7291,
+      "time_sec": 7.291,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 58,
+      "time_ms": 7407,
+      "time_sec": 7.407,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 59,
+      "time_ms": 7523,
+      "time_sec": 7.523,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 60,
+      "time_ms": 7639,
+      "time_sec": 7.639,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 61,
+      "time_ms": 7755,
+      "time_sec": 7.755,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 62,
+      "time_ms": 7895,
+      "time_sec": 7.895,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 63,
+      "time_ms": 7988,
+      "time_sec": 7.988,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 64,
+      "time_ms": 8127,
+      "time_sec": 8.127,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 65,
+      "time_ms": 8220,
+      "time_sec": 8.22,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 66,
+      "time_ms": 8359,
+      "time_sec": 8.359,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 67,
+      "time_ms": 8475,
+      "time_sec": 8.475,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 68,
+      "time_ms": 8591,
+      "time_sec": 8.591,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 69,
+      "time_ms": 8707,
+      "time_sec": 8.707,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 70,
+      "time_ms": 8824,
+      "time_sec": 8.824,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 71,
+      "time_ms": 8940,
+      "time_sec": 8.94,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 72,
+      "time_ms": 9079,
+      "time_sec": 9.079,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 73,
+      "time_ms": 9195,
+      "time_sec": 9.195,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 74,
+      "time_ms": 9311,
+      "time_sec": 9.311,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 75,
+      "time_ms": 9427,
+      "time_sec": 9.427,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 76,
+      "time_ms": 9543,
+      "time_sec": 9.543,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 77,
+      "time_ms": 9660,
+      "time_sec": 9.66,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 78,
+      "time_ms": 9776,
+      "time_sec": 9.776,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 79,
+      "time_ms": 9892,
+      "time_sec": 9.892,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 80,
+      "time_ms": 10031,
+      "time_sec": 10.031,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 81,
+      "time_ms": 10147,
+      "time_sec": 10.147,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 82,
+      "time_ms": 10263,
+      "time_sec": 10.263,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 83,
+      "time_ms": 10379,
+      "time_sec": 10.379,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 84,
+      "time_ms": 10495,
+      "time_sec": 10.495,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 85,
+      "time_ms": 10612,
+      "time_sec": 10.612,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 86,
+      "time_ms": 10728,
+      "time_sec": 10.728,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 87,
+      "time_ms": 10844,
+      "time_sec": 10.844,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 88,
+      "time_ms": 10983,
+      "time_sec": 10.983,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 89,
+      "time_ms": 11238,
+      "time_sec": 11.238,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 90,
+      "time_ms": 11471,
+      "time_sec": 11.471,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 91,
+      "time_ms": 11726,
+      "time_sec": 11.726,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 92,
+      "time_ms": 12005,
+      "time_sec": 12.005,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 93,
+      "time_ms": 12260,
+      "time_sec": 12.26,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 94,
+      "time_ms": 12492,
+      "time_sec": 12.492,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 95,
+      "time_ms": 12771,
+      "time_sec": 12.771,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 96,
+      "time_ms": 12910,
+      "time_sec": 12.91,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 97,
+      "time_ms": 13026,
+      "time_sec": 13.026,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 98,
+      "time_ms": 13259,
+      "time_sec": 13.259,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 99,
+      "time_ms": 13537,
+      "time_sec": 13.537,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 100,
+      "time_ms": 13793,
+      "time_sec": 13.793,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 101,
+      "time_ms": 13932,
+      "time_sec": 13.932,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 102,
+      "time_ms": 14048,
+      "time_sec": 14.048,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 103,
+      "time_ms": 14303,
+      "time_sec": 14.303,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 104,
+      "time_ms": 14559,
+      "time_sec": 14.559,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 105,
+      "time_ms": 14814,
+      "time_sec": 14.814,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 106,
+      "time_ms": 15047,
+      "time_sec": 15.047,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 107,
+      "time_ms": 15302,
+      "time_sec": 15.302,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 108,
+      "time_ms": 15557,
+      "time_sec": 15.557,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 109,
+      "time_ms": 15790,
+      "time_sec": 15.79,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 110,
+      "time_ms": 16045,
+      "time_sec": 16.045,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 111,
+      "time_ms": 16277,
+      "time_sec": 16.277,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 112,
+      "time_ms": 16533,
+      "time_sec": 16.533,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 113,
+      "time_ms": 16788,
+      "time_sec": 16.788,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 114,
+      "time_ms": 17043,
+      "time_sec": 17.043,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 115,
+      "time_ms": 17299,
+      "time_sec": 17.299,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 116,
+      "time_ms": 17554,
+      "time_sec": 17.554,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 117,
+      "time_ms": 17717,
+      "time_sec": 17.717,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 118,
+      "time_ms": 17786,
+      "time_sec": 17.786,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 119,
+      "time_ms": 17903,
+      "time_sec": 17.903,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 120,
+      "time_ms": 18042,
+      "time_sec": 18.042,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 121,
+      "time_ms": 18297,
+      "time_sec": 18.297,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 122,
+      "time_ms": 18530,
+      "time_sec": 18.53,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 123,
+      "time_ms": 18739,
+      "time_sec": 18.739,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 124,
+      "time_ms": 18808,
+      "time_sec": 18.808,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 125,
+      "time_ms": 19064,
+      "time_sec": 19.064,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 126,
+      "time_ms": 19296,
+      "time_sec": 19.296,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 127,
+      "time_ms": 19551,
+      "time_sec": 19.551,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 128,
+      "time_ms": 19783,
+      "time_sec": 19.783,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 129,
+      "time_ms": 20039,
+      "time_sec": 20.039,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 130,
+      "time_ms": 20294,
+      "time_sec": 20.294,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 131,
+      "time_ms": 20550,
+      "time_sec": 20.55,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 132,
+      "time_ms": 20805,
+      "time_sec": 20.805,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 133,
+      "time_ms": 21060,
+      "time_sec": 21.06,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 134,
+      "time_ms": 21316,
+      "time_sec": 21.316,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 135,
+      "time_ms": 21571,
+      "time_sec": 21.571,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 136,
+      "time_ms": 21827,
+      "time_sec": 21.827,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 137,
+      "time_ms": 22082,
+      "time_sec": 22.082,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 138,
+      "time_ms": 22338,
+      "time_sec": 22.338,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 139,
+      "time_ms": 22593,
+      "time_sec": 22.593,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 140,
+      "time_ms": 22825,
+      "time_sec": 22.825,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 141,
+      "time_ms": 23081,
+      "time_sec": 23.081,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 142,
+      "time_ms": 23336,
+      "time_sec": 23.336,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 143,
+      "time_ms": 23591,
+      "time_sec": 23.591,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 144,
+      "time_ms": 23847,
+      "time_sec": 23.847,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 145,
+      "time_ms": 23963,
+      "time_sec": 23.963,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 146,
+      "time_ms": 24102,
+      "time_sec": 24.102,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 147,
+      "time_ms": 24358,
+      "time_sec": 24.358,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 148,
+      "time_ms": 24590,
+      "time_sec": 24.59,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 149,
+      "time_ms": 24845,
+      "time_sec": 24.845,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 150,
+      "time_ms": 25101,
+      "time_sec": 25.101,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 151,
+      "time_ms": 25356,
+      "time_sec": 25.356,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 152,
+      "time_ms": 25588,
+      "time_sec": 25.588,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 153,
+      "time_ms": 25844,
+      "time_sec": 25.844,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 154,
+      "time_ms": 26030,
+      "time_sec": 26.03,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 155,
+      "time_ms": 26099,
+      "time_sec": 26.099,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 156,
+      "time_ms": 26355,
+      "time_sec": 26.355,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 157,
+      "time_ms": 26517,
+      "time_sec": 26.517,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 158,
+      "time_ms": 26610,
+      "time_sec": 26.61,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 159,
+      "time_ms": 26865,
+      "time_sec": 26.865,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 160,
+      "time_ms": 26982,
+      "time_sec": 26.982,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 161,
+      "time_ms": 27121,
+      "time_sec": 27.121,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 162,
+      "time_ms": 27376,
+      "time_sec": 27.376,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 163,
+      "time_ms": 27632,
+      "time_sec": 27.632,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 164,
+      "time_ms": 27864,
+      "time_sec": 27.864,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 165,
+      "time_ms": 28003,
+      "time_sec": 28.003,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 166,
+      "time_ms": 28143,
+      "time_sec": 28.143,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 167,
+      "time_ms": 28375,
+      "time_sec": 28.375,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 168,
+      "time_ms": 28630,
+      "time_sec": 28.63,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 169,
+      "time_ms": 28793,
+      "time_sec": 28.793,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 170,
+      "time_ms": 28862,
+      "time_sec": 28.862,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 171,
+      "time_ms": 28979,
+      "time_sec": 28.979,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 172,
+      "time_ms": 29141,
+      "time_sec": 29.141,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 173,
+      "time_ms": 29350,
+      "time_sec": 29.35,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 174,
+      "time_ms": 29605,
+      "time_sec": 29.605,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 175,
+      "time_ms": 29861,
+      "time_sec": 29.861,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 176,
+      "time_ms": 29954,
+      "time_sec": 29.954,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 177,
+      "time_ms": 30116,
+      "time_sec": 30.116,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 178,
+      "time_ms": 30348,
+      "time_sec": 30.348,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 179,
+      "time_ms": 30604,
+      "time_sec": 30.604,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 180,
+      "time_ms": 30743,
+      "time_sec": 30.743,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 181,
+      "time_ms": 30836,
+      "time_sec": 30.836,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 182,
+      "time_ms": 30952,
+      "time_sec": 30.952,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 183,
+      "time_ms": 31092,
+      "time_sec": 31.092,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 184,
+      "time_ms": 31324,
+      "time_sec": 31.324,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 185,
+      "time_ms": 31602,
+      "time_sec": 31.602,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 186,
+      "time_ms": 31765,
+      "time_sec": 31.765,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 187,
+      "time_ms": 31858,
+      "time_sec": 31.858,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 188,
+      "time_ms": 32113,
+      "time_sec": 32.113,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 189,
+      "time_ms": 32345,
+      "time_sec": 32.345,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 190,
+      "time_ms": 32601,
+      "time_sec": 32.601,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 191,
+      "time_ms": 32856,
+      "time_sec": 32.856,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 192,
+      "time_ms": 32972,
+      "time_sec": 32.972,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 193,
+      "time_ms": 33112,
+      "time_sec": 33.112,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 194,
+      "time_ms": 33367,
+      "time_sec": 33.367,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 195,
+      "time_ms": 33599,
+      "time_sec": 33.599,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 196,
+      "time_ms": 33855,
+      "time_sec": 33.855,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 197,
+      "time_ms": 33971,
+      "time_sec": 33.971,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 198,
+      "time_ms": 34133,
+      "time_sec": 34.133,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 199,
+      "time_ms": 34366,
+      "time_sec": 34.366,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 200,
+      "time_ms": 34621,
+      "time_sec": 34.621,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 201,
+      "time_ms": 34876,
+      "time_sec": 34.876,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 202,
+      "time_ms": 35132,
+      "time_sec": 35.132,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 203,
+      "time_ms": 35387,
+      "time_sec": 35.387,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 204,
+      "time_ms": 35480,
+      "time_sec": 35.48,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 205,
+      "time_ms": 35643,
+      "time_sec": 35.643,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 206,
+      "time_ms": 35875,
+      "time_sec": 35.875,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 207,
+      "time_ms": 36130,
+      "time_sec": 36.13,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 208,
+      "time_ms": 36386,
+      "time_sec": 36.386,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 209,
+      "time_ms": 36641,
+      "time_sec": 36.641,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 210,
+      "time_ms": 36920,
+      "time_sec": 36.92,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 211,
+      "time_ms": 37152,
+      "time_sec": 37.152,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 212,
+      "time_ms": 37338,
+      "time_sec": 37.338,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 213,
+      "time_ms": 37407,
+      "time_sec": 37.407,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 214,
+      "time_ms": 37547,
+      "time_sec": 37.547,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 215,
+      "time_ms": 37686,
+      "time_sec": 37.686,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 216,
+      "time_ms": 37918,
+      "time_sec": 37.918,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 217,
+      "time_ms": 38150,
+      "time_sec": 38.15,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 218,
+      "time_ms": 38336,
+      "time_sec": 38.336,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 219,
+      "time_ms": 38406,
+      "time_sec": 38.406,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 220,
+      "time_ms": 38545,
+      "time_sec": 38.545,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 221,
+      "time_ms": 38661,
+      "time_sec": 38.661,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 222,
+      "time_ms": 38893,
+      "time_sec": 38.893,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 223,
+      "time_ms": 39149,
+      "time_sec": 39.149,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 224,
+      "time_ms": 39311,
+      "time_sec": 39.311,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 225,
+      "time_ms": 39381,
+      "time_sec": 39.381,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 226,
+      "time_ms": 39497,
+      "time_sec": 39.497,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 227,
+      "time_ms": 39636,
+      "time_sec": 39.636,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 228,
+      "time_ms": 39892,
+      "time_sec": 39.892,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 229,
+      "time_ms": 40147,
+      "time_sec": 40.147,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 230,
+      "time_ms": 40333,
+      "time_sec": 40.333,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 231,
+      "time_ms": 40403,
+      "time_sec": 40.403,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 232,
+      "time_ms": 40658,
+      "time_sec": 40.658,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 233,
+      "time_ms": 40914,
+      "time_sec": 40.914,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 234,
+      "time_ms": 41169,
+      "time_sec": 41.169,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 235,
+      "time_ms": 41424,
+      "time_sec": 41.424,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 236,
+      "time_ms": 41680,
+      "time_sec": 41.68,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 237,
+      "time_ms": 41912,
+      "time_sec": 41.912,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 238,
+      "time_ms": 42167,
+      "time_sec": 42.167,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 239,
+      "time_ms": 42423,
+      "time_sec": 42.423,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 240,
+      "time_ms": 42678,
+      "time_sec": 42.678,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "F3",
+          "hz": 174.61,
+          "string": "both",
+          "fret": 3
+        }
+      ],
+      "primary_note": "F3",
+      "primary_hz": 174.61,
+      "string": "both",
+      "fret": 3,
+      "lane": 2
+    },
+    {
+      "id": 241,
+      "time_ms": 42934,
+      "time_sec": 42.934,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "F3",
+          "hz": 174.61,
+          "string": "both",
+          "fret": 3
+        }
+      ],
+      "primary_note": "F3",
+      "primary_hz": 174.61,
+      "string": "both",
+      "fret": 3,
+      "lane": 2
+    },
+    {
+      "id": 242,
+      "time_ms": 43189,
+      "time_sec": 43.189,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 243,
+      "time_ms": 43445,
+      "time_sec": 43.445,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 244,
+      "time_ms": 43723,
+      "time_sec": 43.723,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 245,
+      "time_ms": 43979,
+      "time_sec": 43.979,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 246,
+      "time_ms": 44257,
+      "time_sec": 44.257,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 247,
+      "time_ms": 44489,
+      "time_sec": 44.489,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 248,
+      "time_ms": 44745,
+      "time_sec": 44.745,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 249,
+      "time_ms": 44861,
+      "time_sec": 44.861,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 250,
+      "time_ms": 45000,
+      "time_sec": 45.0,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 251,
+      "time_ms": 45256,
+      "time_sec": 45.256,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 252,
+      "time_ms": 45511,
+      "time_sec": 45.511,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 253,
+      "time_ms": 45767,
+      "time_sec": 45.767,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 254,
+      "time_ms": 46022,
+      "time_sec": 46.022,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 255,
+      "time_ms": 46301,
+      "time_sec": 46.301,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 256,
+      "time_ms": 46533,
+      "time_sec": 46.533,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 257,
+      "time_ms": 46719,
+      "time_sec": 46.719,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 258,
+      "time_ms": 46788,
+      "time_sec": 46.788,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 259,
+      "time_ms": 46928,
+      "time_sec": 46.928,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 260,
+      "time_ms": 47067,
+      "time_sec": 47.067,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 261,
+      "time_ms": 47299,
+      "time_sec": 47.299,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 262,
+      "time_ms": 47554,
+      "time_sec": 47.554,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 263,
+      "time_ms": 47787,
+      "time_sec": 47.787,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 264,
+      "time_ms": 47926,
+      "time_sec": 47.926,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 265,
+      "time_ms": 48065,
+      "time_sec": 48.065,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 266,
+      "time_ms": 48298,
+      "time_sec": 48.298,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 267,
+      "time_ms": 48553,
+      "time_sec": 48.553,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 268,
+      "time_ms": 48808,
+      "time_sec": 48.808,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 269,
+      "time_ms": 48924,
+      "time_sec": 48.924,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 270,
+      "time_ms": 49041,
+      "time_sec": 49.041,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 271,
+      "time_ms": 49296,
+      "time_sec": 49.296,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 272,
+      "time_ms": 49551,
+      "time_sec": 49.551,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 273,
+      "time_ms": 49807,
+      "time_sec": 49.807,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 274,
+      "time_ms": 49993,
+      "time_sec": 49.993,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 275,
+      "time_ms": 50341,
+      "time_sec": 50.341,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 276,
+      "time_ms": 50596,
+      "time_sec": 50.596,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 277,
+      "time_ms": 50852,
+      "time_sec": 50.852,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 278,
+      "time_ms": 51107,
+      "time_sec": 51.107,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 279,
+      "time_ms": 51363,
+      "time_sec": 51.363,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 280,
+      "time_ms": 51618,
+      "time_sec": 51.618,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 281,
+      "time_ms": 51897,
+      "time_sec": 51.897,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 282,
+      "time_ms": 52152,
+      "time_sec": 52.152,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 283,
+      "time_ms": 52384,
+      "time_sec": 52.384,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 284,
+      "time_ms": 52663,
+      "time_sec": 52.663,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 285,
+      "time_ms": 52918,
+      "time_sec": 52.918,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 286,
+      "time_ms": 53174,
+      "time_sec": 53.174,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 287,
+      "time_ms": 53406,
+      "time_sec": 53.406,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 288,
+      "time_ms": 53545,
+      "time_sec": 53.545,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 289,
+      "time_ms": 53661,
+      "time_sec": 53.661,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 290,
+      "time_ms": 53847,
+      "time_sec": 53.847,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 291,
+      "time_ms": 53917,
+      "time_sec": 53.917,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 292,
+      "time_ms": 54195,
+      "time_sec": 54.195,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 293,
+      "time_ms": 54613,
+      "time_sec": 54.613,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 294,
+      "time_ms": 54729,
+      "time_sec": 54.729,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 295,
+      "time_ms": 54985,
+      "time_sec": 54.985,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 296,
+      "time_ms": 55263,
+      "time_sec": 55.263,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 297,
+      "time_ms": 55403,
+      "time_sec": 55.403,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 298,
+      "time_ms": 55565,
+      "time_sec": 55.565,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 299,
+      "time_ms": 55728,
+      "time_sec": 55.728,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 300,
+      "time_ms": 55983,
+      "time_sec": 55.983,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 301,
+      "time_ms": 56192,
+      "time_sec": 56.192,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 302,
+      "time_ms": 56262,
+      "time_sec": 56.262,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 303,
+      "time_ms": 56424,
+      "time_sec": 56.424,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 304,
+      "time_ms": 56750,
+      "time_sec": 56.75,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 305,
+      "time_ms": 56982,
+      "time_sec": 56.982,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 306,
+      "time_ms": 57214,
+      "time_sec": 57.214,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 307,
+      "time_ms": 57284,
+      "time_sec": 57.284,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 308,
+      "time_ms": 57400,
+      "time_sec": 57.4,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 309,
+      "time_ms": 57748,
+      "time_sec": 57.748,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 310,
+      "time_ms": 58003,
+      "time_sec": 58.003,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 311,
+      "time_ms": 58259,
+      "time_sec": 58.259,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 312,
+      "time_ms": 58375,
+      "time_sec": 58.375,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 313,
+      "time_ms": 58723,
+      "time_sec": 58.723,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 314,
+      "time_ms": 58979,
+      "time_sec": 58.979,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 315,
+      "time_ms": 59118,
+      "time_sec": 59.118,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 316,
+      "time_ms": 59234,
+      "time_sec": 59.234,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 317,
+      "time_ms": 59490,
+      "time_sec": 59.49,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 318,
+      "time_ms": 59675,
+      "time_sec": 59.675,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 319,
+      "time_ms": 60024,
+      "time_sec": 60.024,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 320,
+      "time_ms": 60279,
+      "time_sec": 60.279,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 321,
+      "time_ms": 60511,
+      "time_sec": 60.511,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 322,
+      "time_ms": 60790,
+      "time_sec": 60.79,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 323,
+      "time_ms": 61045,
+      "time_sec": 61.045,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 324,
+      "time_ms": 61301,
+      "time_sec": 61.301,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 325,
+      "time_ms": 61579,
+      "time_sec": 61.579,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 326,
+      "time_ms": 61835,
+      "time_sec": 61.835,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 327,
+      "time_ms": 62090,
+      "time_sec": 62.09,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 328,
+      "time_ms": 62346,
+      "time_sec": 62.346,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 329,
+      "time_ms": 62624,
+      "time_sec": 62.624,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 330,
+      "time_ms": 62856,
+      "time_sec": 62.856,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 331,
+      "time_ms": 63112,
+      "time_sec": 63.112,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 332,
+      "time_ms": 63367,
+      "time_sec": 63.367,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 333,
+      "time_ms": 63646,
+      "time_sec": 63.646,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 334,
+      "time_ms": 63901,
+      "time_sec": 63.901,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 335,
+      "time_ms": 64389,
+      "time_sec": 64.389,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 336,
+      "time_ms": 64644,
+      "time_sec": 64.644,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 337,
+      "time_ms": 64923,
+      "time_sec": 64.923,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 338,
+      "time_ms": 65387,
+      "time_sec": 65.387,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 339,
+      "time_ms": 65643,
+      "time_sec": 65.643,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 340,
+      "time_ms": 65875,
+      "time_sec": 65.875,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 341,
+      "time_ms": 65945,
+      "time_sec": 65.945,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 342,
+      "time_ms": 66038,
+      "time_sec": 66.038,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 343,
+      "time_ms": 66409,
+      "time_sec": 66.409,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 344,
+      "time_ms": 66641,
+      "time_sec": 66.641,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 345,
+      "time_ms": 66943,
+      "time_sec": 66.943,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 346,
+      "time_ms": 67036,
+      "time_sec": 67.036,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 347,
+      "time_ms": 67408,
+      "time_sec": 67.408,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 348,
+      "time_ms": 67663,
+      "time_sec": 67.663,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 349,
+      "time_ms": 67942,
+      "time_sec": 67.942,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 350,
+      "time_ms": 68383,
+      "time_sec": 68.383,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 351,
+      "time_ms": 68638,
+      "time_sec": 68.638,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 352,
+      "time_ms": 68894,
+      "time_sec": 68.894,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 353,
+      "time_ms": 69079,
+      "time_sec": 69.079,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 354,
+      "time_ms": 69149,
+      "time_sec": 69.149,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 355,
+      "time_ms": 69404,
+      "time_sec": 69.404,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 356,
+      "time_ms": 69683,
+      "time_sec": 69.683,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 357,
+      "time_ms": 69939,
+      "time_sec": 69.939,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 358,
+      "time_ms": 70194,
+      "time_sec": 70.194,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 359,
+      "time_ms": 70449,
+      "time_sec": 70.449,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 360,
+      "time_ms": 70682,
+      "time_sec": 70.682,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 361,
+      "time_ms": 70960,
+      "time_sec": 70.96,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 362,
+      "time_ms": 71216,
+      "time_sec": 71.216,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 363,
+      "time_ms": 71471,
+      "time_sec": 71.471,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 364,
+      "time_ms": 71726,
+      "time_sec": 71.726,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 365,
+      "time_ms": 71982,
+      "time_sec": 71.982,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 366,
+      "time_ms": 72237,
+      "time_sec": 72.237,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 367,
+      "time_ms": 72493,
+      "time_sec": 72.493,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 368,
+      "time_ms": 72748,
+      "time_sec": 72.748,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 369,
+      "time_ms": 72864,
+      "time_sec": 72.864,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 370,
+      "time_ms": 73004,
+      "time_sec": 73.004,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 371,
+      "time_ms": 73259,
+      "time_sec": 73.259,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 372,
+      "time_ms": 73514,
+      "time_sec": 73.514,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 373,
+      "time_ms": 73956,
+      "time_sec": 73.956,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 374,
+      "time_ms": 74048,
+      "time_sec": 74.048,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 375,
+      "time_ms": 74304,
+      "time_sec": 74.304,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 376,
+      "time_ms": 74559,
+      "time_sec": 74.559,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 377,
+      "time_ms": 74768,
+      "time_sec": 74.768,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 378,
+      "time_ms": 74838,
+      "time_sec": 74.838,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 379,
+      "time_ms": 75093,
+      "time_sec": 75.093,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 380,
+      "time_ms": 75326,
+      "time_sec": 75.326,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 381,
+      "time_ms": 75581,
+      "time_sec": 75.581,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 382,
+      "time_ms": 75860,
+      "time_sec": 75.86,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 383,
+      "time_ms": 76115,
+      "time_sec": 76.115,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 384,
+      "time_ms": 76347,
+      "time_sec": 76.347,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 385,
+      "time_ms": 76603,
+      "time_sec": 76.603,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 386,
+      "time_ms": 76858,
+      "time_sec": 76.858,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 387,
+      "time_ms": 77113,
+      "time_sec": 77.113,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 388,
+      "time_ms": 77346,
+      "time_sec": 77.346,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 389,
+      "time_ms": 77624,
+      "time_sec": 77.624,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 390,
+      "time_ms": 77857,
+      "time_sec": 77.857,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 391,
+      "time_ms": 78042,
+      "time_sec": 78.042,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 392,
+      "time_ms": 78158,
+      "time_sec": 78.158,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#2",
+          "hz": 116.54,
+          "string": "bass",
+          "fret": 1
+        }
+      ],
+      "primary_note": "A#2",
+      "primary_hz": 116.54,
+      "string": "bass",
+      "fret": 1,
+      "lane": 0
+    },
+    {
+      "id": 393,
+      "time_ms": 78391,
+      "time_sec": 78.391,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 394,
+      "time_ms": 78646,
+      "time_sec": 78.646,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 395,
+      "time_ms": 78901,
+      "time_sec": 78.901,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 396,
+      "time_ms": 79157,
+      "time_sec": 79.157,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 397,
+      "time_ms": 79412,
+      "time_sec": 79.412,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 398,
+      "time_ms": 79668,
+      "time_sec": 79.668,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 399,
+      "time_ms": 79923,
+      "time_sec": 79.923,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 400,
+      "time_ms": 80179,
+      "time_sec": 80.179,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 401,
+      "time_ms": 80434,
+      "time_sec": 80.434,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 402,
+      "time_ms": 80713,
+      "time_sec": 80.713,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 403,
+      "time_ms": 80968,
+      "time_sec": 80.968,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 404,
+      "time_ms": 81223,
+      "time_sec": 81.223,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G3",
+          "hz": 196.0,
+          "string": "treble",
+          "fret": 5
+        }
+      ],
+      "primary_note": "G3",
+      "primary_hz": 196.0,
+      "string": "treble",
+      "fret": 5,
+      "lane": 2
+    },
+    {
+      "id": 405,
+      "time_ms": 81479,
+      "time_sec": 81.479,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A3",
+          "hz": 220.0,
+          "string": "treble",
+          "fret": 7
+        }
+      ],
+      "primary_note": "A3",
+      "primary_hz": 220.0,
+      "string": "treble",
+      "fret": 7,
+      "lane": 3
+    },
+    {
+      "id": 406,
+      "time_ms": 81618,
+      "time_sec": 81.618,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 407,
+      "time_ms": 81734,
+      "time_sec": 81.734,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 408,
+      "time_ms": 81990,
+      "time_sec": 81.99,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 409,
+      "time_ms": 82268,
+      "time_sec": 82.268,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "G#3",
+          "hz": 207.65,
+          "string": "treble",
+          "fret": 6
+        }
+      ],
+      "primary_note": "G#3",
+      "primary_hz": 207.65,
+      "string": "treble",
+      "fret": 6,
+      "lane": 3
+    },
+    {
+      "id": 410,
+      "time_ms": 82709,
+      "time_sec": 82.709,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 411,
+      "time_ms": 83035,
+      "time_sec": 83.035,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 412,
+      "time_ms": 83290,
+      "time_sec": 83.29,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 413,
+      "time_ms": 83545,
+      "time_sec": 83.545,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 414,
+      "time_ms": 83801,
+      "time_sec": 83.801,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 415,
+      "time_ms": 84056,
+      "time_sec": 84.056,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 416,
+      "time_ms": 84288,
+      "time_sec": 84.288,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 417,
+      "time_ms": 84567,
+      "time_sec": 84.567,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 418,
+      "time_ms": 84799,
+      "time_sec": 84.799,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 419,
+      "time_ms": 85078,
+      "time_sec": 85.078,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 420,
+      "time_ms": 85264,
+      "time_sec": 85.264,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 421,
+      "time_ms": 85333,
+      "time_sec": 85.333,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 422,
+      "time_ms": 85589,
+      "time_sec": 85.589,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 423,
+      "time_ms": 85844,
+      "time_sec": 85.844,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 424,
+      "time_ms": 86123,
+      "time_sec": 86.123,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 425,
+      "time_ms": 86355,
+      "time_sec": 86.355,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 426,
+      "time_ms": 86634,
+      "time_sec": 86.634,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 427,
+      "time_ms": 86889,
+      "time_sec": 86.889,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 428,
+      "time_ms": 87121,
+      "time_sec": 87.121,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 429,
+      "time_ms": 87377,
+      "time_sec": 87.377,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 430,
+      "time_ms": 87632,
+      "time_sec": 87.632,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 431,
+      "time_ms": 87888,
+      "time_sec": 87.888,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 432,
+      "time_ms": 88143,
+      "time_sec": 88.143,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 433,
+      "time_ms": 88398,
+      "time_sec": 88.398,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 434,
+      "time_ms": 88654,
+      "time_sec": 88.654,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 435,
+      "time_ms": 88909,
+      "time_sec": 88.909,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 436,
+      "time_ms": 89141,
+      "time_sec": 89.141,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 437,
+      "time_ms": 89397,
+      "time_sec": 89.397,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 438,
+      "time_ms": 89652,
+      "time_sec": 89.652,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 439,
+      "time_ms": 89792,
+      "time_sec": 89.792,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 440,
+      "time_ms": 89931,
+      "time_sec": 89.931,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 441,
+      "time_ms": 90186,
+      "time_sec": 90.186,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 442,
+      "time_ms": 90442,
+      "time_sec": 90.442,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 443,
+      "time_ms": 90697,
+      "time_sec": 90.697,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 444,
+      "time_ms": 90953,
+      "time_sec": 90.953,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 445,
+      "time_ms": 91208,
+      "time_sec": 91.208,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 446,
+      "time_ms": 91463,
+      "time_sec": 91.463,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 447,
+      "time_ms": 91719,
+      "time_sec": 91.719,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 448,
+      "time_ms": 91835,
+      "time_sec": 91.835,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 449,
+      "time_ms": 91997,
+      "time_sec": 91.997,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 450,
+      "time_ms": 92253,
+      "time_sec": 92.253,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 451,
+      "time_ms": 92485,
+      "time_sec": 92.485,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 452,
+      "time_ms": 92717,
+      "time_sec": 92.717,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 453,
+      "time_ms": 92857,
+      "time_sec": 92.857,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 454,
+      "time_ms": 92996,
+      "time_sec": 92.996,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 455,
+      "time_ms": 93228,
+      "time_sec": 93.228,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 456,
+      "time_ms": 93484,
+      "time_sec": 93.484,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 457,
+      "time_ms": 93739,
+      "time_sec": 93.739,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 458,
+      "time_ms": 93855,
+      "time_sec": 93.855,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 459,
+      "time_ms": 93994,
+      "time_sec": 93.994,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 460,
+      "time_ms": 94250,
+      "time_sec": 94.25,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 461,
+      "time_ms": 94505,
+      "time_sec": 94.505,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 462,
+      "time_ms": 94737,
+      "time_sec": 94.737,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 463,
+      "time_ms": 95016,
+      "time_sec": 95.016,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 464,
+      "time_ms": 95271,
+      "time_sec": 95.271,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 465,
+      "time_ms": 95527,
+      "time_sec": 95.527,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 466,
+      "time_ms": 95759,
+      "time_sec": 95.759,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 467,
+      "time_ms": 96015,
+      "time_sec": 96.015,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 468,
+      "time_ms": 96270,
+      "time_sec": 96.27,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 469,
+      "time_ms": 96502,
+      "time_sec": 96.502,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 470,
+      "time_ms": 96758,
+      "time_sec": 96.758,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 471,
+      "time_ms": 97013,
+      "time_sec": 97.013,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 472,
+      "time_ms": 97268,
+      "time_sec": 97.268,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 473,
+      "time_ms": 97524,
+      "time_sec": 97.524,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 474,
+      "time_ms": 97779,
+      "time_sec": 97.779,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 475,
+      "time_ms": 98035,
+      "time_sec": 98.035,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 476,
+      "time_ms": 98174,
+      "time_sec": 98.174,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 477,
+      "time_ms": 98290,
+      "time_sec": 98.29,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 478,
+      "time_ms": 98545,
+      "time_sec": 98.545,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 479,
+      "time_ms": 98801,
+      "time_sec": 98.801,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 480,
+      "time_ms": 99056,
+      "time_sec": 99.056,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 481,
+      "time_ms": 99312,
+      "time_sec": 99.312,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 482,
+      "time_ms": 99567,
+      "time_sec": 99.567,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 483,
+      "time_ms": 99823,
+      "time_sec": 99.823,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 484,
+      "time_ms": 100055,
+      "time_sec": 100.055,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 485,
+      "time_ms": 100171,
+      "time_sec": 100.171,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 486,
+      "time_ms": 100310,
+      "time_sec": 100.31,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 487,
+      "time_ms": 100566,
+      "time_sec": 100.566,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 488,
+      "time_ms": 100821,
+      "time_sec": 100.821,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 489,
+      "time_ms": 101076,
+      "time_sec": 101.076,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 490,
+      "time_ms": 101193,
+      "time_sec": 101.193,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 491,
+      "time_ms": 101332,
+      "time_sec": 101.332,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 492,
+      "time_ms": 101564,
+      "time_sec": 101.564,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 493,
+      "time_ms": 101820,
+      "time_sec": 101.82,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 494,
+      "time_ms": 102052,
+      "time_sec": 102.052,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 495,
+      "time_ms": 102168,
+      "time_sec": 102.168,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 496,
+      "time_ms": 102307,
+      "time_sec": 102.307,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 497,
+      "time_ms": 102539,
+      "time_sec": 102.539,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 498,
+      "time_ms": 102772,
+      "time_sec": 102.772,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 499,
+      "time_ms": 103027,
+      "time_sec": 103.027,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 500,
+      "time_ms": 103143,
+      "time_sec": 103.143,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 501,
+      "time_ms": 103282,
+      "time_sec": 103.282,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 502,
+      "time_ms": 103538,
+      "time_sec": 103.538,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 503,
+      "time_ms": 103793,
+      "time_sec": 103.793,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 504,
+      "time_ms": 104002,
+      "time_sec": 104.002,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 505,
+      "time_ms": 104072,
+      "time_sec": 104.072,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 506,
+      "time_ms": 104234,
+      "time_sec": 104.234,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 507,
+      "time_ms": 104327,
+      "time_sec": 104.327,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 508,
+      "time_ms": 104583,
+      "time_sec": 104.583,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 509,
+      "time_ms": 104838,
+      "time_sec": 104.838,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 510,
+      "time_ms": 105094,
+      "time_sec": 105.094,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 511,
+      "time_ms": 105349,
+      "time_sec": 105.349,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 512,
+      "time_ms": 105628,
+      "time_sec": 105.628,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 513,
+      "time_ms": 105883,
+      "time_sec": 105.883,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 514,
+      "time_ms": 106138,
+      "time_sec": 106.138,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 515,
+      "time_ms": 106394,
+      "time_sec": 106.394,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 516,
+      "time_ms": 106649,
+      "time_sec": 106.649,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 517,
+      "time_ms": 106905,
+      "time_sec": 106.905,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 518,
+      "time_ms": 107183,
+      "time_sec": 107.183,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 519,
+      "time_ms": 107439,
+      "time_sec": 107.439,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "D#3",
+          "hz": 155.56,
+          "string": "both",
+          "fret": 1
+        }
+      ],
+      "primary_note": "D#3",
+      "primary_hz": 155.56,
+      "string": "both",
+      "fret": 1,
+      "lane": 1
+    },
+    {
+      "id": 520,
+      "time_ms": 107973,
+      "time_sec": 107.973,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 521,
+      "time_ms": 108251,
+      "time_sec": 108.251,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "C#3",
+          "hz": 138.59,
+          "string": "bass",
+          "fret": 4
+        }
+      ],
+      "primary_note": "C#3",
+      "primary_hz": 138.59,
+      "string": "bass",
+      "fret": 4,
+      "lane": 1
+    },
+    {
+      "id": 522,
+      "time_ms": 108530,
+      "time_sec": 108.53,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 523,
+      "time_ms": 108971,
+      "time_sec": 108.971,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 524,
+      "time_ms": 109041,
+      "time_sec": 109.041,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 525,
+      "time_ms": 109320,
+      "time_sec": 109.32,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 526,
+      "time_ms": 109552,
+      "time_sec": 109.552,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 527,
+      "time_ms": 109621,
+      "time_sec": 109.621,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 528,
+      "time_ms": 110132,
+      "time_sec": 110.132,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 529,
+      "time_ms": 110364,
+      "time_sec": 110.364,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    },
+    {
+      "id": 530,
+      "time_ms": 110620,
+      "time_sec": 110.62,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "B3",
+          "hz": 246.94,
+          "string": "treble",
+          "fret": 9
+        }
+      ],
+      "primary_note": "B3",
+      "primary_hz": 246.94,
+      "string": "treble",
+      "fret": 9,
+      "lane": 3
+    },
+    {
+      "id": 531,
+      "time_ms": 110690,
+      "time_sec": 110.69,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 532,
+      "time_ms": 110806,
+      "time_sec": 110.806,
+      "type": 0,
+      "technique": "sherpe",
+      "notes": []
+    },
+    {
+      "id": 533,
+      "time_ms": 111340,
+      "time_sec": 111.34,
+      "type": 1,
+      "technique": "sherpe",
+      "notes": [
+        {
+          "name": "A#3",
+          "hz": 233.08,
+          "string": "treble",
+          "fret": 8
+        }
+      ],
+      "primary_note": "A#3",
+      "primary_hz": 233.08,
+      "string": "treble",
+      "fret": 8,
+      "lane": 3
+    }
+  ]
+}

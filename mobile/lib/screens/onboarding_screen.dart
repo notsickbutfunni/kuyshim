@@ -11,6 +11,7 @@ import '../main.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../widgets/lang_toggle.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -102,7 +103,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             _emailCtrl.text,
             _passwordCtrl.text,
           );
-      if (mounted) context.go('/library');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Registration successful! Logging you in...'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        context.go('/library');
+      }
     } catch (e) {
       setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
     } finally {
@@ -177,13 +187,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 horizontal: sw * 0.05,
                 vertical: sh * 0.04,
               ),
-              child: Row(
+              child: Flex(
+                direction: sw < sh ? Axis.vertical : Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Left side: logo + title
                   SizedBox(
-                    width: sw * 0.35,
+                    width: sw < sh ? sw * 0.9 : sw * 0.35,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -207,7 +218,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             width: sh * 0.18,
                             height: sh * 0.18,
                             decoration: BoxDecoration(
-                              color: KColors.emerald,
                               borderRadius: BorderRadius.circular(
                                 sh * 0.04,
                               ),
@@ -220,10 +230,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                 ),
                               ],
                             ),
-                            child: Icon(
-                              Icons.music_note,
-                              size: sh * 0.09,
-                              color: Colors.white,
+                            child: SvgPicture.asset(
+                              'assets/dombra_icon_green.svg',
+                              width: sh * 0.18,
+                              height: sh * 0.18,
                             ),
                           ),
                         )
@@ -263,9 +273,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         SizedBox(height: sh * 0.03),
 
                         // Footer
-                        Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.center,
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             _footerText(t.tradition, sw, sh),
                             _dot(sh),
@@ -278,11 +288,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     ),
                   ),
 
-                  SizedBox(width: sw * 0.06),
+                  SizedBox(
+                    width: sw < sh ? 0 : sw * 0.06,
+                    height: sw < sh ? sh * 0.06 : 0,
+                  ),
 
                   // Right side: form content
                   SizedBox(
-                    width: sw * 0.3,
+                    width: sw < sh ? sw * 0.9 : sw * 0.3,
                     child: _buildModeContent(t, appState, sw, sh),
                   ),
                 ],
@@ -325,8 +338,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           child: ElevatedButton.icon(
             onPressed: _startGuest,
             icon: Icon(Icons.person, size: iconSize),
-            label: Text(t.startPlaying,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(t.startPlaying, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: btnPadV),
               shape: RoundedRectangleBorder(
@@ -348,8 +365,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   }
                 : null,
             icon: Icon(Icons.login, size: iconSize),
-            label: Text(t.signIn,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(t.signIn, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: btnPadV),
               shape: RoundedRectangleBorder(
@@ -371,8 +392,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   }
                 : null,
             icon: Icon(Icons.person_add, size: iconSize),
-            label: Text(t.createAccount,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(t.createAccount, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: btnPadV),
               shape: RoundedRectangleBorder(
@@ -392,11 +417,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     size: sh * 0.03,
                     color: Colors.white.withOpacity(0.3)),
                 SizedBox(width: sw * 0.005),
-                Text(
-                  t.backendOffline,
-                  style: TextStyle(
-                    fontSize: sh * 0.028,
-                    color: Colors.white.withOpacity(0.3),
+                Flexible(
+                  child: Text(
+                    t.backendOffline,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: sh * 0.028,
+                      color: Colors.white.withOpacity(0.3),
+                    ),
                   ),
                 ),
               ],
@@ -467,8 +495,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         strokeWidth: 2),
                   )
                 : Icon(Icons.login, size: iconSize),
-            label: Text(_loading ? t.signingIn : t.signIn,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(_loading ? t.signingIn : t.signIn, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
           ),
         ),
         SizedBox(height: gapSm),
@@ -568,9 +600,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         strokeWidth: 2),
                   )
                 : Icon(Icons.person_add, size: iconSize),
-            label: Text(
-                _loading ? t.creating : t.createAccount,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(_loading ? t.creating : t.createAccount, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: KColors.emerald,
               foregroundColor: Colors.white,
@@ -682,9 +717,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         strokeWidth: 2),
                   )
                 : Icon(Icons.vpn_key_rounded, size: iconSize),
-            label: Text(
-                _loading ? t.resetting : t.resetPassword,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(_loading ? t.resetting : t.resetPassword, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: KColors.amber,
               foregroundColor: Colors.black,
@@ -752,8 +790,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               setState(() => _mode = 'login');
             },
             icon: Icon(Icons.login, size: iconSize),
-            label: Text(t.signInNow,
-                style: TextStyle(fontSize: sh * 0.038)),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(t.signInNow, style: TextStyle(fontSize: sh * 0.038)),
+              ),
+            ),
           ),
         ),
       ],

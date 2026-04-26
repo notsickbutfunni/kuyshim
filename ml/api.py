@@ -1,50 +1,40 @@
 """
-api.py
-──────
-FastAPI microservice for ML inference.
+ML Inference API — FastAPI server for Dombra chord/fret prediction.
 
-Endpoints:
-  POST /predict   — Chord/fret classification from audio
-  POST /evaluate  — Performance evaluation (user vs reference audio)
-  GET  /health    — Health check
+Loads the trained DombraResNet model and serves predictions via:
+  GET  /health   → model status
+  POST /predict  → accepts WAV file, returns predicted class + confidence
+
+Run: uvicorn api:app --host 0.0.0.0 --port 8001 --reload
 """
-
-from __future__ import annotations
-
-import logging
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI, File, HTTPException, UploadFile
+import os
+import io
+import torch
+import torchaudio
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Dict, Optional
+from model import DombraResNet
 
-from inference import load_model, is_loaded, predict_chord, evaluate_performance
+# ── Config ──────────────────────────────────────────────────────
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(SCRIPT_DIR, "models", "trained_models")
+SAMPLE_RATE = 22050
+N_MELS = 128
+N_FFT = 1024
+HOP_LENGTH = 256
+MAX_LEN_SEC = 2.0
+MAX_LEN_SAMPLES = int(SAMPLE_RATE * MAX_LEN_SEC)
+NUM_CLASSES = 38
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Label mapping: index → human-readable class name
+# 0-18: string 1 (bass) frets 0-18, 19-37: string 2 (treble) frets 0-18
+LABEL_NAMES = []
+for s in [1, 2]:
+    for f in range(19):
+        LABEL_NAMES.append(f"s{s}_f{f:02d}")
 
-
-# ── Startup / Shutdown ───────────────────────────────────────────
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Load the ML model once at startup."""
-    logger.info("Loading ML model...")
-    try:
-        load_model()
-        logger.info("ML model loaded successfully.")
-    except FileNotFoundError as e:
-        logger.error("Could not load model: %s", e)
-        logger.warning("ML service will start but predictions will fail.")
-    yield
-
-
-app = FastAPI(
-    title="Dombra ML Service",
-    description="Audio analysis and chord recognition for Dombra Master",
-    lifespan=lifespan,
-)
-
+# ── App ─────────────────────────────────────────────────────────
+app = FastAPI(title="Kuyshim ML API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -52,121 +42,110 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── Model loading ──────────────────────────────────────────────
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = None
+model_loaded = False
 
-# ── Response schemas ─────────────────────────────────────────────
-class PredictionResponse(BaseModel):
-    predicted_class: str
-    confidence: float
-    top_5: Dict[str, float]
+def load_model():
+    global model, model_loaded
+    # Try finetuned first, then baseline
+    for name in ["best_dombra_finetuned.pth", "best_dombra_baseline.pth"]:
+        path = os.path.join(MODEL_DIR, name)
+        if os.path.exists(path):
+            print(f"[ML] Loading model from {path}")
+            model = DombraResNet(num_classes=NUM_CLASSES, freeze_backbone=False).to(device)
+            state_dict = torch.load(path, map_location=device, weights_only=True)
+            # Handle old state_dict format without Dropout layer
+            if "backbone.fc.weight" in state_dict:
+                state_dict["backbone.fc.1.weight"] = state_dict.pop("backbone.fc.weight")
+                state_dict["backbone.fc.1.bias"] = state_dict.pop("backbone.fc.bias")
+            model.load_state_dict(state_dict)
+            model.eval()
+            model_loaded = True
+            print(f"[ML] Model loaded successfully ({name}) on {device}")
+            return
+    print("[ML] WARNING: No trained model found in", MODEL_DIR)
 
+load_model()
 
-class EvaluationResponse(BaseModel):
-    accuracy: float
-    timing_offset: float
-    note_consistency: float
-    predicted_chord: str
-    reference_chord: str
-    final_score: float
+# ── Audio preprocessing ────────────────────────────────────────
+mel_transform = torchaudio.transforms.MelSpectrogram(
+    sample_rate=SAMPLE_RATE,
+    n_fft=N_FFT,
+    hop_length=HOP_LENGTH,
+    n_mels=N_MELS,
+)
+amp_to_db = torchaudio.transforms.AmplitudeToDB()
 
+def preprocess_audio(audio_bytes: bytes) -> torch.Tensor:
+    """Convert raw WAV bytes → normalized mel-spectrogram tensor."""
+    waveform, sr = torchaudio.load(io.BytesIO(audio_bytes))
 
-class HealthResponse(BaseModel):
-    status: str
-    model_loaded: bool
+    # Resample if needed
+    if sr != SAMPLE_RATE:
+        resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=SAMPLE_RATE)
+        waveform = resampler(waveform)
 
+    # Mono
+    if waveform.shape[0] > 1:
+        waveform = torch.mean(waveform, dim=0, keepdim=True)
 
-# ── Endpoints ────────────────────────────────────────────────────
-@app.get("/health", response_model=HealthResponse)
-def health_check():
-    return HealthResponse(
-        status="ok",
-        model_loaded=is_loaded(),
-    )
+    # Pad or truncate to MAX_LEN_SAMPLES
+    if waveform.shape[1] > MAX_LEN_SAMPLES:
+        waveform = waveform[:, :MAX_LEN_SAMPLES]
+    elif waveform.shape[1] < MAX_LEN_SAMPLES:
+        padding = MAX_LEN_SAMPLES - waveform.shape[1]
+        waveform = torch.nn.functional.pad(waveform, (0, padding))
 
+    # Mel spectrogram + dB + normalize
+    mel = mel_transform(waveform)
+    mel_db = amp_to_db(mel)
+    mel_db = (mel_db - mel_db.mean()) / (mel_db.std() + 1e-6)
 
-@app.post("/predict", response_model=PredictionResponse)
-async def predict_endpoint(audio: UploadFile = File(...)):
-    """
-    Predict the chord/fret being played in the uploaded audio file.
+    return mel_db  # shape: (1, n_mels, time_steps)
 
-    Accepts WAV, MP3, OGG, M4A formats.
-    """
-    if not is_loaded():
-        raise HTTPException(
-            status_code=503,
-            detail="ML model is not loaded. Check server logs.",
-        )
+# ── Endpoints ──────────────────────────────────────────────────
+@app.get("/health")
+def health():
+    return {"status": "ok", "model_loaded": model_loaded, "device": str(device)}
+
+@app.post("/predict")
+async def predict(audio: UploadFile = File(...)):
+    if not model_loaded:
+        raise HTTPException(status_code=503, detail="Model not loaded")
 
     try:
         audio_bytes = await audio.read()
-        if len(audio_bytes) == 0:
-            raise HTTPException(status_code=400, detail="Empty audio file")
+        if len(audio_bytes) < 100:
+            raise HTTPException(status_code=400, detail="Audio file too small")
 
-        result = predict_chord(audio_bytes)
+        # Preprocess
+        mel_tensor = preprocess_audio(audio_bytes).to(device)
+        # mel_tensor shape: (1, n_mels, time_steps), model expects (batch, 1, n_mels, time)
+        mel_tensor = mel_tensor.unsqueeze(0)  # add batch dim → (1, 1, n_mels, time)
 
-        # Get top 5 predictions for the response
-        sorted_probs = sorted(
-            result.all_probabilities.items(),
-            key=lambda x: x[1],
-            reverse=True,
-        )[:5]
-        top_5 = {k: round(v, 4) for k, v in sorted_probs}
+        # Inference
+        with torch.no_grad():
+            logits = model(mel_tensor)
+            probs = torch.sigmoid(logits).squeeze(0)  # (38,)
 
-        return PredictionResponse(
-            predicted_class=result.predicted_class,
-            confidence=round(result.confidence, 4),
-            top_5=top_5,
-        )
+        # Get top 5 predictions
+        top5_values, top5_indices = torch.topk(probs, k=min(5, NUM_CLASSES))
+        top5 = {LABEL_NAMES[idx]: round(val.item(), 4) for idx, val in zip(top5_indices, top5_values)}
 
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        # Best prediction
+        best_idx = top5_indices[0].item()
+        predicted_class = LABEL_NAMES[best_idx]
+        confidence = round(top5_values[0].item(), 4)
+
+        return {
+            "predicted_class": predicted_class,
+            "confidence": confidence,
+            "top_5": top5,
+        }
+
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.exception("Prediction error")
-        raise HTTPException(status_code=500, detail=f"Inference failed: {str(e)}")
-
-
-@app.post("/evaluate", response_model=EvaluationResponse)
-async def evaluate_endpoint(
-    user_audio: UploadFile = File(...),
-    reference_audio: UploadFile = File(...),
-):
-    """
-    Evaluate the user's performance by comparing their audio against a reference.
-
-    Returns accuracy, timing_offset, note_consistency, and final_score.
-    """
-    if not is_loaded():
-        raise HTTPException(
-            status_code=503,
-            detail="ML model is not loaded. Check server logs.",
-        )
-
-    try:
-        user_bytes = await user_audio.read()
-        ref_bytes = await reference_audio.read()
-
-        if len(user_bytes) == 0:
-            raise HTTPException(status_code=400, detail="Empty user audio file")
-        if len(ref_bytes) == 0:
-            raise HTTPException(status_code=400, detail="Empty reference audio file")
-
-        result = evaluate_performance(user_bytes, ref_bytes)
-
-        return EvaluationResponse(
-            accuracy=result.accuracy,
-            timing_offset=result.timing_offset,
-            note_consistency=result.note_consistency,
-            predicted_chord=result.predicted_chord,
-            reference_chord=result.reference_chord,
-            final_score=result.final_score,
-        )
-
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        logger.exception("Evaluation error")
-        raise HTTPException(status_code=500, detail=f"Evaluation failed: {str(e)}")
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("api:app", host="0.0.0.0", port=8001, reload=True)
+        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")

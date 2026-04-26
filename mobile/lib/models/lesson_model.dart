@@ -40,6 +40,9 @@ class Lesson {
   final String? videoUrl;
   final String? audioFile;
 
+  /// URL or filename of the JSON beatmap file
+  final String? jsonMapFile;
+
   /// Whether this lesson's audio is bundled locally or remote.
   final StorageType storageType;
 
@@ -61,6 +64,7 @@ class Lesson {
     this.tabUrl,
     this.videoUrl,
     this.audioFile,
+    this.jsonMapFile,
     this.storageType = StorageType.remote,
     this.localImageAsset,
   });
@@ -86,6 +90,7 @@ class Lesson {
     String? tabUrl,
     String? videoUrl,
     String? audioFile,
+    String? jsonMapFile,
     StorageType? storageType,
     String? localImageAsset,
   }) {
@@ -104,6 +109,7 @@ class Lesson {
       tabUrl: tabUrl ?? this.tabUrl,
       videoUrl: videoUrl ?? this.videoUrl,
       audioFile: audioFile ?? this.audioFile,
+      jsonMapFile: jsonMapFile ?? this.jsonMapFile,
       storageType: storageType ?? this.storageType,
       localImageAsset: localImageAsset ?? this.localImageAsset,
     );
@@ -113,18 +119,19 @@ class Lesson {
     return Lesson(
       id: json['id']?.toString() ?? '',
       title: json['title'] ?? '',
-      composer: json['composer'] ?? '',
-      difficulty: json['difficulty'] ?? 1,
+      composer: json['artist'] ?? json['composer'] ?? '',
+      difficulty: json['difficulty'] is int ? json['difficulty'] : 1,
       progress: json['progress'] ?? 0,
-      image: json['image'] ?? 'https://picsum.photos/seed/${json['title']}/800/450',
+      image: json['image_url'] ?? json['image'] ?? 'https://picsum.photos/seed/${json['title']}/800/450',
       notes: const [], // Parsing notes logic could be added here if needed
       requiresAuth: true, // As per user request, remote items now require auth
-      level: json['level'] ?? 'beginner',
+      level: (json['difficulty'] is String) ? (json['difficulty'] as String).toLowerCase() : (json['level'] ?? 'beginner'),
       progressStatus: json['progress_status'],
       description: json['description'],
       tabUrl: json['tab_url'],
       videoUrl: json['video_url'],
-      audioFile: json['audio_file'] ?? json['video_url']?.replaceAll('.mp4', '.mp3'),
+      audioFile: json['audio_url'] ?? json['audio_file'] ?? json['video_url']?.replaceAll('.mp4', '.mp3'),
+      jsonMapFile: json['json_file'] ?? json['json_url'],
       storageType: StorageType.remote, // Assume fetched lessons are remote
     );
   }

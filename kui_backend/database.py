@@ -7,11 +7,21 @@ import os
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "sqlite:///./kui_db.sqlite"
+    "postgresql+psycopg://user:password@localhost:5432/kui_db"
 )
 
+# Upgrade URL to use psycopg3 driver if it just says postgresql://
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
+
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
-engine = create_engine(DATABASE_URL, pool_pre_ping=True, connect_args=connect_args)
+engine = create_engine(
+    DATABASE_URL, 
+    pool_pre_ping=True, 
+    pool_size=10, 
+    max_overflow=20,
+    connect_args=connect_args
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -24,11 +34,16 @@ class Kui(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    composer = Column(String, nullable=True)
-    audio_path = Column(String, nullable=False)
-    fingerprint = Column(Text, nullable=True)
-    is_lesson = Column(Boolean, default=False)
-    level = Column(String, nullable=True)  # 'beginner' or 'pro'
+    artist = Column(String, nullable=False)
+    audio_url = Column(Text, nullable=False)
+    image_url = Column(Text, nullable=False)
+    json_file = Column(String, nullable=False)
+    duration = Column(Float, nullable=False)
+    bpm = Column(Float, nullable=False)
+    total_notes = Column(Integer, nullable=False)
+    difficulty = Column(String, nullable=False)
+
+    lessons = relationship("Lesson", back_populates="kui")
 
 
 class User(Base):
@@ -40,20 +55,20 @@ class User(Base):
 
     progress = relationship("Progress", back_populates="owner")
     performances = relationship("Performance", back_populates="user")
+    tuner_results = relationship("TunerResult", back_populates="user")
 
 
 class Lesson(Base):
     __tablename__ = "lessons"
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    composer = Column(String, nullable=True)
-    level = Column(String)                 # 'beginner' or 'pro'
+    kui_id = Column(Integer, ForeignKey("kuis.id"))
+    
     description = Column(Text, nullable=True)
     content = Column(Text, nullable=True)  # Текст урока / табы
-    audio_path = Column(String, nullable=True)
     tab_url = Column(String, nullable=True)
     video_url = Column(String, nullable=True)
 
+    kui = relationship("Kui", back_populates="lessons")
     progress = relationship("Progress", back_populates="lesson")
     performances = relationship("Performance", back_populates="lesson")
 
@@ -83,6 +98,19 @@ class Performance(Base):
 
     user = relationship("User", back_populates="performances")
     lesson = relationship("Lesson", back_populates="performances")
+
+
+class TunerResult(Base):
+    """Stores ML chord recognition results from the tuner screen."""
+    __tablename__ = "tuner_results"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    predicted_class = Column(String, nullable=False)
+    confidence = Column(Float, nullable=False)
+    top_5_json = Column(Text, nullable=True)  # JSON string of top 5 predictions
+    created_at = Column(DateTime, server_default=func.now())
+
+    user = relationship("User", back_populates="tuner_results")
 
 
 def get_db():

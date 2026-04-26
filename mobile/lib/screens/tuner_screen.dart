@@ -13,6 +13,8 @@ import 'package:record/record.dart';
 
 import '../constants/strings.dart';
 import '../main.dart';
+import '../services/api_service.dart';
+import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../services/ml_service.dart';
 
@@ -158,6 +160,9 @@ class _TunerScreenState extends State<TunerScreen>
           _state = RecognitionState.result;
         });
         _resultFadeController.forward();
+
+        // Auto-save result to backend if user is logged in
+        _saveTunerResult(prediction);
       }
 
       // Clean up temp file
@@ -184,6 +189,19 @@ class _TunerScreenState extends State<TunerScreen>
       _prediction = null;
       _errorMessage = null;
     });
+  }
+
+  /// Save the prediction result to the backend (non-blocking, fire-and-forget).
+  void _saveTunerResult(ChordPrediction prediction) {
+    final appState = context.read<AppState>();
+    if (appState.user.isGuest) return; // Only save for logged-in users
+
+    final top5 = prediction.top5.map((k, v) => MapEntry(k, v));
+    ApiService().saveTunerResult(
+      predictedClass: prediction.predictedClass,
+      confidence: prediction.confidence,
+      top5: top5,
+    );
   }
 
   // ── Build ─────────────────────────────────────────────────────

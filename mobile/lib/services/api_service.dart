@@ -38,7 +38,16 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Login failed: ${response.body}');
+      String errorMessage = 'Login failed: ${response.statusCode}';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) {
+          errorMessage = err['detail'];
+        }
+      } catch (_) {
+        // Could not parse error body, keep generic message
+      }
+      throw Exception(errorMessage);
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -60,8 +69,17 @@ class ApiService {
       }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Registration failed: ${response.body}');
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      String errorMessage = 'Registration failed: ${response.statusCode}';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) {
+          errorMessage = err['detail'];
+        }
+      } catch (_) {
+        // Could not parse error body, keep generic message
+      }
+      throw Exception(errorMessage);
     }
     return login(username, password); // Auto login
   }
@@ -83,8 +101,14 @@ class ApiService {
     );
 
     if (response.statusCode != 200) {
-      final err = jsonDecode(response.body);
-      throw Exception(err['detail'] ?? 'Password reset failed');
+      String errorMessage = 'Password reset failed';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) {
+          errorMessage = err['detail'];
+        }
+      } catch (_) {}
+      throw Exception(errorMessage);
     }
   }
 
@@ -156,6 +180,20 @@ class ApiService {
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
+  // ── Kuis (unauthenticated) ────────────────────────────────
+  Future<List<Map<String, dynamic>>> fetchKuis() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/kuis'),
+    ).timeout(const Duration(seconds: 10));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch kuis: ${response.statusCode}');
+    }
+
+    final list = jsonDecode(response.body) as List;
+    return list.cast<Map<String, dynamic>>();
+  }
+
   // ── Health ────────────────────────────────────────────────
   Future<bool> checkHealth() async {
     try {
@@ -166,5 +204,42 @@ class ApiService {
     } catch (_) {
       return false;
     }
+  }
+
+  // ── Tuner Results ────────────────────────────────────────
+  /// Save a tuner chord recognition result to the backend.
+  Future<void> saveTunerResult({
+    required String predictedClass,
+    required double confidence,
+    Map<String, double>? top5,
+  }) async {
+    try {
+      await http.post(
+        Uri.parse('$_baseUrl/tuner/result'),
+        headers: await _headers(isJson: true),
+        body: jsonEncode({
+          'predicted_class': predictedClass,
+          'confidence': confidence,
+          if (top5 != null) 'top_5': top5,
+        }),
+      );
+    } catch (_) {
+      // Silently fail — tuner result saving is non-critical
+    }
+  }
+
+  /// Fetch the user's tuner recognition history.
+  Future<List<Map<String, dynamic>>> fetchTunerHistory() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/tuner/results'),
+        headers: await _headers(),
+      );
+      if (response.statusCode == 200) {
+        final list = jsonDecode(response.body) as List;
+        return list.cast<Map<String, dynamic>>();
+      }
+    } catch (_) {}
+    return [];
   }
 }

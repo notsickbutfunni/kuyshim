@@ -7,11 +7,11 @@ from fastapi import FastAPI, APIRouter, UploadFile, File, Form, Depends, HTTPExc
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from database import engine, Base, Kui, User, Lesson, Progress, Performance, get_db
+from database import engine, Base, Kui, User, Lesson, Progress, Performance, TunerResult, get_db
 from security import verify_password, get_password_hash, create_access_token, decode_access_token
 
 # ── OAuth2-схема: указывает клиенту, куда слать логин ────────
@@ -128,7 +128,8 @@ async def get_current_user_profile(
 @api.post("/kuis/upload")
 async def upload_kui(
     title: str = Form(...),
-    composer: str = Form(None),
+    artist: str = Form("Unknown"),
+    difficulty: str = Form("beginner"),
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
@@ -144,8 +145,14 @@ async def upload_kui(
     # 3. Записываем данные в базу (PostgreSQL) — храним только имя файла
     new_kui = Kui(
         title=title,
-        composer=composer,
-        audio_path=unique_filename
+        artist=artist,
+        audio_url=f"/static/audio/{unique_filename}",
+        image_url="",
+        json_file="",
+        duration=0.0,
+        bpm=0.0,
+        total_notes=0,
+        difficulty=difficulty
     )
     db.add(new_kui)
     db.commit()
@@ -155,20 +162,20 @@ async def upload_kui(
     return {
         "id": new_kui.id,
         "title": new_kui.title,
-        "url": f"http://localhost:8000/static/audio/{unique_filename}"
+        "url": f"http://localhost:8000{new_kui.audio_url}"
     }
 
 
 # ── Схемы для аутентификации ──────────────────────────────────
 class RegisterRequest(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     password: str
 
 
 class ResetPasswordRequest(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     new_password: str
 
 
@@ -180,20 +187,24 @@ class TokenResponse(BaseModel):
 class KuiOut(BaseModel):
     id: int
     title: str
-    composer: Optional[str] = None
+    artist: str
     audio_url: str
-    is_lesson: bool = False
-    level: Optional[str] = None
+    image_url: str
+    json_file: str
+    duration: float
+    bpm: float
+    total_notes: int
+    difficulty: str
 
 
 class LessonOut(BaseModel):
     id: int
     title: str
-    composer: Optional[str] = None
-    level: Optional[str] = None
+    artist: Optional[str] = None
+    difficulty: Optional[str] = None
     description: Optional[str] = None
     content: Optional[str] = None
-    audio_path: Optional[str] = None
+    audio_url: Optional[str] = None
     tab_url: Optional[str] = None
     video_url: Optional[str] = None
     progress_status: Optional[str] = None
@@ -237,16 +248,23 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
             detail="Email already registered",
         )
 
-    new_user = User(
-        username=body.username,
-        email=body.email,
-        hashed_password=get_password_hash(body.password),
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return {"id": new_user.id, "username": new_user.username, "email": new_user.email}
+    try:
+        new_user = User(
+            username=body.username,
+            email=body.email,
+            hashed_password=get_password_hash(body.password),
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        
+        return {"id": new_user.id, "username": new_user.username, "email": new_user.email}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Registration failed due to a server error. Please try again later.",
+        )
 
 
 @api.post("/auth/reset-password")
@@ -313,6 +331,26 @@ def login_json(body: LoginRequest, db: Session = Depends(get_db)):
     return {"access_token": token, "token_type": "bearer"}
 
 
+@api.get("/kuis", response_model=List[KuiOut])
+def get_all_kuis(db: Session = Depends(get_db)):
+    """Fetch all kuis and their CDN/download links for the mobile client."""
+    kuis = db.query(Kui).all()
+    return [
+        KuiOut(
+            id=k.id,
+            title=k.title,
+            artist=k.artist,
+            audio_url=k.audio_url,
+            image_url=k.image_url,
+            json_file=k.json_file,
+            duration=k.duration,
+            bpm=k.bpm,
+            total_notes=k.total_notes,
+            difficulty=k.difficulty,
+        )
+        for k in kuis
+    ]
+
 # ── Защищённые эндпоинты (требуют Bearer-токен) ──────────────
 @api.get("/kuis/play", response_model=List[KuiOut])
 def get_kuis_for_play(
@@ -330,7 +368,7 @@ def get_kuis_for_play(
     query = db.query(Kui)
 
     if level is not None:
-        query = query.filter(Kui.level == level)
+        query = query.filter(Kui.difficulty == level)
 
     kuis = query.all()
 
@@ -338,10 +376,14 @@ def get_kuis_for_play(
         KuiOut(
             id=k.id,
             title=k.title,
-            composer=k.composer,
-            audio_url=f"/static/audio/{k.audio_path}",
-            is_lesson=k.is_lesson or False,
-            level=k.level,
+            artist=k.artist,
+            audio_url=k.audio_url,
+            image_url=k.image_url,
+            json_file=k.json_file,
+            duration=k.duration,
+            bpm=k.bpm,
+            total_notes=k.total_notes,
+            difficulty=k.difficulty,
         )
         for k in kuis
     ]
@@ -356,9 +398,9 @@ def list_lessons(
     db: Session = Depends(get_db),
 ):
     """List lessons, optionally filtered by level. Includes user's progress status."""
-    query = db.query(Lesson)
+    query = db.query(Lesson).join(Lesson.kui)
     if level:
-        query = query.filter(Lesson.level == level)
+        query = query.filter(Kui.level == level)
     lessons = query.all()
 
     result = []
@@ -370,12 +412,12 @@ def list_lessons(
         )
         result.append(LessonOut(
             id=les.id,
-            title=les.title,
-            composer=les.composer,
-            level=les.level,
+            title=les.kui.title if les.kui else "Unknown",
+            artist=les.kui.artist if les.kui else None,
+            difficulty=les.kui.difficulty if les.kui else None,
             description=les.description,
             content=les.content,
-            audio_path=les.audio_path,
+            audio_url=les.kui.audio_url if les.kui else None,
             tab_url=les.tab_url,
             video_url=les.video_url,
             progress_status=prog.status if prog else None,
@@ -401,12 +443,12 @@ def get_lesson(
     )
     return LessonOut(
         id=les.id,
-        title=les.title,
-        composer=les.composer,
-        level=les.level,
+        title=les.kui.title if les.kui else "Unknown",
+        artist=les.kui.artist if les.kui else None,
+        difficulty=les.kui.difficulty if les.kui else None,
         description=les.description,
         content=les.content,
-        audio_path=les.audio_path,
+        audio_url=les.kui.audio_url if les.kui else None,
         tab_url=les.tab_url,
         video_url=les.video_url,
         progress_status=prog.status if prog else None,
@@ -511,6 +553,96 @@ def get_performances(
         )
         for p in perfs
     ]
+
+
+# ── Tuner Results ─────────────────────────────────────────────
+import json as json_lib
+
+class TunerResultIn(BaseModel):
+    predicted_class: str
+    confidence: float
+    top_5: Optional[dict] = None
+
+class TunerResultOut(BaseModel):
+    id: int
+    predicted_class: str
+    confidence: float
+    top_5: Optional[dict] = None
+    created_at: Optional[str] = None
+
+@api.post("/tuner/result", response_model=TunerResultOut)
+async def save_tuner_result(
+    body: TunerResultIn,
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
+    """Save a chord recognition result for the authenticated user."""
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    payload = decode_access_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = db.query(User).filter(User.username == payload.get("sub")).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    result = TunerResult(
+        user_id=user.id,
+        predicted_class=body.predicted_class,
+        confidence=body.confidence,
+        top_5_json=json_lib.dumps(body.top_5) if body.top_5 else None,
+    )
+    db.add(result)
+    db.commit()
+    db.refresh(result)
+
+    return TunerResultOut(
+        id=result.id,
+        predicted_class=result.predicted_class,
+        confidence=result.confidence,
+        top_5=body.top_5,
+        created_at=str(result.created_at) if result.created_at else None,
+    )
+
+@api.get("/tuner/results", response_model=List[TunerResultOut])
+async def get_tuner_results(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
+    """Fetch the authenticated user's tuner recognition history."""
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    payload = decode_access_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = db.query(User).filter(User.username == payload.get("sub")).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    results = (
+        db.query(TunerResult)
+        .filter(TunerResult.user_id == user.id)
+        .order_by(TunerResult.created_at.desc())
+        .limit(50)
+        .all()
+    )
+
+    out = []
+    for r in results:
+        top5 = None
+        if r.top_5_json:
+            try:
+                top5 = json_lib.loads(r.top_5_json)
+            except Exception:
+                pass
+        out.append(TunerResultOut(
+            id=r.id,
+            predicted_class=r.predicted_class,
+            confidence=r.confidence,
+            top_5=top5,
+            created_at=str(r.created_at) if r.created_at else None,
+        ))
+    return out
 
 
 # ── Register the API router with the main app ────────────────

@@ -12,6 +12,7 @@ import '../models/lesson_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../widgets/lang_toggle.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({super.key});
@@ -322,7 +323,6 @@ class _SidebarNav extends StatelessWidget {
             width: logoSize,
             height: logoSize,
             decoration: BoxDecoration(
-              color: KColors.emerald,
               borderRadius: BorderRadius.circular(logoSize * 0.33),
               boxShadow: [
                 BoxShadow(
@@ -331,8 +331,11 @@ class _SidebarNav extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.music_note,
-                color: Colors.white, size: iconSize),
+            child: SvgPicture.asset(
+              'assets/dombra_icon_green.svg',
+              width: logoSize,
+              height: logoSize,
+            ),
           ),
           SizedBox(height: screenHeight * 0.06),
 
@@ -346,7 +349,7 @@ class _SidebarNav extends StatelessWidget {
           ),
           SizedBox(height: screenHeight * 0.04),
           _NavButton(
-            icon: Icons.settings,
+            icon: Icons.music_note,
             isActive: false,
             btnSize: btnSize,
             iconSize: iconSize,
@@ -925,80 +928,14 @@ class _LessonCard extends StatelessWidget {
                               // Action button
                               SizedBox(
                                 width: double.infinity,
-                                child:
-                                    ElevatedButton.icon(
-                                  onPressed: isLocked
-                                      ? null
-                                      : onTap,
-                                  icon: isLocked
-                                      ? const SizedBox
-                                          .shrink()
-                                      : Icon(
-                                          Icons
-                                              .play_arrow,
-                                          size:
-                                              screenHeight *
-                                                  0.025,
-                                          color: isPro
-                                              ? Colors
-                                                  .white
-                                              : Colors
-                                                  .black,
-                                        ),
-                                  label: Text(
-                                    isLocked
-                                        ? t.signInToPlay
-                                        : lesson.progressStatus ==
-                                                'completed'
-                                            ? t.practiceAgain
-                                            : lesson.progressStatus ==
-                                                    'started'
-                                                ? t.continueLabel
-                                                : t.startPractice,
-                                    style: TextStyle(
-                                        fontSize:
-                                            screenHeight *
-                                                0.022),
-                                  ),
-                                  style: ElevatedButton
-                                      .styleFrom(
-                                    backgroundColor:
-                                        isLocked
-                                            ? Colors
-                                                .white
-                                                .withOpacity(
-                                                    0.05)
-                                            : isPro
-                                                ? KColors
-                                                    .violet
-                                                : Colors
-                                                    .white,
-                                    foregroundColor:
-                                        isLocked
-                                            ? Colors
-                                                .white
-                                                .withOpacity(
-                                                    0.2)
-                                            : isPro
-                                                ? Colors
-                                                    .white
-                                                : Colors
-                                                    .black,
-                                    padding: EdgeInsets
-                                        .symmetric(
-                                      vertical:
-                                          screenHeight *
-                                              0.015,
-                                    ),
-                                    shape:
-                                        RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius
-                                              .circular(
-                                                  screenHeight *
-                                                      0.025),
-                                    ),
-                                  ),
+                                child: _StartPracticeButton(
+                                  lesson: lesson,
+                                  isLocked: isLocked,
+                                  isPro: isPro,
+                                  t: t,
+                                  onTap: onTap,
+                                  screenWidth: screenWidth,
+                                  screenHeight: screenHeight,
                                 ),
                               ),
                             ],
@@ -1011,6 +948,151 @@ class _LessonCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Start Practice Button with Download Logic ────────────────
+class _StartPracticeButton extends StatefulWidget {
+  final Lesson lesson;
+  final bool isLocked;
+  final bool isPro;
+  final dynamic t;
+  final VoidCallback onTap;
+  final double screenWidth;
+  final double screenHeight;
+
+  const _StartPracticeButton({
+    required this.lesson,
+    required this.isLocked,
+    required this.isPro,
+    required this.t,
+    required this.onTap,
+    required this.screenWidth,
+    required this.screenHeight,
+  });
+
+  @override
+  State<_StartPracticeButton> createState() => _StartPracticeButtonState();
+}
+
+class _StartPracticeButtonState extends State<_StartPracticeButton> {
+  bool _isDownloading = false;
+  double _progress = 0.0;
+
+  Future<void> _handlePress() async {
+    if (widget.isLocked) return;
+
+    // Local files can be launched immediately
+    if (widget.lesson.isLocal || widget.lesson.audioFile == null) {
+      widget.onTap();
+      return;
+    }
+
+    // Remote files need to be checked / downloaded
+    setState(() {
+      _isDownloading = true;
+      _progress = 0.0;
+    });
+
+    try {
+      final appState = Provider.of<AppState>(context, listen: false);
+      final isCached = await appState.levelManager.isCached(widget.lesson.audioFile!);
+      
+      if (isCached) {
+        widget.onTap();
+      } else {
+        await appState.levelManager.downloadAndCache(widget.lesson, onProgress: (p) {
+          setState(() {
+            _progress = p;
+          });
+        });
+        widget.onTap();
+      }
+    } catch (e) {
+      print('Download error: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDownloading = false;
+          _progress = 0.0;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isDownloading) {
+      return Container(
+        height: widget.screenHeight * 0.055,
+        decoration: BoxDecoration(
+          color: widget.isPro ? KColors.violet.withOpacity(0.2) : Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(widget.screenHeight * 0.025),
+          border: Border.all(color: widget.isPro ? KColors.violet : Colors.white54),
+        ),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * (_progress > 0 ? _progress : 0.05), // ensure a little progress is visible
+              decoration: BoxDecoration(
+                color: widget.isPro ? KColors.violet.withOpacity(0.5) : Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(widget.screenHeight * 0.025),
+              ),
+            ),
+            Center(
+              child: Text(
+                '${(_progress * 100).toInt()}%',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: widget.screenHeight * 0.02,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ElevatedButton.icon(
+      onPressed: widget.isLocked ? null : _handlePress,
+      icon: widget.isLocked
+          ? const SizedBox.shrink()
+          : Icon(
+              Icons.play_arrow,
+              size: widget.screenHeight * 0.025,
+              color: widget.isPro ? Colors.white : Colors.black,
+            ),
+      label: Text(
+        widget.isLocked
+            ? widget.t.signInToPlay
+            : widget.lesson.progressStatus == 'completed'
+                ? widget.t.practiceAgain
+                : widget.lesson.progressStatus == 'started'
+                    ? widget.t.continueLabel
+                    : widget.t.startPractice,
+        style: TextStyle(fontSize: widget.screenHeight * 0.022),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: widget.isLocked
+            ? Colors.white.withOpacity(0.05)
+            : widget.isPro
+                ? KColors.violet
+                : Colors.white,
+        foregroundColor: widget.isLocked
+            ? Colors.white.withOpacity(0.2)
+            : widget.isPro
+                ? Colors.white
+                : Colors.black,
+        padding: EdgeInsets.symmetric(
+          vertical: widget.screenHeight * 0.015,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(widget.screenHeight * 0.025),
         ),
       ),
     );

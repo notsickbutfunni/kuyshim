@@ -327,31 +327,46 @@ def seed():
             print(f"Database already has {existing} lessons — skipping seed.")
             return
 
-        lessons = []
-
         for i, data in enumerate(BEGINNER_LESSONS, start=1):
-            lessons.append(Lesson(
+            kui = Kui(
                 title=data["title"],
                 composer=data["composer"],
                 level="beginner",
+                audio_path="",
+                is_lesson=True
+            )
+            db.add(kui)
+            db.flush() # To get kui.id
+
+            lesson = Lesson(
+                kui_id=kui.id,
                 description=data["description"],
                 tab_url=f"https://cdn.kuyshim.kz/tabs/beginner/{i:02d}_{data['title']}.pdf",
                 video_url=f"https://cdn.kuyshim.kz/video/beginner/{i:02d}_{data['title']}.mp4",
-            ))
+            )
+            db.add(lesson)
 
         for i, data in enumerate(PRO_LESSONS, start=1):
-            lessons.append(Lesson(
+            kui = Kui(
                 title=data["title"],
                 composer=data["composer"],
                 level="pro",
+                audio_path="",
+                is_lesson=True
+            )
+            db.add(kui)
+            db.flush()
+
+            lesson = Lesson(
+                kui_id=kui.id,
                 description=data["description"],
                 tab_url=f"https://cdn.kuyshim.kz/tabs/pro/{i:02d}_{data['title']}.pdf",
                 video_url=f"https://cdn.kuyshim.kz/video/pro/{i:02d}_{data['title']}.mp4",
-            ))
+            )
+            db.add(lesson)
 
-        db.add_all(lessons)
         db.commit()
-        print(f"Successfully inserted {len(lessons)} lessons ({len(BEGINNER_LESSONS)} beginner + {len(PRO_LESSONS)} pro).")
+        print(f"Successfully inserted {len(BEGINNER_LESSONS)} beginner + {len(PRO_LESSONS)} pro lessons.")
     finally:
         db.close()
 
