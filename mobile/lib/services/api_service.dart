@@ -1,10 +1,11 @@
 /// API service — backend communication for authentication, lesson data, and progress.
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServiceUrl {
-  static const String baseUrl = 'http://10.0.2.2:8000/api';
+  static const String baseUrl = 'http://127.0.0.1:8000/api';
 }
 
 class ApiService {
@@ -121,6 +122,82 @@ class ApiService {
     if (response.statusCode != 200) {
       throw Exception('Failed to load profile');
     }
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> updateProfile(String newUsername) async {
+    final response = await http.put(
+      Uri.parse('$_baseUrl/users/profile'),
+      headers: await _headers(isJson: true),
+      body: jsonEncode({'username': newUsername}),
+    );
+
+    if (response.statusCode != 200) {
+      String errorMessage = 'Failed to update profile';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) errorMessage = err['detail'];
+      } catch (_) {}
+      throw Exception(errorMessage);
+    }
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  Future<void> updatePassword(String currentPassword, String newPassword) async {
+    final response = await http.put(
+      Uri.parse('$_baseUrl/users/password'),
+      headers: await _headers(isJson: true),
+      body: jsonEncode({
+        'current_password': currentPassword,
+        'new_password': newPassword,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      String errorMessage = 'Failed to update password';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) errorMessage = err['detail'];
+      } catch (_) {}
+      throw Exception(errorMessage);
+    }
+  }
+
+  Future<Map<String, dynamic>> uploadAvatar(File imageFile) async {
+    final request = http.MultipartRequest('POST', Uri.parse('$_baseUrl/users/profile/avatar'));
+    
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(_tokenKey);
+    if (token != null) {
+      request.headers['Authorization'] = 'Bearer $token';
+    }
+
+    request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+    final streamResponse = await request.send();
+    final response = await http.Response.fromStream(streamResponse);
+
+    if (response.statusCode != 200) {
+      String errorMessage = 'Failed to upload avatar';
+      try {
+        final err = jsonDecode(response.body);
+        if (err['detail'] != null) errorMessage = err['detail'];
+      } catch (_) {}
+      throw Exception(errorMessage);
+    }
+
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> fetchUserStats() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/users/me/stats'),
+      headers: await _headers(),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch user stats');
+    }
+
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 

@@ -95,26 +95,29 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     final lesson = context.read<AppState>().selectedLesson;
     String? jsonStr;
 
-    // 1. Try cached kui_maps from sync service
+    // 1. Try cached kui_maps from sync service (remote lessons)
     if (lesson?.jsonMapFile != null) {
       try {
         final dir = await getApplicationDocumentsDirectory();
-        final fname = Uri.parse(lesson!.jsonMapFile!).pathSegments.last;
+        final fname = lesson!.jsonMapFile!.split('/').last;
         final f = File('${dir.path}/kui_maps/$fname');
         if (await f.exists()) jsonStr = await f.readAsString();
       } catch (_) {}
     }
 
-    // 2. Fallback to bundled assets
-    if (jsonStr == null) {
+    // 2. Try bundled asset matching the lesson's jsonMapFile
+    if (jsonStr == null && lesson?.jsonMapFile != null) {
+      final fname = lesson!.jsonMapFile!.split('/').last;
       try {
-        jsonStr = await rootBundle.loadString('assets/kui_maps/kozimnin_karasy_easy.json');
+        jsonStr = await rootBundle.loadString('assets/kui_maps/$fname');
       } catch (_) {}
     }
 
+    // 3. No map found — use empty notes (don't load wrong map)
     if (jsonStr != null) {
       _parseMap(jsonStr);
     } else {
+      debugPrint('[GameScreen] No JSON map found for lesson: ${lesson?.title}');
       _allNotes = []; _activeNotes = []; _duration = 60;
     }
   }

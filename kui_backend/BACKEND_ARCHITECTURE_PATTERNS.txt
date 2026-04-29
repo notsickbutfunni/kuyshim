@@ -1,0 +1,40 @@
+BACKEND ARCHITECTURE & DESIGN PATTERNS: KUYSHIM APP
+
+1. ARCHITECTURAL STYLE: RESTful API
+The backend follows the REpresentational State Transfer (REST) architectural style. It uses standard HTTP methods (GET, POST, PUT, DELETE) and JSON as the data exchange format, ensuring the mobile app (Flutter) and backend are decoupled.
+
+2. LAYERED ARCHITECTURE (Pattern)
+The code is organized into logical layers to separate concerns:
+   - API Layer (main.py): Handles HTTP requests, routing, and validation.
+   - Business Logic Layer: Embedded within API endpoints (e.g., calculating scores based on ML data, determining achievements).
+   - Data Access Layer (database.py): Handles all interactions with PostgreSQL using an ORM.
+
+3. DESIGN PATTERNS USED:
+
+A. DEPENDENCY INJECTION (DI)
+   - How it's used: FastAPI's `Depends()` system.
+   - Why: It allows for cleaner code by injecting the Database Session (`get_db`) or the Current User (`get_current_user`) only when needed. This makes the code modular and easy to test.
+
+B. DATA TRANSFER OBJECT (DTO)
+   - How it's used: Pydantic models (e.g., `UserResponse`, `ScoreIn`, `KuiOut`).
+   - Why: Instead of sending raw database objects to the mobile app, we use DTOs to filter sensitive information (like passwords) and validate that the data coming from the app is correctly formatted.
+
+C. DATA MAPPER / ORM (Object-Relational Mapping)
+   - How it's used: SQLAlchemy.
+   - Why: It abstracts the SQL language. Instead of writing raw strings, we interact with Python classes (`User`, `Performance`). This prevents SQL injection and makes it easy to switch databases (e.g., from SQLite to PostgreSQL).
+
+D. STATELESS AUTHENTICATION (JWT)
+   - How it's used: JSON Web Tokens.
+   - Why: The server doesn't "remember" the user via sessions. Every request from Flutter carries a "passport" (the token). This makes the backend faster and more scalable.
+
+E. FACTORY / SINGLETON (Database Engine)
+   - How it's used: The `engine` and `SessionLocal` in `database.py`.
+   - Why: It ensures that the application doesn't open a thousand separate connections to PostgreSQL, but instead manages a controlled "pool" of connections, saving server resources.
+
+4. KEY SECURITY PATTERNS:
+   - Password Hashing: Using `bcrypt` via `passlib` (Never store passwords in plain text).
+   - SQL Injection Protection: Guaranteed by the ORM parameterization.
+   - CORS (Cross-Origin Resource Sharing): Restricted access to prevent unauthorized web domains from calling the API.
+
+5. INFRASTRUCTURE PATTERN: CONTAINERIZATION (DOCKER)
+The entire backend and database are "containerized." This ensures that the app runs exactly the same way on your computer, a server, or a teacher's laptop, eliminating the "it works on my machine" problem.

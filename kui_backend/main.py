@@ -10,8 +10,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from datetime import datetime, timedelta
+from sqlalchemy import func, distinct
 
-from database import engine, Base, Kui, User, Lesson, Progress, Performance, TunerResult, get_db
+from database import engine, Base, Kui, User, Lesson, Progress, Performance, TunerResult, UserAchievement, get_db
 from security import verify_password, get_password_hash, create_access_token, decode_access_token
 
 # ── OAuth2-схема: указывает клиенту, куда слать логин ────────
@@ -20,6 +22,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=Fals
 # Папка для сохранения файлов
 UPLOAD_DIR = "storage/audio"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+AVATARS_DIR = "storage/avatars"
+os.makedirs(AVATARS_DIR, exist_ok=True)
 
 
 @asynccontextmanager
@@ -179,9 +184,42 @@ class ResetPasswordRequest(BaseModel):
     new_password: str
 
 
+class ProfileUpdateRequest(BaseModel):
+    username: str
+
+
+class PasswordUpdateRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    email: str
+    avatar_url: Optional[str] = None
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+class AchievementOut(BaseModel):
+    key: str
+    unlocked_at: str
+
+class ActivityOut(BaseModel):
+    date: str
+    value: int
+
+class UserStatsOut(BaseModel):
+    totalPractice: str
+    mastery: int
+    streak: int
+    avgBpm: Optional[int] = None
+    noteAccuracy: Optional[int] = None
+    activity: List[ActivityOut]
+    achievements: List[AchievementOut]
 
 
 class KuiOut(BaseModel):
@@ -351,6 +389,129 @@ def get_all_kuis(db: Session = Depends(get_db)):
         for k in kuis
     ]
 
+# ── Пользователи ─────────────────────────────────────────────
+@api.get("/users/me", response_model=UserResponse)
+def get_me(current_user: User = Depends(get_current_user)):
+    """Получить информацию о текущем пользователе."""
+    return UserResponse(
+        id=current_user.id,
+        username=current_user.username,
+        email=current_user.email,
+        avatar_url=current_user.avatar_url,
+    )
+
+
+@api.put("/users/profile", response_model=UserResponse)
+def update_profile(body: ProfileUpdateRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Обновить профиль (username)."""
+    # Check if username is taken
+    if body.username != current_user.username:
+        if db.query(User).filter(User.username == body.username).first():
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Username already taken")
+        current_user.username = body.username
+        db.commit()
+        db.refresh(current_user)
+
+    return UserResponse(
+        id=current_user.id,
+        username=current_user.username,
+        email=current_user.email,
+        avatar_url=current_user.avatar_url,
+    )
+
+
+@api.put("/users/password")
+def update_password(body: PasswordUpdateRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Обновить пароль."""
+    if not verify_password(body.current_password, current_user.hashed_password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect current password")
+    
+    current_user.hashed_password = get_password_hash(body.new_password)
+    db.commit()
+    return {"message": "Password updated successfully"}
+
+
+@api.post("/users/profile/avatar", response_model=UserResponse)
+async def upload_avatar(file: UploadFile = File(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Загрузить новый аватар."""
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image")
+
+    # Generate a unique filename
+    import uuid
+    ext = file.filename.split(".")[-1] if "." in file.filename else "png"
+    filename = f"{current_user.id}_{uuid.uuid4().hex[:8]}.{ext}"
+    filepath = os.path.join(AVATARS_DIR, filename)
+
+    with open(filepath, "wb") as buffer:
+        buffer.write(await file.read())
+
+    # Update database
+    avatar_url = f"/static/avatars/{filename}"
+    current_user.avatar_url = avatar_url
+    db.commit()
+    db.refresh(current_user)
+
+    return UserResponse(
+        id=current_user.id,
+        username=current_user.username,
+        email=current_user.email,
+        avatar_url=current_user.avatar_url,
+    )
+
+@api.get("/users/me/stats", response_model=UserStatsOut)
+def get_user_stats(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Получить статистику, активность и достижения пользователя."""
+    # 1. Total practice & Mastery
+    performances = db.query(Performance).filter(Performance.user_id == current_user.id).all()
+    total_performances = len(performances)
+    mastery = 0
+    avg_bpm = 0
+    note_acc = 0
+    if total_performances > 0:
+        mastery = int(sum(p.final_score for p in performances) / total_performances)
+        note_acc = int(sum(p.accuracy for p in performances) / total_performances)
+        # Fake BPM from DB if not available, or just hardcode
+        avg_bpm = 110
+    
+    # 2 minutes per song estimated
+    total_practice_mins = total_performances * 2
+    hours = total_practice_mins // 60
+    mins = total_practice_mins % 60
+    total_practice_str = f"{hours}h {mins}m" if hours > 0 else f"{mins}m"
+
+    # 2. Activity tracker (last 7 days)
+    activity = []
+    today = datetime.now().date()
+    streak = 0
+    for i in range(6, -1, -1):
+        d = today - timedelta(days=i)
+        count = sum(1 for p in performances if p.created_at.date() == d)
+        activity.append({"date": d.isoformat(), "value": count})
+    
+    # Calculate streak (consecutive days backward from today)
+    curr_date = today
+    while True:
+        if any(p.created_at.date() == curr_date for p in performances):
+            streak += 1
+            curr_date -= timedelta(days=1)
+        else:
+            break
+
+    # 3. Achievements
+    user_achievements = db.query(UserAchievement).filter(UserAchievement.user_id == current_user.id).all()
+    achievements_out = [{"key": a.achievement_key, "unlocked_at": a.unlocked_at.strftime("%b %d")} for a in user_achievements]
+
+    return UserStatsOut(
+        totalPractice=total_practice_str,
+        mastery=mastery,
+        streak=streak,
+        avgBpm=avg_bpm,
+        noteAccuracy=note_acc,
+        activity=activity,
+        achievements=achievements_out
+    )
+
 # ── Защищённые эндпоинты (требуют Bearer-токен) ──────────────
 @api.get("/kuis/play", response_model=List[KuiOut])
 def get_kuis_for_play(
@@ -518,6 +679,41 @@ def submit_score(
     db.add(perf)
     db.commit()
     db.refresh(perf)
+
+    # 1. Update lesson progress to completed
+    prog = db.query(Progress).filter(Progress.user_id == current_user.id, Progress.lesson_id == lesson_id).first()
+    if prog:
+        if prog.status != "completed":
+            prog.status = "completed"
+            db.commit()
+    else:
+        prog = Progress(user_id=current_user.id, lesson_id=lesson_id, status="completed")
+        db.add(prog)
+        db.commit()
+
+    # 2. Check and unlock achievements based on distinct completed lessons (Kuis)
+    completed_lessons = db.query(Progress).filter(Progress.user_id == current_user.id, Progress.status == "completed").count()
+    total_lessons = db.query(Lesson).count()
+    
+    new_achievement = None
+    if completed_lessons >= 1:
+        new_achievement = "badgeFirstSteps"
+    if completed_lessons >= 3:
+        new_achievement = "badgeLearner"
+    if completed_lessons >= 5:
+        new_achievement = "badgeTalent"
+    if completed_lessons > 0 and completed_lessons >= total_lessons:
+        new_achievement = "badgeKuishi"
+
+    if new_achievement:
+        # Check if already has it
+        has_ach = db.query(UserAchievement).filter(
+            UserAchievement.user_id == current_user.id, 
+            UserAchievement.achievement_key == new_achievement
+        ).first()
+        if not has_ach:
+            db.add(UserAchievement(user_id=current_user.id, achievement_key=new_achievement))
+            db.commit()
 
     return {
         "id": perf.id,

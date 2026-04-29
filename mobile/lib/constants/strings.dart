@@ -119,10 +119,10 @@ class AppStrings {
   final String noMicrophone;
 
   // ── Badges ─────────────────────────────────────────────────
-  final String badgeFastFingers;
-  final String badgeTraditionKeeper;
-  final String badgePerfectAdai;
-  final String badgeEarlyBird;
+  final String badgeFirstSteps;
+  final String badgeLearner;
+  final String badgeTalent;
+  final String badgeKuishi;
   final String locked;
 
   const AppStrings({
@@ -230,10 +230,10 @@ class AppStrings {
     required this.tryAgain,
     required this.recordingSeconds,
     required this.noMicrophone,
-    required this.badgeFastFingers,
-    required this.badgeTraditionKeeper,
-    required this.badgePerfectAdai,
-    required this.badgeEarlyBird,
+    required this.badgeFirstSteps,
+    required this.badgeLearner,
+    required this.badgeTalent,
+    required this.badgeKuishi,
     required this.locked,
   });
 }
@@ -346,10 +346,10 @@ const AppStrings en = AppStrings(
   tryAgain: 'Try Again',
   recordingSeconds: 'seconds',
   noMicrophone: 'Microphone not available',
-  badgeFastFingers: 'Fast Fingers',
-  badgeTraditionKeeper: 'Tradition Keeper',
-  badgePerfectAdai: 'Perfect Adai',
-  badgeEarlyBird: 'Early Bird',
+  badgeFirstSteps: 'First Steps',
+  badgeLearner: 'Learner',
+  badgeTalent: 'Talent',
+  badgeKuishi: 'Küishi',
   locked: 'Locked',
 );
 
@@ -461,10 +461,10 @@ const AppStrings kz = AppStrings(
   tryAgain: 'Қайталау',
   recordingSeconds: 'секунд',
   noMicrophone: 'Микрофон қолжетімсіз',
-  badgeFastFingers: 'Жылдам саусақтар',
-  badgeTraditionKeeper: 'Дәстүр сақтаушы',
-  badgePerfectAdai: 'Тамаша Адай',
-  badgeEarlyBird: 'Ерте құс',
+  badgeFirstSteps: 'Тәй-тәй',
+  badgeLearner: 'Үйренуші',
+  badgeTalent: 'Өнерпаз',
+  badgeKuishi: 'Күйші',
   locked: 'Жабық',
 );
 
@@ -576,10 +576,10 @@ const AppStrings ru = AppStrings(
   tryAgain: 'Повторить',
   recordingSeconds: 'секунд',
   noMicrophone: 'Микрофон недоступен',
-  badgeFastFingers: 'Быстрые пальцы',
-  badgeTraditionKeeper: 'Хранитель традиций',
-  badgePerfectAdai: 'Идеальный Адай',
-  badgeEarlyBird: 'Ранняя пташка',
+  badgeFirstSteps: 'Первые шаги',
+  badgeLearner: 'Ученик',
+  badgeTalent: 'Талант',
+  badgeKuishi: 'Кюйши',
   locked: 'Закрыто',
 );
 

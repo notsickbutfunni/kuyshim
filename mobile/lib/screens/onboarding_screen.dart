@@ -120,6 +120,21 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     }
   }
 
+  Future<void> _handleGoogleLogin() async {
+    setState(() {
+      _loading = true;
+      _error = '';
+    });
+    try {
+      await context.read<AppState>().signInWithGoogle();
+      if (mounted) context.go('/library');
+    } catch (e) {
+      setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
   Future<void> _handleResetPassword() async {
     setState(() {
       _loading = true;
@@ -400,6 +415,29 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
             style: OutlinedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: btnPadV),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(btnRadius),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: gap),
+
+        // Sign in with Google
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: _loading ? null : _handleGoogleLogin,
+            icon: Icon(Icons.g_mobiledata, size: iconSize * 1.5, color: Colors.white),
+            label: Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Continue with Google', style: TextStyle(fontSize: sh * 0.038, color: Colors.white)),
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: btnPadV),
+              side: const BorderSide(color: Colors.white24),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(btnRadius),
               ),

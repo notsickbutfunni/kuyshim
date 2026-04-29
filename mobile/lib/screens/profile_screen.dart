@@ -1,13 +1,16 @@
 /// ProfileScreen — User profile with badges, activity, and settings.
 /// Mirrors ProfileScreen.tsx from the React app.
 /// NOTE: Subscription button and related content have been REMOVED per requirements.
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
+import '../models/user_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../widgets/lang_toggle.dart';
@@ -49,6 +52,164 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _showProfileSettingsDialog(BuildContext context) async {
+    final appState = context.read<AppState>();
+    final t = context.read<LanguageService>().t;
+    final TextEditingController usernameController = TextEditingController(text: appState.user.username);
+    File? selectedImage;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return AlertDialog(
+              backgroundColor: KColors.surface,
+              scrollable: true,
+              title: Text(t.profileDetails, style: const TextStyle(color: Colors.white)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      final picker = ImagePicker();
+                      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        setStateDialog(() {
+                          selectedImage = File(pickedFile.path);
+                        });
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: selectedImage != null 
+                        ? FileImage(selectedImage!) as ImageProvider
+                        : CachedNetworkImageProvider(appState.user.avatar),
+                      child: const Align(
+                        alignment: Alignment.bottomRight,
+                        child: Icon(Icons.edit, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: usernameController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: 'Username',
+                      labelStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                      enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+                      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: KColors.emerald)),
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      if (selectedImage != null) {
+                        await appState.uploadAvatar(selectedImage!);
+                      }
+                      if (usernameController.text != appState.user.username) {
+                        await appState.updateUsername(usernameController.text);
+                      }
+                      if (context.mounted) Navigator.pop(context);
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                      }
+                    }
+                  },
+                  child: const Text('Save'),
+                ),
+              ],
+            );
+          }
+        );
+      }
+    );
+  }
+
+  Future<void> _showSecuritySettingsDialog(BuildContext context) async {
+    final appState = context.read<AppState>();
+    final t = context.read<LanguageService>().t;
+    final TextEditingController currentPasswordController = TextEditingController();
+    final TextEditingController newPasswordController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: KColors.surface,
+          scrollable: true,
+          title: Text(t.security, style: const TextStyle(color: Colors.white)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: currentPasswordController,
+                obscureText: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Current Password',
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                  enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+                  focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: KColors.emerald)),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: newPasswordController,
+                obscureText: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  labelStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                  enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+                  focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: KColors.emerald)),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await appState.updatePassword(currentPasswordController.text, newPasswordController.text);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password updated successfully')));
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String? _getUnlockDate(List<AppBadge> badges, String key) {
+    for (final b in badges) {
+      if (b.key == key) return b.unlockedAt;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = context.watch<LanguageService>().t;
@@ -58,24 +219,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final badges = [
       _Badge(
-        name: t.badgeFastFingers,
+        name: t.badgeFirstSteps,
         icon: '⚡',
-        date: user.isGuest ? t.locked : 'Feb 12',
+        date: user.isGuest ? t.locked : (_getUnlockDate(user.badges, 'badgeFirstSteps') ?? t.locked),
       ),
       _Badge(
-        name: t.badgeTraditionKeeper,
+        name: t.badgeLearner,
         icon: '📜',
-        date: user.isGuest ? t.locked : 'Feb 15',
+        date: user.isGuest ? t.locked : (_getUnlockDate(user.badges, 'badgeLearner') ?? t.locked),
       ),
       _Badge(
-        name: t.badgePerfectAdai,
+        name: t.badgeTalent,
         icon: '🔥',
-        date: user.isGuest ? t.locked : 'Feb 18',
+        date: user.isGuest ? t.locked : (_getUnlockDate(user.badges, 'badgeTalent') ?? t.locked),
       ),
       _Badge(
-        name: t.badgeEarlyBird,
-        icon: '🌅',
-        date: t.locked,
+        name: t.badgeKuishi,
+        icon: '👑',
+        date: user.isGuest ? t.locked : (_getUnlockDate(user.badges, 'badgeKuishi') ?? t.locked),
       ),
     ];
 
@@ -767,12 +928,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icons.person,
                               label: t.profileDetails,
                               sub: t.profileDetailsSub,
+                              onTap: () => _showProfileSettingsDialog(context),
                             ),
                             const SizedBox(height: 12),
                             SettingsItem(
                               icon: Icons.shield,
                               label: t.security,
                               sub: t.securitySub,
+                              onTap: () => _showSecuritySettingsDialog(context),
                             ),
                             const SizedBox(height: 12),
                             SettingsItem(

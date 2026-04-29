@@ -1,4 +1,5 @@
 /// App state — central ChangeNotifier for user, lessons, and navigation state.
+import 'dart:io' as java_io;
 import 'package:flutter/material.dart';
 
 import '../models/user_model.dart';
@@ -8,10 +9,12 @@ import '../constants/lessons.dart' as lesson_data;
 import '../services/api_service.dart';
 import '../services/connectivity_service.dart';
 import '../services/level_manager.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AppState extends ChangeNotifier {
   final ApiService api = ApiService();
   final LevelManager levelManager = LevelManager();
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   ConnectivityService? _connectivity;
   ConnectivityService? get connectivity => _connectivity;
@@ -58,7 +61,7 @@ class AppState extends ChangeNotifier {
       _user = AppUser(
         isGuest: false,
         username: profile['username'] ?? 'User',
-        avatar: profile['avatar_url'] ?? 'https://picsum.photos/seed/user/200/200',
+        avatar: profile['avatar_url'] != null ? 'http://127.0.0.1:8000${profile['avatar_url']}' : 'https://picsum.photos/seed/${profile['username'] ?? 'guest'}/200/200',
         level: profile['level'] ?? 1,
         rank: profile['rank'] ?? 'Student',
         stats: UserStats(
@@ -67,6 +70,7 @@ class AppState extends ChangeNotifier {
           streak: profile['streak_days'] ?? 0,
         ),
         activity: const [],
+        badges: const [],
       );
     } catch (_) {
       // Not logged in or backend down
@@ -136,7 +140,6 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Sign in with backend.
   Future<void> signIn(String username, String password) async {
     await api.login(username, password);
     _user = AppUser(
@@ -146,22 +149,92 @@ class AppState extends ChangeNotifier {
       level: 5,
       rank: 'Akyn',
       stats: const UserStats(
-        totalPractice: '12h',
-        mastery: 65,
-        streak: 3,
-        avgBpm: 110,
-        noteAccuracy: 85,
+        totalPractice: '0h',
+        mastery: 0,
+        streak: 0,
       ),
-      activity: const [
-        ActivityEntry(date: '2026-03-01', value: 2),
-        ActivityEntry(date: '2026-03-02', value: 1),
-        ActivityEntry(date: '2026-03-03', value: 3),
-        ActivityEntry(date: '2026-03-04', value: 0),
-        ActivityEntry(date: '2026-03-05', value: 2),
-      ],
+      activity: const [],
+      badges: const [],
     );
+    await refreshStats();
     _refreshLessons();
     notifyListeners();
+  }
+
+  /// Sign in with Google
+  Future<void> signInWithGoogle() async {
+    try {
+      await _googleSignIn.initialize();
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
+
+      _user = AppUser(
+        isGuest: false,
+        username: googleUser.displayName ?? 'Google User',
+        avatar: googleUser.photoUrl ?? 'https://picsum.photos/seed/${googleUser.email}/200/200',
+        level: 1,
+        rank: 'Student',
+        stats: const UserStats(
+          totalPractice: '0h',
+          mastery: 0,
+          streak: 0,
+        ),
+        activity: const [],
+        badges: const [],
+      );
+
+      // Attempt to sync with backend using Google ID as dummy password
+      if (_backendOnline) {
+        String safeUsername = (googleUser.displayName ?? 'user').replaceAll(' ', '').toLowerCase();
+        if (safeUsername.isEmpty) safeUsername = 'user${googleUser.id.substring(0, 5)}';
+        try {
+          await api.register(safeUsername, googleUser.email, googleUser.id);
+        } catch (e) {
+          try {
+            await api.login(safeUsername, googleUser.id);
+          } catch (_) {}
+        }
+        await refreshStats();
+      }
+
+      _refreshLessons();
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Google Sign In failed: $e');
+    }
+  }
+
+  Future<void> refreshStats() async {
+    if (_user.isGuest) return;
+    try {
+      final statsData = await api.fetchUserStats();
+      
+      final activity = (statsData['activity'] as List).map((e) => ActivityEntry(
+        date: e['date'],
+        value: e['value'],
+      )).toList();
+
+      final badges = (statsData['achievements'] as List).map<AppBadge>((e) => AppBadge(
+        key: e['key'],
+        unlockedAt: e['unlocked_at'],
+      )).toList();
+
+      final stats = UserStats(
+        totalPractice: statsData['totalPractice'],
+        mastery: statsData['mastery'],
+        streak: statsData['streak'],
+        avgBpm: statsData['avgBpm'],
+        noteAccuracy: statsData['noteAccuracy'],
+      );
+
+      _user = _user.copyWith(
+        stats: stats,
+        activity: activity,
+        badges: badges,
+      );
+      notifyListeners();
+    } catch (e) {
+      print('Failed to load user stats: $e');
+    }
   }
 
   /// Register with backend.
@@ -179,7 +252,9 @@ class AppState extends ChangeNotifier {
         streak: 0,
       ),
       activity: const [],
+      badges: const [],
     );
+    await refreshStats();
     _refreshLessons();
     notifyListeners();
   }
@@ -190,6 +265,25 @@ class AppState extends ChangeNotifier {
     _user = AppUser.guest;
     _refreshLessons();
     notifyListeners();
+  }
+
+  // ── Profile Updates ────────────────────────────────────────
+  Future<void> updateUsername(String newUsername) async {
+    final response = await api.updateProfile(newUsername);
+    _user = _user.copyWith(username: response['username']);
+    notifyListeners();
+  }
+
+  Future<void> updatePassword(String currentPassword, String newPassword) async {
+    await api.updatePassword(currentPassword, newPassword);
+  }
+
+  Future<void> uploadAvatar(java_io.File file) async {
+    final response = await api.uploadAvatar(file);
+    if (response['avatar_url'] != null) {
+      _user = _user.copyWith(avatar: 'http://127.0.0.1:8000${response['avatar_url']}');
+      notifyListeners();
+    }
   }
 
   /// Select a lesson to play.

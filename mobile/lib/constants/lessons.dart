@@ -14,6 +14,7 @@ const List<Lesson> offlineLessons = [
     image: 'assets/lessonImages/dombra_1.jpg',
     description: 'Ақ жүністі жырлайтын жеңіл күй. Қағу техникасын дамытады.',
     audioFile: 'Ak_zhunus.mp3',
+    jsonMapFile: 'akjunis_seken_turysbek.json',
     level: 'beginner',
   ),
   Lesson(
@@ -26,6 +27,7 @@ const List<Lesson> offlineLessons = [
     image: 'assets/lessonImages/dombra_2.jpg',
     description: 'Кең жайлаудың сұлулығын суреттейтін тыныш күй.',
     audioFile: 'ken-zhailau.mp3',
+    jsonMapFile: 'ken_zhaijlau_borankul_koshmagambetov.json',
     level: 'beginner',
   ),
   Lesson(
@@ -38,6 +40,7 @@ const List<Lesson> offlineLessons = [
     image: 'assets/lessonImages/dombra_3.jpg',
     description: 'Сарыжайлаудың көркемдігін жеткізетін шертпе күй.',
     audioFile: 'Sar_zhailau.mp3',
+    jsonMapFile: 'saryzhalau_tattimbet_qazangapulu.json',
     level: 'beginner',
   ),
   Lesson(

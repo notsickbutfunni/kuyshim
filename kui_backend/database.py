@@ -52,10 +52,12 @@ class User(Base):
     username = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
+    avatar_url = Column(String, nullable=True)
 
     progress = relationship("Progress", back_populates="owner")
     performances = relationship("Performance", back_populates="user")
     tuner_results = relationship("TunerResult", back_populates="user")
+    achievements = relationship("UserAchievement", back_populates="user")
 
 
 class Lesson(Base):
@@ -111,6 +113,17 @@ class TunerResult(Base):
     created_at = Column(DateTime, server_default=func.now())
 
     user = relationship("User", back_populates="tuner_results")
+
+
+class UserAchievement(Base):
+    """Stores permanently unlocked achievements for users."""
+    __tablename__ = "user_achievements"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    achievement_key = Column(String, nullable=False)
+    unlocked_at = Column(DateTime, server_default=func.now())
+
+    user = relationship("User", back_populates="achievements")
 
 
 def get_db():

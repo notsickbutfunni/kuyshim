@@ -58,7 +58,8 @@ class LevelManager extends ChangeNotifier {
 
     // 2. Check cache
     if (lesson.audioFile != null) {
-      final cached = await _getCachedPath(lesson.audioFile!);
+      final cacheKey = _getCacheKey(lesson.audioFile!);
+      final cached = await _getCachedPath(cacheKey);
       if (cached != null) {
         return AudioSource(
           type: AudioSourceType.cachedFile,
@@ -68,7 +69,7 @@ class LevelManager extends ChangeNotifier {
     }
 
     // 3. Remote — needs download
-    final remoteUrl = '${ApiServiceUrl.baseUrl}/static/lessons/${lesson.level}/${Uri.encodeComponent(lesson.audioFile!)}';
+    final remoteUrl = _buildRemoteUrl(lesson);
     return AudioSource(
       type: AudioSourceType.remote,
       path: remoteUrl,
@@ -79,7 +80,8 @@ class LevelManager extends ChangeNotifier {
   Future<bool> isAvailableOffline(Lesson lesson) async {
     if (lesson.storageType == StorageType.local) return true;
     if (lesson.audioFile == null) return false;
-    final cached = await _getCachedPath(lesson.audioFile!);
+    final cacheKey = _getCacheKey(lesson.audioFile!);
+    final cached = await _getCachedPath(cacheKey);
     return cached != null;
   }
 
@@ -96,8 +98,9 @@ class LevelManager extends ChangeNotifier {
 
     await init(); // Ensure cache dir exists
 
-    final remoteUrl = '${ApiServiceUrl.baseUrl}/static/lessons/${lesson.level}/${Uri.encodeComponent(lesson.audioFile!)}';
-    final localPath = '$_cacheDir/${lesson.audioFile}';
+    final remoteUrl = _buildRemoteUrl(lesson);
+    final cacheKey = _getCacheKey(lesson.audioFile!);
+    final localPath = '$_cacheDir/$cacheKey';
     final localFile = File(localPath);
 
     // If already cached, return immediately
@@ -131,14 +134,16 @@ class LevelManager extends ChangeNotifier {
 
   /// Check if a specific file is cached.
   Future<bool> isCached(String audioFile) async {
-    final cached = await _getCachedPath(audioFile);
+    final cacheKey = _getCacheKey(audioFile);
+    final cached = await _getCachedPath(cacheKey);
     return cached != null;
   }
 
   /// Clear a specific cached audio file.
   Future<void> clearCache(String audioFile) async {
     if (_cacheDir == null) return;
-    final file = File('$_cacheDir/$audioFile');
+    final cacheKey = _getCacheKey(audioFile);
+    final file = File('$_cacheDir/$cacheKey');
     if (await file.exists()) {
       await file.delete();
     }
@@ -169,6 +174,31 @@ class LevelManager extends ChangeNotifier {
   }
 
   // ── Private helpers ────────────────────────────────────────
+
+  /// Build the correct remote URL for a lesson's audio.
+  /// Handles: full URLs, server-relative paths, and plain filenames.
+  String _buildRemoteUrl(Lesson lesson) {
+    final audioFile = lesson.audioFile ?? '';
+    // Already a full URL (http:// or https://)
+    if (audioFile.startsWith('http://') || audioFile.startsWith('https://')) {
+      return audioFile;
+    }
+    // Server-relative path like /static/audio/file.mp3
+    if (audioFile.startsWith('/')) {
+      final baseHost = ApiServiceUrl.baseUrl.replaceAll('/api', '');
+      return '$baseHost$audioFile';
+    }
+    // Plain filename — construct the old-style URL
+    return '${ApiServiceUrl.baseUrl}/static/lessons/${lesson.level}/${Uri.encodeComponent(audioFile)}';
+  }
+
+  /// Extract a safe filename for caching from any audio URL/path.
+  String _getCacheKey(String audioFile) {
+    if (audioFile.startsWith('http://') || audioFile.startsWith('https://')) {
+      return Uri.parse(audioFile).pathSegments.last;
+    }
+    return audioFile.split('/').last;
+  }
 
   /// Returns the cached file path if it exists, null otherwise.
   Future<String?> _getCachedPath(String audioFile) async {
