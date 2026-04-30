@@ -125,6 +125,15 @@ class AppStrings {
   final String badgeKuishi;
   final String locked;
 
+  // ── Dialog / Modes ─────────────────────────────────────────
+  final String selectMode;
+  final String trainingMode;
+  final String trainingModeDesc;
+  final String competitiveMode;
+  final String competitiveModeDesc;
+  final String newToDombra;
+  final String alreadyKnowDombra;
+
   const AppStrings({
     required this.appTitle,
     required this.appSubtitle,
@@ -235,6 +244,13 @@ class AppStrings {
     required this.badgeTalent,
     required this.badgeKuishi,
     required this.locked,
+    required this.selectMode,
+    required this.trainingMode,
+    required this.trainingModeDesc,
+    required this.competitiveMode,
+    required this.competitiveModeDesc,
+    required this.newToDombra,
+    required this.alreadyKnowDombra,
   });
 }
 
@@ -351,6 +367,13 @@ const AppStrings en = AppStrings(
   badgeTalent: 'Talent',
   badgeKuishi: 'Küishi',
   locked: 'Locked',
+  selectMode: 'Select Mode',
+  trainingMode: 'Training',
+  trainingModeDesc: 'Waits until you play\nthe correct notes',
+  competitiveMode: 'Competitive',
+  competitiveModeDesc: 'Real game with\nfinal scores',
+  newToDombra: 'I am new to Dombra',
+  alreadyKnowDombra: 'I already know how to play',
 );
 
 // ═══════════════════════════════════════════════════════════════
@@ -466,6 +489,13 @@ const AppStrings kz = AppStrings(
   badgeTalent: 'Өнерпаз',
   badgeKuishi: 'Күйші',
   locked: 'Жабық',
+  selectMode: 'Режимді таңдаңыз',
+  trainingMode: 'Үйрену',
+  trainingModeDesc: 'Ноталарды дұрыс\nбасқанша күтеді',
+  competitiveMode: 'Жарыс',
+  competitiveModeDesc: 'Ұпай саналатын\nнағыз ойын',
+  newToDombra: 'Мен домбыра тарта алмаймын',
+  alreadyKnowDombra: 'Мен домбыра тарта аламын',
 );
 
 // ═══════════════════════════════════════════════════════════════
@@ -581,6 +611,13 @@ const AppStrings ru = AppStrings(
   badgeTalent: 'Талант',
   badgeKuishi: 'Кюйши',
   locked: 'Закрыто',
+  selectMode: 'Выберите режим',
+  trainingMode: 'Обучающий',
+  trainingModeDesc: 'Ждет, пока вы сыграете\nправильные ноты',
+  competitiveMode: 'Соревновательный',
+  competitiveModeDesc: 'Настоящая игра\nс результатами',
+  newToDombra: 'Я не умею играть на домбре',
+  alreadyKnowDombra: 'Я умею играть на домбре',
 );
 
 final Map<String, AppStrings> allStrings = {

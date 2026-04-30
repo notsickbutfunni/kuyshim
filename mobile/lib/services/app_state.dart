@@ -10,11 +10,13 @@ import '../services/api_service.dart';
 import '../services/connectivity_service.dart';
 import '../services/level_manager.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppState extends ChangeNotifier {
   final ApiService api = ApiService();
   final LevelManager levelManager = LevelManager();
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  bool _googleSignInInitialized = false;
 
   ConnectivityService? _connectivity;
   ConnectivityService? get connectivity => _connectivity;
@@ -25,6 +27,7 @@ class AppState extends ChangeNotifier {
   GameResult? _lastResult;
   bool _isOnline = false;
   bool _backendOnline = false;
+  String _gameMode = 'competitive'; // 'competitive' or 'training'
 
   AppUser get user => _user;
   List<Lesson> get lessons => _lessons;
@@ -32,6 +35,8 @@ class AppState extends ChangeNotifier {
   GameResult? get lastResult => _lastResult;
   bool get isOnline => _isOnline;
   bool get backendOnline => _backendOnline;
+  String get gameMode => _gameMode;
+  bool get isTrainingMode => _gameMode == 'training';
 
   /// Set connectivity service reference (called from main).
   void setConnectivity(ConnectivityService service) {
@@ -164,8 +169,23 @@ class AppState extends ChangeNotifier {
   /// Sign in with Google
   Future<void> signInWithGoogle() async {
     try {
-      await _googleSignIn.initialize();
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
+      if (!_googleSignInInitialized) {
+        // NOTE: For Flutter Web, you MUST provide 'clientId'.
+        // For Android (without google-services.json), you MUST provide 'serverClientId' with the Web Client ID.
+        // Replace this placeholder with your actual Web Client ID from Google Cloud Console.
+        const webClientId = String.fromEnvironment('GOOGLE_CLIENT_ID', defaultValue: 'YOUR_WEB_CLIENT_ID_HERE.apps.googleusercontent.com');
+        
+        await _googleSignIn.initialize(
+          clientId: webClientId,
+          serverClientId: webClientId,
+        );
+        _googleSignInInitialized = true;
+      }
+      final GoogleSignInAccount? googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
+
+      if (googleUser == null) {
+        throw Exception('Sign in aborted by user');
+      }
 
       _user = AppUser(
         isGuest: false,
@@ -287,15 +307,16 @@ class AppState extends ChangeNotifier {
   }
 
   /// Select a lesson to play.
-  Future<void> selectLesson(Lesson lesson) async {
+  Future<void> selectLesson(Lesson lesson, {String mode = 'competitive'}) async {
     _selectedLesson = lesson;
+    _gameMode = mode;
     notifyListeners();
   }
 
   /// Called when game finishes.
   Future<void> finishGame(GameResult result) async {
     _lastResult = result;
-    if (!_user.isGuest && _selectedLesson != null) {
+    if (!_user.isGuest && _selectedLesson != null && _gameMode == 'competitive') {
       try {
         await api.submitLessonScore(
           _selectedLesson!.id,

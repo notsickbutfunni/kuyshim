@@ -224,13 +224,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               t: t,
                               screenWidth: screenWidth,
                               screenHeight: screenHeight,
-                              onTap: () async {
-                                await appState
-                                    .selectLesson(lesson);
-                                if (context.mounted) {
-                                  context.go('/game');
-                                }
-                              },
+                              onTap: () => _showModeDialog(
+                                context, lesson, appState, t,
+                                screenWidth, screenHeight,
+                              ),
                             );
                           },
                         ),
@@ -240,6 +237,134 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showModeDialog(
+    BuildContext context,
+    Lesson lesson,
+    AppState appState,
+    dynamic t,
+    double sw,
+    double sh,
+  ) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Mode Selection',
+      barrierColor: Colors.black.withOpacity(0.7),
+      transitionDuration: const Duration(milliseconds: 350),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curve = CurvedAnimation(parent: animation, curve: Curves.easeOutBack);
+        return ScaleTransition(
+          scale: curve,
+          child: FadeTransition(opacity: animation, child: child),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              width: sw * 0.55,
+              padding: EdgeInsets.all(sh * 0.04),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A1C23).withOpacity(0.95),
+                borderRadius: BorderRadius.circular(sh * 0.06),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.1),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: KColors.emerald.withOpacity(0.1),
+                    blurRadius: sh * 0.08,
+                    spreadRadius: sh * 0.01,
+                  ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    blurRadius: sh * 0.05,
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Title
+                  ShaderMask(
+                    shaderCallback: (b) => const LinearGradient(
+                      colors: [KColors.amber, KColors.amberLight, KColors.amber],
+                    ).createShader(b),
+                    child: Text(
+                      '\"${lesson.title}\"',
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: sh * 0.05,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: sh * 0.015),
+                  Text(
+                    t.selectMode,
+                    style: TextStyle(
+                      fontSize: sh * 0.03,
+                      color: Colors.white.withOpacity(0.4),
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  SizedBox(height: sh * 0.04),
+
+                  // Mode buttons row
+                  Row(
+                    children: [
+                      // Training mode
+                      Expanded(
+                        child: _ModeButton(
+                          icon: Icons.school_rounded,
+                          title: t.trainingMode,
+                          subtitle: t.trainingModeDesc,
+                          color: KColors.emerald,
+                          sw: sw,
+                          sh: sh,
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            await appState.selectLesson(lesson, mode: 'training');
+                            if (context.mounted) {
+                              context.go('/game');
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(width: sw * 0.02),
+                      // Competitive mode
+                      Expanded(
+                        child: _ModeButton(
+                          icon: Icons.emoji_events_rounded,
+                          title: t.competitiveMode,
+                          subtitle: t.competitiveModeDesc,
+                          color: KColors.amber,
+                          sw: sw,
+                          sh: sh,
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            await appState.selectLesson(lesson, mode: 'competitive');
+                            if (context.mounted) {
+                              context.go('/game');
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -284,6 +409,118 @@ class _LibraryScreenState extends State<LibraryScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ── Mode Selection Button ────────────────────────────────────────
+class _ModeButton extends StatefulWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final double sw, sh;
+  final VoidCallback onTap;
+
+  const _ModeButton({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.sw,
+    required this.sh,
+    required this.onTap,
+  });
+
+  @override
+  State<_ModeButton> createState() => _ModeButtonState();
+}
+
+class _ModeButtonState extends State<_ModeButton> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.sw * 0.02,
+            vertical: widget.sh * 0.035,
+          ),
+          decoration: BoxDecoration(
+            color: _hovering
+                ? widget.color.withOpacity(0.15)
+                : widget.color.withOpacity(0.06),
+            borderRadius: BorderRadius.circular(widget.sh * 0.04),
+            border: Border.all(
+              color: _hovering
+                  ? widget.color.withOpacity(0.5)
+                  : widget.color.withOpacity(0.15),
+              width: 2,
+            ),
+            boxShadow: _hovering
+                ? [
+                    BoxShadow(
+                      color: widget.color.withOpacity(0.2),
+                      blurRadius: widget.sh * 0.04,
+                      spreadRadius: 1,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon with glow background
+              Container(
+                width: widget.sh * 0.1,
+                height: widget.sh * 0.1,
+                decoration: BoxDecoration(
+                  color: widget.color.withOpacity(0.15),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: widget.color.withOpacity(0.1),
+                      blurRadius: widget.sh * 0.03,
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  widget.icon,
+                  size: widget.sh * 0.055,
+                  color: widget.color,
+                ),
+              ),
+              SizedBox(height: widget.sh * 0.02),
+              Text(
+                widget.title,
+                style: GoogleFonts.inter(
+                  fontSize: widget.sh * 0.032,
+                  fontWeight: FontWeight.w800,
+                  color: widget.color,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: widget.sh * 0.01),
+              Text(
+                widget.subtitle,
+                style: TextStyle(
+                  fontSize: widget.sh * 0.022,
+                  color: Colors.white.withOpacity(0.4),
+                  height: 1.3,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

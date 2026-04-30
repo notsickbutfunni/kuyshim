@@ -1,5 +1,12 @@
 /// GameScreen — Yousician-style 2-string dombra rhythm game.
 /// Uses just_audio for pitch-preserving tempo, CustomPainter for rendering.
+///
+/// Performance architecture:
+///   - _timeNotifier (ValueNotifier<int>) drives the painter and time display
+///     WITHOUT rebuilding the entire widget tree.
+///   - setState is only called when game state actually changes (score, combo,
+///     play/pause, feedback text) — NOT every frame.
+///   - AudioEngine no longer triggers setState; its data is read during gameTick.
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -19,13 +26,15 @@ import '../models/game_models.dart';
 import '../services/app_state.dart';
 import '../services/audio_engine.dart';
 import '../services/level_manager.dart' show AudioSource, AudioSourceType;
+import '../constants/tutorial_data.dart';
 import 'game_painter.dart';
 
 const List<String> _hitTexts = ['КЕРЕМЕТ!', 'ЖАРАЙСЫҢ!', 'ТАМАША!', 'ДҰРЫС!'];
 const List<String> _goodTexts = ['ЖАҚСЫ!', 'ЖАМАН ЕМЕС!'];
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+  final bool isTutorialMode;
+  const GameScreen({super.key, this.isTutorialMode = false});
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
@@ -35,13 +44,22 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   final ja.AudioPlayer _player = ja.AudioPlayer();
   final AudioEngine _audioEngine = AudioEngine();
 
+  // Training mode — read from AppState
+  bool get _isTrainingMode =>
+      !widget.isTutorialMode &&
+      (context.read<AppState>().isTrainingMode);
+
   // State
   bool _isPlaying = false;
   bool _isLoaded = false;
   bool _kuiOn = true;
   double _tempoRate = 1.0;
-  int _currentTimeMs = 0;
   double _duration = 0;
+
+  // ── Performance: time is driven by ValueNotifier, NOT setState ──
+  /// This notifier updates every frame and only rebuilds the painter +
+  /// the time display via ValueListenableBuilder — not the entire tree.
+  final ValueNotifier<int> _timeNotifier = ValueNotifier<int>(0);
 
   // Notes
   List<KuiNote> _allNotes = [];
@@ -49,15 +67,26 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   List<double> _beatTimes = [];
   String _mapTitle = '';
 
-  // Score
+  // Score — only setState when these change
   int _score = 0, _combo = 0, _maxCombo = 0;
   int _perfectCount = 0, _goodCount = 0, _missCount = 0;
   String? _feedbackText;
   int _feedbackKey = 0;
 
+  // Cached previous HUD values to avoid unnecessary setState
+  int _prevScore = 0, _prevPerfect = 0, _prevGood = 0, _prevMiss = 0;
+
   // Game loop
   Ticker? _ticker;
-  final Stopwatch _stopwatch = Stopwatch();
+
+  // Tutorial mode
+  bool _tutorialWaiting = false;
+  int _tutorialTargetIdx = 0;
+  Duration? _lastTickDuration;
+  int _simulatedTimeMs = 0;
+
+  // Random instance — reuse instead of creating per-hit
+  final math.Random _rng = math.Random();
 
   // Config
   static const int perfectWindowMs = 50;
@@ -73,7 +102,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _ticker?.dispose();
-    _stopwatch.stop();
+    _timeNotifier.dispose();
     _audioEngine.dispose();
     _player.dispose();
     super.dispose();
@@ -81,13 +110,48 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   // ── INIT ───────────────────────────────────────────────────
   Future<void> _initGame() async {
-    await _loadMap();
-    if (mounted) await _initAudio();
-    try {
-      await _audioEngine.start();
-    } catch (_) {}
-    _audioEngine.onPitchDetected = () { if (mounted) setState(() {}); };
-    if (mounted) setState(() => _isLoaded = true);
+    if (widget.isTutorialMode) {
+      _loadTutorialMap();
+      try {
+        await _audioEngine.start();
+      } catch (_) {}
+      
+      if (mounted) {
+        setState(() {
+          _isLoaded = true;
+          _isPlaying = true;
+        });
+        _ticker?.start();
+      }
+    } else if (_isTrainingMode) {
+      // Training mode: load real lesson map, no audio, use tutorial-style tick
+      await _loadMap();
+      try {
+        await _audioEngine.start();
+      } catch (_) {}
+      if (mounted) {
+        setState(() {
+          _isLoaded = true;
+          _isPlaying = true;
+        });
+        _ticker?.start();
+      }
+    } else {
+      await _loadMap();
+      if (mounted) await _initAudio();
+      try {
+        await _audioEngine.start();
+      } catch (_) {}
+      if (mounted) setState(() => _isLoaded = true);
+    }
+  }
+
+  void _loadTutorialMap() {
+    _mapTitle = tutorialMeta['title'];
+    _duration = tutorialMeta['duration_sec'];
+    _allNotes = tutorialNotes.map((n) => KuiNote.fromJson(n)).toList();
+    _activeNotes = _allNotes.toList();
+    _beatTimes = [];
   }
 
   Future<void> _loadMap() async {
@@ -159,9 +223,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       await _player.setSpeed(_tempoRate);
       await _player.setVolume(_kuiOn ? 1.0 : 0.0);
 
-      _player.positionStream.listen((p) {
-        if (mounted && _isPlaying) _currentTimeMs = p.inMilliseconds;
-      });
       _player.playerStateStream.listen((s) {
         if (s.processingState == ja.ProcessingState.completed && mounted) {
           _handleFinish();
@@ -175,15 +236,77 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   // ── GAME LOOP ──────────────────────────────────────────────
   void _onTick(Duration elapsed) {
     if (!_isPlaying) return;
-    _currentTimeMs = _stopwatch.elapsedMilliseconds;
-    _gameTick();
-    if (mounted) setState(() {});
+
+    if (widget.isTutorialMode || _isTrainingMode) {
+      _tutorialTick(elapsed);
+    } else {
+      // Use actual audio position to guarantee perfect sync (and auto-handle tempo scaling)
+      _timeNotifier.value = _player.position.inMilliseconds;
+      _gameTick();
+    }
+  }
+
+  void _tutorialTick(Duration elapsed) {
+    if (_lastTickDuration == null) {
+      _lastTickDuration = elapsed;
+      return;
+    }
+    final deltaMs = (elapsed - _lastTickDuration!).inMilliseconds;
+    _lastTickDuration = elapsed;
+
+    if (_tutorialTargetIdx >= _activeNotes.length) {
+      _handleFinish();
+      return;
+    }
+
+    final targetNote = _activeNotes[_tutorialTargetIdx];
+    bool hudChanged = false;
+
+    if (!_tutorialWaiting) {
+      _simulatedTimeMs += deltaMs;
+      
+      // Stop moving when note reaches hit zone
+      if (_simulatedTimeMs >= targetNote.timeMs) {
+        _tutorialWaiting = true;
+        _simulatedTimeMs = targetNote.timeMs; // freeze perfectly
+      }
+    } else {
+      // Waiting for pitch
+      if (_audioEngine.isFrequencyMatch(targetNote.primaryHz, toleranceHz: 10.0)) {
+        targetNote.isPlayed = true;
+        targetNote.hitQuality = 'perfect';
+        
+        _score += 100;
+        _combo++;
+        _maxCombo = math.max(_maxCombo, _combo);
+        _perfectCount++;
+        _feedbackText = _hitTexts[_rng.nextInt(_hitTexts.length)];
+        _feedbackKey++;
+        hudChanged = true;
+        
+        _tutorialWaiting = false;
+        _tutorialTargetIdx++;
+      }
+    }
+
+    if (hudChanged && mounted) {
+      _prevScore = _score;
+      _prevPerfect = _perfectCount;
+      _prevGood = _goodCount;
+      _prevMiss = _missCount;
+      setState(() {});
+    }
+
+    _timeNotifier.value = _simulatedTimeMs;
   }
 
   void _gameTick() {
+    final currentTimeMs = _timeNotifier.value;
+    bool hudChanged = false;
+
     for (final note in _activeNotes) {
       if (note.isPlayed || note.isMissed) continue;
-      final diff = _currentTimeMs - note.timeMs;
+      final diff = currentTimeMs - note.timeMs;
 
       if (diff.abs() <= goodWindowMs) {
         if (_audioEngine.isFrequencyMatch(note.primaryHz, toleranceHz: 7.0)) {
@@ -196,20 +319,31 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             note.hitQuality = 'perfect';
             _perfectCount++;
             _score += 100 * mult;
-            _feedbackText = _hitTexts[math.Random().nextInt(_hitTexts.length)];
+            _feedbackText = _hitTexts[_rng.nextInt(_hitTexts.length)];
           } else {
             note.hitQuality = 'good';
             _goodCount++;
             _score += 50 * mult;
-            _feedbackText = _goodTexts[math.Random().nextInt(_goodTexts.length)];
+            _feedbackText = _goodTexts[_rng.nextInt(_goodTexts.length)];
           }
           _feedbackKey++;
+          hudChanged = true;
         }
       } else if (diff > goodWindowMs) {
         note.isMissed = true;
         _missCount++;
         _combo = 0;
+        hudChanged = true;
       }
+    }
+
+    // Only rebuild HUD widgets when score/stats actually changed
+    if (hudChanged && mounted) {
+      _prevScore = _score;
+      _prevPerfect = _perfectCount;
+      _prevGood = _goodCount;
+      _prevMiss = _missCount;
+      setState(() {});
     }
 
     if (_activeNotes.isNotEmpty && _activeNotes.every((n) => n.isPlayed || n.isMissed)) {
@@ -220,35 +354,45 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   // ── CONTROLS ───────────────────────────────────────────────
   Future<void> _togglePlay() async {
     if (_isPlaying) {
-      _stopwatch.stop();
-      _ticker?.stop();
-      try { await _player.pause(); } catch (_) {}
       setState(() => _isPlaying = false);
+      _ticker?.stop();
+      if (!_isTrainingMode) _player.pause();
     } else {
-      try { await _player.play(); } catch (_) {}
-      _stopwatch.start();
-      _ticker?.start();
       setState(() => _isPlaying = true);
+      _ticker?.start();
+      if (!_isTrainingMode) _player.play();
     }
   }
 
   Future<void> _restart() async {
     _ticker?.stop();
-    _stopwatch.stop();
-    _stopwatch.reset();
+    setState(() => _isPlaying = false);
+    
     try { await _player.seek(Duration.zero); } catch (_) {}
     for (final n in _activeNotes) { n.reset(); }
+    _timeNotifier.value = 0;
+    
     setState(() {
-      _currentTimeMs = 0; _score = 0; _combo = 0; _maxCombo = 0;
+      _score = 0; _combo = 0; _maxCombo = 0;
       _perfectCount = 0; _goodCount = 0; _missCount = 0;
-      _feedbackText = null; _isPlaying = false;
+      _prevScore = 0; _prevPerfect = 0; _prevGood = 0; _prevMiss = 0;
+      _feedbackText = null;
+      _tutorialWaiting = false;
+      _tutorialTargetIdx = 0;
+      _simulatedTimeMs = 0;
+      _lastTickDuration = null;
     });
   }
 
   void _handleFinish() {
     _ticker?.stop();
-    _stopwatch.stop();
     setState(() => _isPlaying = false);
+    
+    if (widget.isTutorialMode) {
+      if (mounted) context.go('/onboarding');
+      return;
+    }
+    
     final total = _perfectCount + _goodCount + _missCount;
     if (total == 0) return;
     final acc = ((_perfectCount + _goodCount) / total * 100).round();
@@ -260,9 +404,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       miss: _missCount, accuracy: acc,
       lessonTitle: appState.selectedLesson?.title ?? _mapTitle,
       rank: rank,
-      suggestion: acc >= 85
-          ? 'Керемет орындадыңыз! Келесі күйге дайынсыз.'
-          : 'Жаттығуды жалғастырыңыз. Ырғақты баяу жылдамдықта тыңдап көріңіз.',
+      suggestion: _isTrainingMode
+          ? (acc >= 85
+              ? 'Жаттығу аяқталды! Енді соревновательный режимді көріңіз.'
+              : 'Жаттығуды жалғастырыңыз. Әр нотаны мұқият тыңдаңыз.')
+          : (acc >= 85
+              ? 'Керемет орындадыңыз! Келесі күйге дайынсыз.'
+              : 'Жаттығуды жалғастырыңыз. Ырғақты баяу жылдамдықта тыңдап көріңіз.'),
     ));
     if (mounted) context.go('/results');
   }
@@ -306,17 +454,25 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: const Color(0xFF0A0806),
       body: Stack(children: [
-        // Fretboard painter
+        // Fretboard painter — driven by ValueNotifier, NOT setState
         RepaintBoundary(
-          child: CustomPaint(
-            size: Size(sw, sh),
-            painter: GamePainter(
-              sw: sw, sh: sh,
-              currentTimeMs: _currentTimeMs,
-              activeNotes: _activeNotes,
-              beatTimesSec: _beatTimes,
-              isPlaying: _isPlaying,
-            ),
+          child: ValueListenableBuilder<int>(
+            valueListenable: _timeNotifier,
+            builder: (context, timeMs, _) {
+              return CustomPaint(
+                size: Size(sw, sh),
+                painter: GamePainter(
+                  sw: sw, sh: sh,
+                  currentTimeMs: timeMs,
+                  activeNotes: _activeNotes,
+                  beatTimesSec: _beatTimes,
+                  isPlaying: _isPlaying,
+                  tutorialWaitingNoteId: ((widget.isTutorialMode || _isTrainingMode) && _tutorialWaiting && _tutorialTargetIdx < _activeNotes.length)
+                      ? _activeNotes[_tutorialTargetIdx].id
+                      : null,
+                ),
+              );
+            },
           ),
         ),
 
@@ -326,6 +482,28 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             left: sw * 0.3, top: sh * 0.12,
             child: _FeedbackWidget(key: ValueKey(_feedbackKey),
               text: _feedbackText!, sw: sw, sh: sh),
+          ),
+
+        // Training mode indicator
+        if (_isTrainingMode)
+          Positioned(
+            top: sh * 0.12, right: sw * 0.02,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.01),
+              decoration: BoxDecoration(
+                color: KColors.emerald.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(sh * 0.02),
+                border: Border.all(color: KColors.emerald.withOpacity(0.3)),
+              ),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(Icons.school_rounded, size: sh * 0.03, color: KColors.emerald),
+                SizedBox(width: sw * 0.005),
+                Text('ОБУЧАЮЩИЙ', style: TextStyle(
+                  fontSize: sh * 0.02, fontWeight: FontWeight.w700,
+                  color: KColors.emerald, letterSpacing: 1.5,
+                )),
+              ]),
+            ),
           ),
 
         // Top HUD
@@ -340,203 +518,256 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   Widget _buildTopHUD(double sw, double sh, dynamic lesson) {
     return Positioned(
       top: 0, left: 0, right: 0,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(sw * 0.02, sh * 0.015, sw * 0.02, sh * 0.01),
-        decoration: BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.topCenter, end: Alignment.bottomCenter,
-          colors: [const Color(0xFF0A0806), const Color(0xFF0A0806).withOpacity(0.8), Colors.transparent],
-        )),
-        child: Row(children: [
-          // Back
-          GestureDetector(
-            onTap: () {
-              _ticker?.stop(); _stopwatch.stop();
-              try { _player.stop(); } catch (_) {}
-              _audioEngine.stop();
-              context.go('/library');
-            },
-            child: Container(
-              padding: EdgeInsets.all(sw * 0.01),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.06),
-                borderRadius: BorderRadius.circular(sw * 0.012),
-              ),
-              child: Icon(Icons.chevron_left, size: sw * 0.025, color: Colors.white54),
-            ),
-          ),
-          SizedBox(width: sw * 0.015),
-
-          // Combo
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.008),
-            decoration: BoxDecoration(
-              color: _combo >= 5 ? hitLineColor.withOpacity(0.15) : Colors.white.withOpacity(0.06),
-              borderRadius: BorderRadius.circular(sw * 0.01),
-              border: Border.all(color: _combo >= 5 ? hitLineColor.withOpacity(0.3) : Colors.white10),
-            ),
-            child: Text('${math.min(_combo + 1, 8)}x', style: TextStyle(
-              fontSize: sw * 0.022, fontWeight: FontWeight.w900, fontFamily: 'monospace',
-              color: _combo >= 5 ? hitLineColor : Colors.white38,
-            )),
-          ),
-
-          const Spacer(),
-
-          // Mic display
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.005),
-            decoration: BoxDecoration(
-              color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.1) : Colors.white.withOpacity(0.04),
-              borderRadius: BorderRadius.circular(sw * 0.012),
-              border: Border.all(color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.3) : Colors.white10),
-            ),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text('MIC', style: TextStyle(fontSize: sh * 0.013, letterSpacing: 2, fontFamily: 'monospace', color: Colors.white30)),
-              Text(
-                _audioEngine.currentHz > 0 ? '${_audioEngine.currentHz.toStringAsFixed(1)} Hz' : '— Hz',
-                style: TextStyle(fontSize: sw * 0.018, fontWeight: FontWeight.w800, fontFamily: 'monospace',
-                  color: _audioEngine.currentHz > 0 ? bassColor : Colors.white24),
-              ),
-              Text(_audioEngine.currentNote, style: GoogleFonts.playfairDisplay(
-                fontSize: sw * 0.02, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,
-                color: _audioEngine.currentHz > 0 ? Colors.white : Colors.white24,
-              )),
-            ]),
-          ),
-
-          const Spacer(),
-
-          // Title
-          Flexible(child: ShaderMask(
-            shaderCallback: (b) => const LinearGradient(colors: [KColors.amber, KColors.amberLight, KColors.amber]).createShader(b),
-            child: Text('"${lesson?.title ?? _mapTitle}"',
-              style: GoogleFonts.playfairDisplay(fontSize: sh * 0.035, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: Colors.white),
-              overflow: TextOverflow.ellipsis),
+      child: RepaintBoundary(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(sw * 0.02, sh * 0.015, sw * 0.02, sh * 0.01),
+          decoration: BoxDecoration(gradient: LinearGradient(
+            begin: Alignment.topCenter, end: Alignment.bottomCenter,
+            colors: [const Color(0xFF0A0806), const Color(0xFF0A0806).withOpacity(0.8), Colors.transparent],
           )),
-
-          const Spacer(),
-
-          // Score
-          Column(crossAxisAlignment: CrossAxisAlignment.end, mainAxisSize: MainAxisSize.min, children: [
-            Text('SCORE', style: TextStyle(fontSize: sh * 0.015, letterSpacing: 2, fontFamily: 'monospace', color: hitLineColor.withOpacity(0.4))),
-            ShaderMask(
-              shaderCallback: (b) => const LinearGradient(colors: [KColors.amberLight, KColors.amber]).createShader(b),
-              child: Text('$_score', style: TextStyle(fontSize: sw * 0.025, fontWeight: FontWeight.w900, color: Colors.white)),
+          child: Row(children: [
+            // Back
+            GestureDetector(
+              onTap: () {
+                _ticker?.stop();
+                try { _player.stop(); } catch (_) {}
+                _audioEngine.stop();
+                context.go('/library');
+              },
+              child: Container(
+                padding: EdgeInsets.all(sw * 0.01),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.06),
+                  borderRadius: BorderRadius.circular(sw * 0.012),
+                ),
+                child: Icon(Icons.chevron_left, size: sw * 0.025, color: Colors.white54),
+              ),
             ),
+            SizedBox(width: sw * 0.015),
+
+            const Spacer(),
+
+            // Mic display
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.005),
+              decoration: BoxDecoration(
+                color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.1) : Colors.white.withOpacity(0.04),
+                borderRadius: BorderRadius.circular(sw * 0.012),
+                border: Border.all(color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.3) : Colors.white10),
+              ),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text('MIC', style: TextStyle(fontSize: sh * 0.013, letterSpacing: 2, fontFamily: 'monospace', color: Colors.white30)),
+                Text(
+                  _audioEngine.currentHz > 0 ? '${_audioEngine.currentHz.toStringAsFixed(1)} Hz' : '— Hz',
+                  style: TextStyle(fontSize: sw * 0.018, fontWeight: FontWeight.w800, fontFamily: 'monospace',
+                    color: _audioEngine.currentHz > 0 ? bassColor : Colors.white24),
+                ),
+                Text(_audioEngine.currentNote, style: GoogleFonts.playfairDisplay(
+                  fontSize: sw * 0.02, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,
+                  color: _audioEngine.currentHz > 0 ? Colors.white : Colors.white24,
+                )),
+              ]),
+            ),
+
+            const Spacer(),
+
+            // Title
+            Flexible(child: ShaderMask(
+              shaderCallback: (b) => const LinearGradient(colors: [KColors.amber, KColors.amberLight, KColors.amber]).createShader(b),
+              child: Text('"${lesson?.title ?? _mapTitle}"',
+                style: GoogleFonts.playfairDisplay(fontSize: sh * 0.035, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: Colors.white),
+                overflow: TextOverflow.ellipsis),
+            )),
+
+            const Spacer(),
+
+            // Score
+            Column(crossAxisAlignment: CrossAxisAlignment.end, mainAxisSize: MainAxisSize.min, children: [
+              Text('SCORE', style: TextStyle(fontSize: sh * 0.015, letterSpacing: 2, fontFamily: 'monospace', color: hitLineColor.withOpacity(0.4))),
+              ShaderMask(
+                shaderCallback: (b) => const LinearGradient(colors: [KColors.amberLight, KColors.amber]).createShader(b),
+                child: Text('$_score', style: TextStyle(fontSize: sw * 0.025, fontWeight: FontWeight.w900, color: Colors.white)),
+              ),
+            ]),
           ]),
-        ]),
+        ),
       ),
     );
   }
 
   Widget _buildBottomBar(double sw, double sh) {
-    final progress = _duration > 0 ? (_currentTimeMs / 1000) / _duration : 0.0;
     return Positioned(
       bottom: 0, left: 0, right: 0,
-      child: Container(
-        decoration: BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.bottomCenter, end: Alignment.topCenter,
-          colors: [const Color(0xFF0A0806), const Color(0xFF0A0806).withOpacity(0.85), Colors.transparent],
-        )),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          // Timeline
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: sw * 0.08),
-            child: Container(
-              height: sh * 0.03,
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(sh * 0.01)),
-              clipBehavior: Clip.antiAlias,
-              child: FractionallySizedBox(
-                widthFactor: progress.clamp(0.0, 1.0), alignment: Alignment.centerLeft,
-                child: Container(decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(sh * 0.01),
-                  gradient: const LinearGradient(colors: [KColors.amber, KColors.amberLight]),
-                )),
-              ),
-            ),
-          ),
-
-          // Controls row
-          Padding(
-            padding: EdgeInsets.fromLTRB(sw * 0.03, sh * 0.008, sw * 0.03, sh * 0.015),
-            child: Row(children: [
-              _iconBtn(Icons.pause, Icons.play_arrow, _isPlaying, _togglePlay, sw, sh),
-              SizedBox(width: sw * 0.008),
-              _iconBtn(Icons.refresh, Icons.refresh, true, _restart, sw, sh),
-              SizedBox(width: sw * 0.015),
-              Text(_fmt(_currentTimeMs), style: TextStyle(fontSize: sh * 0.022, fontFamily: 'monospace', color: hitLineColor.withOpacity(0.5))),
-              Text(' / ${_fmt((_duration * 1000).round())}', style: TextStyle(fontSize: sh * 0.022, fontFamily: 'monospace', color: Colors.white.withOpacity(0.2))),
-
-              const Spacer(),
-
-              // Kui On/Off
-              GestureDetector(
-                onTap: _toggleKui,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: sw * 0.012, vertical: sh * 0.006),
-                  decoration: BoxDecoration(
-                    color: _kuiOn ? bassColor.withOpacity(0.15) : Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(sh * 0.015),
-                    border: Border.all(color: _kuiOn ? bassColor.withOpacity(0.3) : Colors.white10),
-                  ),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(_kuiOn ? Icons.music_note : Icons.music_off, size: sh * 0.022, color: _kuiOn ? bassColor : Colors.white38),
-                    SizedBox(width: sw * 0.004),
-                    Text(_kuiOn ? 'KUI' : 'OFF', style: TextStyle(fontSize: sh * 0.018, fontWeight: FontWeight.w700, color: _kuiOn ? bassColor : Colors.white38)),
-                  ]),
-                ),
-              ),
-              SizedBox(width: sw * 0.01),
-
-              // Tempo
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: sw * 0.008, vertical: sh * 0.004),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(sh * 0.015)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(Icons.speed, size: sh * 0.02, color: Colors.white38),
-                  SizedBox(
-                    width: sw * 0.08,
-                    child: SliderTheme(
-                      data: SliderThemeData(
-                        thumbShape: RoundSliderThumbShape(enabledThumbRadius: sh * 0.01),
-                        trackHeight: sh * 0.005,
-                        activeTrackColor: hitLineColor,
-                        inactiveTrackColor: Colors.white12,
-                        thumbColor: hitLineColor,
-                        overlayShape: SliderComponentShape.noOverlay,
-                      ),
-                      child: Slider(value: _tempoRate, min: 0.5, max: 1.0,
-                        divisions: 4, onChanged: _setTempo),
+      child: RepaintBoundary(
+        child: Container(
+          padding: EdgeInsets.only(bottom: sh * 0.01),
+          decoration: BoxDecoration(gradient: LinearGradient(
+            begin: Alignment.bottomCenter, end: Alignment.topCenter,
+            colors: [const Color(0xFF0A0806), const Color(0xFF0A0806).withOpacity(0.9), Colors.transparent],
+          )),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            // Timeline — driven by ValueNotifier
+            ValueListenableBuilder<int>(
+              valueListenable: _timeNotifier,
+              builder: (context, timeMs, _) {
+                final progress = _duration > 0 ? (timeMs / 1000) / _duration : 0.0;
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: sw * 0.05),
+                  child: Container(
+                    height: sh * 0.025,
+                    decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(sh * 0.008)),
+                    clipBehavior: Clip.antiAlias,
+                    child: FractionallySizedBox(
+                      widthFactor: progress.clamp(0.0, 1.0), alignment: Alignment.centerLeft,
+                      child: Container(decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(sh * 0.008),
+                        gradient: const LinearGradient(colors: [KColors.amber, KColors.amberLight]),
+                      )),
                     ),
                   ),
-                  Text('${(_tempoRate * 100).round()}%', style: TextStyle(fontSize: sh * 0.016, fontFamily: 'monospace', color: Colors.white38)),
-                ]),
-              ),
-              SizedBox(width: sw * 0.01),
+                );
+              },
+            ),
+            SizedBox(height: sh * 0.008),
 
-              // Stats
-              _StatBadge(label: 'P', value: '$_perfectCount', color: KColors.yellow, sh: sh),
-              SizedBox(width: sw * 0.008),
-              _StatBadge(label: 'G', value: '$_goodCount', color: bassColor, sh: sh),
-              SizedBox(width: sw * 0.008),
-              _StatBadge(label: 'M', value: '$_missCount', color: KColors.red, sh: sh),
-            ]),
-          ),
-        ]),
+            // Row 1: KUI toggle + Tempo slider + Stats (KUI and tempo hidden in training mode)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: sw * 0.03),
+              child: Row(children: [
+                // Kui On/Off — hidden in training mode
+                if (!_isTrainingMode) ...[
+                  GestureDetector(
+                    onTap: _toggleKui,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: sw * 0.02, vertical: sh * 0.01),
+                      decoration: BoxDecoration(
+                        color: _kuiOn ? bassColor.withOpacity(0.15) : Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(sh * 0.015),
+                        border: Border.all(color: _kuiOn ? bassColor.withOpacity(0.3) : Colors.white10, width: 1.5),
+                      ),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Icon(_kuiOn ? Icons.music_note : Icons.music_off, size: sh * 0.028, color: _kuiOn ? bassColor : Colors.white38),
+                        SizedBox(width: sw * 0.005),
+                        Text(_kuiOn ? 'KUI' : 'OFF', style: TextStyle(fontSize: sh * 0.02, fontWeight: FontWeight.w700, color: _kuiOn ? bassColor : Colors.white38)),
+                      ]),
+                    ),
+                  ),
+                  SizedBox(width: sw * 0.012),
+
+                  // Tempo slider — hidden in training mode
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: sw * 0.01, vertical: sh * 0.005),
+                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(sh * 0.015)),
+                      child: Row(children: [
+                        Icon(Icons.speed, size: sh * 0.024, color: Colors.white38),
+                        Expanded(
+                          child: SliderTheme(
+                            data: SliderThemeData(
+                              thumbShape: RoundSliderThumbShape(enabledThumbRadius: sh * 0.012),
+                              trackHeight: sh * 0.006,
+                              activeTrackColor: hitLineColor,
+                              inactiveTrackColor: Colors.white12,
+                              thumbColor: hitLineColor,
+                              overlayShape: SliderComponentShape.noOverlay,
+                            ),
+                            child: Slider(value: _tempoRate, min: 0.2, max: 1.0,
+                              divisions: 8, onChanged: _setTempo),
+                          ),
+                        ),
+                        Text('${_tempoRate.toStringAsFixed(1)}x', style: TextStyle(fontSize: sh * 0.018, fontWeight: FontWeight.w600, fontFamily: 'monospace', color: _tempoRate < 1.0 ? hitLineColor : Colors.white38)),
+                      ]),
+                    ),
+                  ),
+                  SizedBox(width: sw * 0.012),
+                ],
+
+                // Training mode label in bottom bar
+                if (_isTrainingMode) ...[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.01),
+                    decoration: BoxDecoration(
+                      color: KColors.emerald.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(sh * 0.015),
+                      border: Border.all(color: KColors.emerald.withOpacity(0.2)),
+                    ),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(Icons.mic, size: sh * 0.028, color: KColors.emerald),
+                      SizedBox(width: sw * 0.005),
+                      Text('НОТАНЫ ОЙНА', style: TextStyle(fontSize: sh * 0.02, fontWeight: FontWeight.w700, color: KColors.emerald)),
+                    ]),
+                  ),
+                  const Spacer(),
+                ],
+
+                // Stats
+                _StatBadge(label: 'P', value: '$_perfectCount', color: KColors.yellow, sh: sh),
+                SizedBox(width: sw * 0.006),
+                _StatBadge(label: 'G', value: '$_goodCount', color: bassColor, sh: sh),
+                SizedBox(width: sw * 0.006),
+                _StatBadge(label: 'M', value: '$_missCount', color: KColors.red, sh: sh),
+              ]),
+            ),
+            SizedBox(height: sh * 0.008),
+
+            // Row 2: Play/Pause + Restart + Time
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: sw * 0.03),
+              child: Row(children: [
+                // Play/Pause — big prominent button
+                GestureDetector(
+                  onTap: _togglePlay,
+                  child: Container(
+                    padding: EdgeInsets.all(sw * 0.025),
+                    decoration: BoxDecoration(
+                      color: _isPlaying ? hitLineColor.withOpacity(0.15) : Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(sw * 0.02),
+                      border: Border.all(color: _isPlaying ? hitLineColor.withOpacity(0.4) : Colors.white24, width: 2),
+                    ),
+                    child: Icon(
+                      _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                      size: sw * 0.05,
+                      color: _isPlaying ? hitLineColor : Colors.white70,
+                    ),
+                  ),
+                ),
+                SizedBox(width: sw * 0.012),
+
+                // Restart button
+                GestureDetector(
+                  onTap: _restart,
+                  child: Container(
+                    padding: EdgeInsets.all(sw * 0.02),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(sw * 0.018),
+                      border: Border.all(color: Colors.white12, width: 1.5),
+                    ),
+                    child: Icon(Icons.refresh_rounded, size: sw * 0.04, color: Colors.white60),
+                  ),
+                ),
+                SizedBox(width: sw * 0.02),
+
+                // Time display
+                ValueListenableBuilder<int>(
+                  valueListenable: _timeNotifier,
+                  builder: (context, timeMs, _) {
+                    return Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text(_fmt(timeMs), style: TextStyle(fontSize: sh * 0.025, fontWeight: FontWeight.w600, fontFamily: 'monospace', color: hitLineColor.withOpacity(0.6))),
+                      Text(' / ${_fmt((_duration * 1000).round())}', style: TextStyle(fontSize: sh * 0.025, fontFamily: 'monospace', color: Colors.white.withOpacity(0.2))),
+                    ]);
+                  },
+                ),
+              ]),
+            ),
+          ]),
+        ),
       ),
     );
   }
 
-  Widget _iconBtn(IconData active, IconData inactive, bool isActive, VoidCallback onTap, double sw, double sh) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(sw * 0.01),
-        decoration: BoxDecoration(color: Colors.white.withOpacity(0.08), borderRadius: BorderRadius.circular(sw * 0.012), border: Border.all(color: Colors.white10)),
-        child: Icon(isActive ? active : inactive, size: sw * 0.022, color: Colors.white60),
-      ),
-    );
-  }
+
+
 }
 
 // ── HELPER WIDGETS ───────────────────────────────────────────

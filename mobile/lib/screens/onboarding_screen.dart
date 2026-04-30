@@ -428,7 +428,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: _loading ? null : _handleGoogleLogin,
-            icon: Icon(Icons.g_mobiledata, size: iconSize * 1.5, color: Colors.white),
+            icon: Icon(Icons.g_mobiledata, size: iconSize, color: Colors.white),
             label: Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
@@ -444,6 +444,24 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
           ),
         ),
+
+        if (_error.isNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(top: gap),
+            child: Row(
+              children: [
+                Icon(Icons.error_outline,
+                    size: sh * 0.035, color: Colors.redAccent),
+                SizedBox(width: sw * 0.006),
+                Expanded(
+                  child: Text(_error,
+                      style: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: sh * 0.032)),
+                ),
+              ],
+            ),
+          ),
 
         if (!appState.backendOnline)
           Padding(

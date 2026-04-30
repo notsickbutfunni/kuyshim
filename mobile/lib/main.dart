@@ -5,10 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+
+
 import 'services/app_state.dart';
 import 'services/language_service.dart';
 import 'services/connectivity_service.dart';
 import 'screens/onboarding_screen.dart';
+import 'screens/onboarding_selection_screen.dart';
 import 'screens/library_screen.dart';
 import 'screens/game_screen.dart';
 import 'screens/tuner_screen.dart';
@@ -74,7 +77,7 @@ class KuyshimApp extends StatelessWidget {
         title: 'Kuyshim',
         debugShowCheckedModeBanner: false,
         theme: _buildTheme(),
-        routerConfig: _router,
+        routerConfig: _buildRouter(),
       ),
     );
   }
@@ -157,33 +160,43 @@ class KuyshimApp extends StatelessWidget {
     );
   }
 
-  static final GoRouter _router = GoRouter(
-    initialLocation: '/onboarding',
-    routes: [
-      GoRoute(
-        path: '/onboarding',
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(
-        path: '/library',
-        builder: (context, state) => const LibraryScreen(),
-      ),
-      GoRoute(
-        path: '/game',
-        builder: (context, state) => const GameScreen(),
-      ),
-      GoRoute(
-        path: '/tuner',
-        builder: (context, state) => const TunerScreen(),
-      ),
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/results',
-        builder: (context, state) => const ResultsScreen(),
-      ),
-    ],
-  );
+  static GoRouter _buildRouter() {
+    return GoRouter(
+      initialLocation: '/welcome',
+      routes: [
+        GoRoute(
+          path: '/welcome',
+          builder: (context, state) => const OnboardingSelectionScreen(),
+        ),
+        GoRoute(
+          path: '/onboarding',
+          builder: (context, state) => const OnboardingScreen(),
+        ),
+        GoRoute(
+          path: '/library',
+          builder: (context, state) => const LibraryScreen(),
+        ),
+        GoRoute(
+          path: '/game',
+          builder: (context, state) => const GameScreen(),
+        ),
+        GoRoute(
+          path: '/game-tutorial',
+          builder: (context, state) => const GameScreen(isTutorialMode: true),
+        ),
+        GoRoute(
+          path: '/tuner',
+          builder: (context, state) => const TunerScreen(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
+          path: '/results',
+          builder: (context, state) => const ResultsScreen(),
+        ),
+      ],
+    );
+  }
 }
