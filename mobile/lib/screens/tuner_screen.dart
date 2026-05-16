@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -555,7 +554,7 @@ class _TunerScreenState extends State<TunerScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.fiber_manual_record,
                   color: KColors.red,
                   size: 48,
@@ -665,9 +664,7 @@ class _TunerScreenState extends State<TunerScreen>
     return Center(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(constraints.maxHeight * 0.05),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-          child: Container(
+        child: Container(
             padding: EdgeInsets.all(constraints.maxHeight * 0.04),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.05),
@@ -700,8 +697,7 @@ class _TunerScreenState extends State<TunerScreen>
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildResultCard(AppStrings t, BoxConstraints constraints) {
@@ -718,9 +714,7 @@ class _TunerScreenState extends State<TunerScreen>
         child: ClipRRect(
           borderRadius:
               BorderRadius.circular(constraints.maxHeight * 0.05),
-          child: BackdropFilter(
-            filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-            child: Container(
+          child: Container(
               padding: EdgeInsets.all(constraints.maxHeight * 0.035),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.05),
@@ -905,7 +899,6 @@ class _TunerScreenState extends State<TunerScreen>
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -913,9 +906,7 @@ class _TunerScreenState extends State<TunerScreen>
     return Center(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(constraints.maxHeight * 0.05),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-          child: Container(
+        child: Container(
             padding: EdgeInsets.all(constraints.maxHeight * 0.04),
             decoration: BoxDecoration(
               color: KColors.red.withOpacity(0.08),
@@ -962,7 +953,6 @@ class _TunerScreenState extends State<TunerScreen>
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -1041,7 +1031,7 @@ class PulseVisualizerPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    final numBars = 64;
+    const numBars = 64;
     for (int i = 0; i < numBars; i++) {
       final angle = (i * 2 * math.pi) / numBars;
 

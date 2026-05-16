@@ -1,5 +1,6 @@
 /// Ornamental border painter — Kazakh ornament SVG-like pattern.
 /// Used in the GameScreen for decorative side borders.
+library;
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 

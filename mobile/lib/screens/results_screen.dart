@@ -1,5 +1,6 @@
 /// ResultsScreen — Post-game performance summary.
 /// Mirrors ResultsScreen.tsx from the React app.
+library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';

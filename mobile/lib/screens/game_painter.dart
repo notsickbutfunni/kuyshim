@@ -6,6 +6,7 @@
 ///     allocating new ones per draw call.
 ///   - MaskFilter.blur (expensive GPU op) is limited to only the 2 closest notes.
 ///   - TextPainter reuse for fret numbers via a small cache.
+library;
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../models/kui_note.dart';
@@ -88,6 +89,22 @@ class GamePainter extends CustomPainter {
     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
   final Paint _ballPaint = Paint()..color = Colors.white;
   final Paint _ballCorePaint = Paint()..color = Colors.white.withOpacity(0.9);
+
+  // TextPainter cache for fret numbers
+  final Map<int, TextPainter> _fretTextCache = {};
+
+  TextPainter _getFretText(int fret, double size) {
+    if (!_fretTextCache.containsKey(fret)) {
+      _fretTextCache[fret] = TextPainter(
+        text: TextSpan(text: '$fret', style: TextStyle(
+          color: Colors.white.withOpacity(0.9), // Static opacity for cache
+          fontSize: size, fontWeight: FontWeight.w800,
+        )),
+        textDirection: TextDirection.ltr,
+      )..layout();
+    }
+    return _fretTextCache[fret]!;
+  }
 
   GamePainter({
     required this.sw,
@@ -249,13 +266,7 @@ class GamePainter extends CustomPainter {
 
       // Fret number text
       if (!note.isPlayed && !note.isMissed) {
-        final tp = TextPainter(
-          text: TextSpan(text: '${note.fret}', style: TextStyle(
-            color: Colors.white.withOpacity(0.7 + 0.3 * proximity),
-            fontSize: noteH * 0.45, fontWeight: FontWeight.w800,
-          )),
-          textDirection: TextDirection.ltr,
-        )..layout();
+        final tp = _getFretText(note.fret, noteH * 0.45);
         tp.paint(canvas, Offset(x - tp.width / 2, y - tp.height / 2));
       }
     }

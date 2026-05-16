@@ -1,5 +1,6 @@
 /// Lesson and GameNote models — mirrors the React types.
 /// Extended with storageType for hybrid offline/online architecture.
+library;
 
 /// Determines where the lesson audio/image is stored.
 enum StorageType {

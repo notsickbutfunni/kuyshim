@@ -1,6 +1,7 @@
 /// Tutorial data — first 20 notes of "Көзімнін қарасы" (Kozimnin Karasy)
 /// Used for the first-launch "Wait for Note" tutorial mode.
 /// Data extracted from kozimnin_karasy_easy.json.
+library;
 
 const Map<String, dynamic> tutorialMeta = {
   'title': 'Көзімнін қарасы — Жаттығу',

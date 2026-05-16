@@ -1,5 +1,6 @@
 /// LevelManager — resolves audio sources for lessons.
 /// Handles local assets, cached files, and Backend HTTP downloads.
+library;
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';

@@ -1,5 +1,6 @@
 /// Language service — provides translations and language toggle.
 /// Supports 3 languages: Kazakh, English, Russian.
+library;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/strings.dart';

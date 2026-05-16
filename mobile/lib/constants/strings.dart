@@ -1,5 +1,6 @@
 /// Localization strings.
 /// Supports Kazakh (kz), English (en), and Russian (ru).
+library;
 
 class AppStrings {
   // ── Onboarding ─────────────────────────────────────────────
@@ -134,6 +135,32 @@ class AppStrings {
   final String newToDombra;
   final String alreadyKnowDombra;
 
+  // ── Calibration ────────────────────────────────────────────
+  final String dombraTuning;
+  final String dombraTuningSub;
+  final String calibrateNow;
+  final String calibrationComplete;
+  final String playOpenBass;
+  final String resetCalibration;
+  final String standardTuning;
+  final String centsSharp;
+  final String centsFlat;
+  final String calibrating;
+
+  // ── Game Countdown ─────────────────────────────────────────
+  final String getReady;
+
+  // ── General / Actions ──────────────────────────────────────
+  final String cancel;
+  final String done;
+
+  // ── Localized lesson titles (keyed by lesson ID) ──────────
+  /// Returns localized lesson title for a given lesson ID.
+  /// Falls back to the original title if ID not found.
+  final Map<String, String> lessonTitles;
+  final Map<String, String> lessonDescriptions;
+  final Map<String, String> lessonComposers;
+
   const AppStrings({
     required this.appTitle,
     required this.appSubtitle,
@@ -251,6 +278,22 @@ class AppStrings {
     required this.competitiveModeDesc,
     required this.newToDombra,
     required this.alreadyKnowDombra,
+    required this.dombraTuning,
+    required this.dombraTuningSub,
+    required this.calibrateNow,
+    required this.calibrationComplete,
+    required this.playOpenBass,
+    required this.resetCalibration,
+    required this.standardTuning,
+    required this.centsSharp,
+    required this.centsFlat,
+    required this.calibrating,
+    required this.getReady,
+    required this.cancel,
+    required this.done,
+    this.lessonTitles = const {},
+    this.lessonDescriptions = const {},
+    this.lessonComposers = const {},
   });
 }
 
@@ -374,6 +417,40 @@ const AppStrings en = AppStrings(
   competitiveModeDesc: 'Real game with\nfinal scores',
   newToDombra: 'I am new to Dombra',
   alreadyKnowDombra: 'I already know how to play',
+  dombraTuning: 'Dombra Tuning',
+  dombraTuningSub: 'Calibrate your instrument',
+  calibrateNow: 'Calibrate Now',
+  calibrationComplete: 'Calibration Complete!',
+  playOpenBass: 'Play your open bass string (A2)',
+  resetCalibration: 'Reset to Standard',
+  standardTuning: 'Standard Tuning (A2-D3)',
+  centsSharp: 'cents sharp',
+  centsFlat: 'cents flat',
+  calibrating: 'Listening...',
+  getReady: 'GET READY',
+  cancel: 'Cancel',
+  done: 'Done',
+  lessonTitles: {
+    'b1': 'Ak Zhunis',
+    'b2': 'Ken Zhailau',
+    'b3': 'Saryzhailau',
+    'b4': 'Kelinshek Kuyi',
+    'b5': 'Kozimnin Karasy',
+  },
+  lessonDescriptions: {
+    'b1': 'A gentle küi that praises Ak Zhunis. Develops strumming technique.',
+    'b2': 'A calm küi depicting the beauty of the vast steppe.',
+    'b3': 'A shertpe küi conveying the elegance of Saryzhailau.',
+    'b4': 'A light and playful küi. Perfect for beginners.',
+    'b5': 'A simplified version of Abai\'s famous song.',
+  },
+  lessonComposers: {
+    'b1': 'Folk küi',
+    'b2': 'Folk küi',
+    'b3': 'Tattimbet Kazangapuly',
+    'b4': 'Folk küi',
+    'b5': 'Abai Kunanbayuly',
+  },
 );
 
 // ═══════════════════════════════════════════════════════════════
@@ -496,6 +573,40 @@ const AppStrings kz = AppStrings(
   competitiveModeDesc: 'Ұпай саналатын\nнағыз ойын',
   newToDombra: 'Мен домбыра тарта алмаймын',
   alreadyKnowDombra: 'Мен домбыра тарта аламын',
+  dombraTuning: 'Домбыра баптау',
+  dombraTuningSub: 'Аспапты калибрлеу',
+  calibrateNow: 'Калибрлеу',
+  calibrationComplete: 'Калибрлеу аяқталды!',
+  playOpenBass: 'Бас ішекті ашық тартыңыз (A2)',
+  resetCalibration: 'Стандартқа қайтару',
+  standardTuning: 'Стандартты баптау (A2-D3)',
+  centsSharp: 'цент жоғары',
+  centsFlat: 'цент төмен',
+  calibrating: 'Тыңдалуда...',
+  getReady: 'ДАЙЫНДАЛЫҢЫЗ',
+  cancel: 'Болдырмау',
+  done: 'Дайын',
+  lessonTitles: {
+    'b1': 'Ақ жүніс',
+    'b2': 'Кең жайлау',
+    'b3': 'Сарыжайлау',
+    'b4': 'Келіншек күйі',
+    'b5': 'Көзімнің қарасы',
+  },
+  lessonDescriptions: {
+    'b1': 'Ақ жүністі жырлайтын жеңіл күй. Қағу техникасын дамытады.',
+    'b2': 'Кең жайлаудың сұлулығын суреттейтін тыныш күй.',
+    'b3': 'Сарыжайлаудың көркемдігін жеткізетін шертпе күй.',
+    'b4': 'Жеңіл әрі ойнақы күй. Бастауыштарға өте қолайлы.',
+    'b5': 'Абайдың әйгілі әнінің оңайлатылған нұсқасы.',
+  },
+  lessonComposers: {
+    'b1': 'Халық күйі',
+    'b2': 'Халық күйі',
+    'b3': 'Тәттімбет Қазанғапұлы',
+    'b4': 'Халық күйі',
+    'b5': 'Абай Құнанбайұлы',
+  },
 );
 
 // ═══════════════════════════════════════════════════════════════
@@ -618,6 +729,40 @@ const AppStrings ru = AppStrings(
   competitiveModeDesc: 'Настоящая игра\nс результатами',
   newToDombra: 'Я не умею играть на домбре',
   alreadyKnowDombra: 'Я умею играть на домбре',
+  dombraTuning: 'Настройка домбры',
+  dombraTuningSub: 'Калибровка инструмента',
+  calibrateNow: 'Калибровать',
+  calibrationComplete: 'Калибровка завершена!',
+  playOpenBass: 'Сыграйте открытую басовую струну (A2)',
+  resetCalibration: 'Сбросить настройку',
+  standardTuning: 'Стандартный строй (A2-D3)',
+  centsSharp: 'центов выше',
+  centsFlat: 'центов ниже',
+  calibrating: 'Слушаю...',
+  getReady: 'ПРИГОТОВЬТЕСЬ',
+  cancel: 'Отмена',
+  done: 'Готово',
+  lessonTitles: {
+    'b1': 'Ак Жунис',
+    'b2': 'Кең жайлау',
+    'b3': 'Сарыжайлау',
+    'b4': 'Келіншек күйі',
+    'b5': 'Көзімнің қарасы',
+  },
+  lessonDescriptions: {
+    'b1': 'Лёгкий күй, воспевающий Ак Жунис. Развивает технику боя.',
+    'b2': 'Спокойный күй, описывающий красоту бескрайней степи.',
+    'b3': 'Шертпе-күй, передающий изящество Сарыжайлау.',
+    'b4': 'Лёгкий и игривый күй. Идеально подходит для начинающих.',
+    'b5': 'Упрощённая версия знаменитой песни Абая.',
+  },
+  lessonComposers: {
+    'b1': 'Народный күй',
+    'b2': 'Народный күй',
+    'b3': 'Таттимбет Казангапулы',
+    'b4': 'Народный күй',
+    'b5': 'Абай Кунанбаюлы',
+  },
 );
 
 final Map<String, AppStrings> allStrings = {
@@ -625,3 +770,14 @@ final Map<String, AppStrings> allStrings = {
   'kz': kz,
   'ru': ru,
 };
+
+/// Convenience extension for localized lesson field access.
+/// Falls back to the original lesson value if no translation exists.
+extension LocalizedLesson on AppStrings {
+  String lessonTitle(String id, String fallback) =>
+      lessonTitles[id] ?? fallback;
+  String lessonDescription(String id, String fallback) =>
+      lessonDescriptions[id] ?? fallback;
+  String lessonComposer(String id, String fallback) =>
+      lessonComposers[id] ?? fallback;
+}

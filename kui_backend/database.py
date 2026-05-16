@@ -2,6 +2,7 @@ from sqlalchemy import (
     Boolean, Column, DateTime, Float, ForeignKey,
     Integer, String, Text, create_engine, func,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, relationship, sessionmaker
 import os
 
@@ -33,8 +34,8 @@ class Kui(Base):
     __tablename__ = "kuis"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    artist = Column(String, nullable=False)
+    title_translations = Column(JSONB, nullable=False, server_default='{}')
+    artist_translations = Column(JSONB, nullable=False, server_default='{}')
     audio_url = Column(Text, nullable=False)
     image_url = Column(Text, nullable=False)
     json_file = Column(String, nullable=False)

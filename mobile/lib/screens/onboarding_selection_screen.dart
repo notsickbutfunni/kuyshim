@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +10,7 @@ import '../main.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../widgets/lang_toggle.dart';
+import '../widgets/calibration_dialog.dart';
 
 class OnboardingSelectionScreen extends StatefulWidget {
   const OnboardingSelectionScreen({super.key});
@@ -48,6 +48,11 @@ class _OnboardingSelectionScreenState extends State<OnboardingSelectionScreen> w
   Future<void> _handleSelection(bool isNewToDombra) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFirstLaunch', false);
+
+    if (!mounted) return;
+
+    // Show calibration dialog on first install
+    await showCalibrationDialog(context);
 
     if (!mounted) return;
 

@@ -103,7 +103,7 @@ class SyncService {
           // Assuming jsonUrl is a full url or relative to your CDN/backend
           String downloadUrl = kui.jsonUrl;
           if (!downloadUrl.startsWith('http')) {
-            downloadUrl = 'http://127.0.0.1:8000$downloadUrl';
+            downloadUrl = 'http://192.168.1.72:8000$downloadUrl';
           }
           await _dio.download(downloadUrl, file.path);
         } catch (e) {
@@ -135,7 +135,7 @@ class SyncService {
     try {
       String downloadUrl = kui.audioUrl;
       if (!downloadUrl.startsWith('http')) {
-          downloadUrl = 'http://127.0.0.1:8000$downloadUrl';
+          downloadUrl = 'http://192.168.1.72:8000$downloadUrl';
       }
 
       await _dio.download(

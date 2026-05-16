@@ -1,4 +1,5 @@
 /// Settings item widget — used in the Profile settings modal.
+library;
 import 'package:flutter/material.dart';
 
 class SettingsItem extends StatelessWidget {

@@ -99,6 +99,16 @@ async def get_current_user(
     return user
 
 
+def get_lang(request: Request) -> str:
+    """Извлекает код языка из заголовка Accept-Language (по умолчанию 'kk')."""
+    lang = request.headers.get("Accept-Language", "kk").lower()
+    if lang.startswith("ru"):
+        return "ru"
+    if lang.startswith("en"):
+        return "en"
+    return "kk"
+
+
 @app.get("/")
 def root():
     return {"message": "KUI Backend is running"}
@@ -149,8 +159,8 @@ async def upload_kui(
 
     # 3. Записываем данные в базу (PostgreSQL) — храним только имя файла
     new_kui = Kui(
-        title=title,
-        artist=artist,
+        title_translations={"kk": title, "ru": title, "en": title},
+        artist_translations={"kk": artist, "ru": artist, "en": artist},
         audio_url=f"/static/audio/{unique_filename}",
         image_url="",
         json_file="",
@@ -166,7 +176,7 @@ async def upload_kui(
     # Возвращаем полный URL для фронтенда
     return {
         "id": new_kui.id,
-        "title": new_kui.title,
+        "title": new_kui.title_translations.get("kk", ""),
         "url": f"http://localhost:8000{new_kui.audio_url}"
     }
 
@@ -370,14 +380,30 @@ def login_json(body: LoginRequest, db: Session = Depends(get_db)):
 
 
 @api.get("/kuis", response_model=List[KuiOut])
-def get_all_kuis(db: Session = Depends(get_db)):
+def get_all_kuis(
+    request: Request,
+    db: Session = Depends(get_db)
+):
     """Fetch all kuis and their CDN/download links for the mobile client."""
-    kuis = db.query(Kui).all()
+    lang = get_lang(request)
+    kuis = db.query(
+        Kui.id,
+        Kui.title_translations[lang].astext.label("title"),
+        Kui.artist_translations[lang].astext.label("artist"),
+        Kui.audio_url,
+        Kui.image_url,
+        Kui.json_file,
+        Kui.duration,
+        Kui.bpm,
+        Kui.total_notes,
+        Kui.difficulty,
+    ).all()
+    
     return [
         KuiOut(
             id=k.id,
-            title=k.title,
-            artist=k.artist,
+            title=k.title or "Unknown",
+            artist=k.artist or "Unknown",
             audio_url=k.audio_url,
             image_url=k.image_url,
             json_file=k.json_file,
@@ -515,6 +541,7 @@ def get_user_stats(current_user: User = Depends(get_current_user), db: Session =
 # ── Защищённые эндпоинты (требуют Bearer-токен) ──────────────
 @api.get("/kuis/play", response_model=List[KuiOut])
 def get_kuis_for_play(
+    request: Request,
     level: Optional[str] = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -526,7 +553,19 @@ def get_kuis_for_play(
     Query-параметры:
         level — 'beginner', 'pro' или не указан (все).
     """
-    query = db.query(Kui)
+    lang = get_lang(request)
+    query = db.query(
+        Kui.id,
+        Kui.title_translations[lang].astext.label("title"),
+        Kui.artist_translations[lang].astext.label("artist"),
+        Kui.audio_url,
+        Kui.image_url,
+        Kui.json_file,
+        Kui.duration,
+        Kui.bpm,
+        Kui.total_notes,
+        Kui.difficulty,
+    )
 
     if level is not None:
         query = query.filter(Kui.difficulty == level)
@@ -536,8 +575,8 @@ def get_kuis_for_play(
     return [
         KuiOut(
             id=k.id,
-            title=k.title,
-            artist=k.artist,
+            title=k.title or "Unknown",
+            artist=k.artist or "Unknown",
             audio_url=k.audio_url,
             image_url=k.image_url,
             json_file=k.json_file,
@@ -554,18 +593,29 @@ def get_kuis_for_play(
 
 @api.get("/lessons", response_model=List[LessonOut])
 def list_lessons(
+    request: Request,
     level: Optional[str] = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     """List lessons, optionally filtered by level. Includes user's progress status."""
-    query = db.query(Lesson).join(Lesson.kui)
+    lang = get_lang(request)
+    query = db.query(
+        Lesson,
+        Kui.title_translations[lang].astext.label("kui_title"),
+        Kui.artist_translations[lang].astext.label("kui_artist"),
+        Kui.difficulty.label("kui_difficulty"),
+        Kui.audio_url.label("kui_audio_url"),
+    ).outerjoin(Kui, Lesson.kui_id == Kui.id)
+    
     if level:
-        query = query.filter(Kui.level == level)
-    lessons = query.all()
+        query = query.filter(Kui.difficulty == level)
+        
+    rows = query.all()
 
     result = []
-    for les in lessons:
+    for row in rows:
+        les = row.Lesson
         prog = (
             db.query(Progress)
             .filter(Progress.user_id == current_user.id, Progress.lesson_id == les.id)
@@ -573,12 +623,12 @@ def list_lessons(
         )
         result.append(LessonOut(
             id=les.id,
-            title=les.kui.title if les.kui else "Unknown",
-            artist=les.kui.artist if les.kui else None,
-            difficulty=les.kui.difficulty if les.kui else None,
+            title=row.kui_title if row.kui_title else "Unknown",
+            artist=row.kui_artist if row.kui_artist else None,
+            difficulty=row.kui_difficulty if row.kui_difficulty else None,
             description=les.description,
             content=les.content,
-            audio_url=les.kui.audio_url if les.kui else None,
+            audio_url=row.kui_audio_url if row.kui_audio_url else None,
             tab_url=les.tab_url,
             video_url=les.video_url,
             progress_status=prog.status if prog else None,
@@ -588,15 +638,25 @@ def list_lessons(
 
 @api.get("/lessons/{lesson_id}", response_model=LessonOut)
 def get_lesson(
+    request: Request,
     lesson_id: int,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     """Get a single lesson by ID, including user's progress status."""
-    les = db.query(Lesson).filter(Lesson.id == lesson_id).first()
-    if not les:
+    lang = get_lang(request)
+    row = db.query(
+        Lesson,
+        Kui.title_translations[lang].astext.label("kui_title"),
+        Kui.artist_translations[lang].astext.label("kui_artist"),
+        Kui.difficulty.label("kui_difficulty"),
+        Kui.audio_url.label("kui_audio_url"),
+    ).outerjoin(Kui, Lesson.kui_id == Kui.id).filter(Lesson.id == lesson_id).first()
+    
+    if not row:
         raise HTTPException(status_code=404, detail="Lesson not found")
 
+    les = row.Lesson
     prog = (
         db.query(Progress)
         .filter(Progress.user_id == current_user.id, Progress.lesson_id == les.id)
@@ -604,12 +664,12 @@ def get_lesson(
     )
     return LessonOut(
         id=les.id,
-        title=les.kui.title if les.kui else "Unknown",
-        artist=les.kui.artist if les.kui else None,
-        difficulty=les.kui.difficulty if les.kui else None,
+        title=row.kui_title if row.kui_title else "Unknown",
+        artist=row.kui_artist if row.kui_artist else None,
+        difficulty=row.kui_difficulty if row.kui_difficulty else None,
         description=les.description,
         content=les.content,
-        audio_url=les.kui.audio_url if les.kui else None,
+        audio_url=row.kui_audio_url if row.kui_audio_url else None,
         tab_url=les.tab_url,
         video_url=les.video_url,
         progress_status=prog.status if prog else None,

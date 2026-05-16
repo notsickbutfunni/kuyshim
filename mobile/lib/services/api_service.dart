@@ -1,11 +1,12 @@
 /// API service — backend communication for authentication, lesson data, and progress.
+library;
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServiceUrl {
-  static const String baseUrl = 'http://127.0.0.1:8000/api';
+  static const String baseUrl = 'http://192.168.1.72:8000/api';
 }
 
 class ApiService {

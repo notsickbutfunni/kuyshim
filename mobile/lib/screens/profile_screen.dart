@@ -1,6 +1,7 @@
 /// ProfileScreen — User profile with badges, activity, and settings.
 /// Mirrors ProfileScreen.tsx from the React app.
 /// NOTE: Subscription button and related content have been REMOVED per requirements.
+library;
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,7 @@ import '../main.dart';
 import '../models/user_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
+import '../widgets/calibration_dialog.dart';
 import '../widgets/lang_toggle.dart';
 import '../widgets/settings_item.dart';
 
@@ -377,15 +379,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment:
                               MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
-                              '${t.rank}: ',
-                              style: TextStyle(
-                                fontSize: 11,
-                                letterSpacing: 1.5,
-                                fontFamily: 'monospace',
-                                color: Colors.white
-                                    .withOpacity(0.4),
+                            Flexible(
+                              child: Text(
+                                '${t.rank}: ',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  letterSpacing: 1.5,
+                                  fontFamily: 'monospace',
+                                  color: Colors.white
+                                      .withOpacity(0.4),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Container(
@@ -442,16 +448,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       MainAxisAlignment
                                           .spaceBetween,
                                   children: [
-                                    Text(
-                                      '${t.progressTo} ${user.level + 1}',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: 'monospace',
-                                        letterSpacing: 1.5,
-                                        color: Colors.white
-                                            .withOpacity(0.4),
+                                    Flexible(
+                                      child: Text(
+                                        '${t.progressTo} ${user.level + 1}',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontFamily: 'monospace',
+                                          letterSpacing: 1.5,
+                                          color: Colors.white
+                                              .withOpacity(0.4),
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
+                                    const SizedBox(width: 8),
                                     Text(
                                       '${user.stats.mastery}%',
                                       style: TextStyle(
@@ -594,25 +604,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            t.yourAchievements,
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
+                          Flexible(
+                            child: Text(
+                              t.yourAchievements,
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          if (user.isGuest)
-                            Text(
-                              t.playToUnlock.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontFamily: 'monospace',
-                                letterSpacing: 2,
-                                color: Colors.white
-                                    .withOpacity(0.2),
+                          if (user.isGuest) ...[
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                t.playToUnlock.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'monospace',
+                                  letterSpacing: 2,
+                                  color: Colors.white
+                                      .withOpacity(0.2),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.right,
                               ),
                             ),
+                          ],
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -710,9 +729,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 32),
 
                       // Activity Tracker
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                      Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 12,
+                        runSpacing: 8,
                         children: [
                           Text(
                             t.activityTracker,
@@ -722,46 +743,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontStyle: FontStyle.italic,
                             ),
                           ),
-                          Row(
+                          Wrap(
+                            spacing: 16,
+                            runSpacing: 4,
                             children: [
-                              Text(
-                                '${t.totalHours}: ',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: 'monospace',
-                                  letterSpacing: 1.5,
-                                  color: Colors.white
-                                      .withOpacity(0.4),
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '${t.totalHours}: ',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                      letterSpacing: 1.5,
+                                      color: Colors.white
+                                          .withOpacity(0.4),
+                                    ),
+                                  ),
+                                  Text(
+                                    user.stats.totalPractice,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                user.stats.totalPractice,
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: 'monospace',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Text(
-                                '${t.streak}: ',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: 'monospace',
-                                  letterSpacing: 1.5,
-                                  color: Colors.white
-                                      .withOpacity(0.4),
-                                ),
-                              ),
-                              Text(
-                                '${user.stats.streak} ${t.days}',
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: 'monospace',
-                                  fontWeight: FontWeight.bold,
-                                  color: KColors.yellow,
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '${t.streak}: ',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                      letterSpacing: 1.5,
+                                      color: Colors.white
+                                          .withOpacity(0.4),
+                                    ),
+                                  ),
+                                  Text(
+                                    '${user.stats.streak} ${t.days}',
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontFamily: 'monospace',
+                                      fontWeight: FontWeight.bold,
+                                      color: KColors.yellow,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -878,9 +910,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: GestureDetector(
                     onTap: () {}, // prevent close on modal tap
                     child: Container(
-                      width: screenSize.width * 0.5,
+                      width: screenSize.width > 600 ? screenSize.width * 0.5 : screenSize.width * 0.9,
                       constraints: BoxConstraints(
-                        maxHeight: screenSize.height * 0.85,
+                        maxHeight: screenSize.height * 0.9,
                       ),
                       decoration: BoxDecoration(
                         color: KColors.surface,
@@ -890,7 +922,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(32),
+                        padding: const EdgeInsets.all(28),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -900,13 +932,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   MainAxisAlignment
                                       .spaceBetween,
                               children: [
-                                Text(
-                                  t.accountSettings,
-                                  style:
-                                      GoogleFonts.playfairDisplay(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic,
+                                Flexible(
+                                  child: Text(
+                                    t.accountSettings,
+                                    style:
+                                        GoogleFonts.playfairDisplay(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 IconButton(
@@ -942,6 +977,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icons.notifications,
                               label: t.notifications,
                               sub: t.notificationsSub,
+                            ),
+                            const SizedBox(height: 12),
+                            SettingsItem(
+                              icon: Icons.tune_rounded,
+                              label: t.dombraTuning,
+                              sub: t.dombraTuningSub,
+                              onTap: () => showCalibrationDialog(context),
                             ),
 
                             const SizedBox(height: 32),

@@ -1,11 +1,12 @@
 /// ML Service — communicates with the Dombra ML FastAPI microservice.
 /// Handles chord/fret prediction from audio bytes.
+library;
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
 class MlServiceUrl {
-  static const String baseUrl = 'http://127.0.0.1:8001';
+  static const String baseUrl = 'http://192.168.1.72:8001';
 }
 
 /// Result of a chord prediction from the ML model.

@@ -7,6 +7,7 @@
 ///   - setState is only called when game state actually changes (score, combo,
 ///     play/pause, feedback text) — NOT every frame.
 ///   - AudioEngine no longer triggers setState; its data is read during gameTick.
+library;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -25,6 +26,7 @@ import '../models/kui_note.dart';
 import '../models/game_models.dart';
 import '../services/app_state.dart';
 import '../services/audio_engine.dart';
+import '../services/language_service.dart';
 import '../services/level_manager.dart' show AudioSource, AudioSourceType;
 import '../constants/tutorial_data.dart';
 import 'game_painter.dart';
@@ -42,6 +44,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   // Audio
   final ja.AudioPlayer _player = ja.AudioPlayer();
+  final ja.AudioPlayer _beepPlayer = ja.AudioPlayer();
   final AudioEngine _audioEngine = AudioEngine();
 
   // Training mode — read from AppState
@@ -88,9 +91,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   // Random instance — reuse instead of creating per-hit
   final math.Random _rng = math.Random();
 
+  // Countdown before competitive game starts
+  int _countdownValue = 0; // 5, 4, 3, 2, 1, 0 (0 = done)
+  bool _showGo = false; // brief "GO!" flash
+  Timer? _countdownTimer;
+
   // Config
-  static const int perfectWindowMs = 50;
-  static const int goodWindowMs = 150;
+  static const int perfectWindowMs = 150;
+  static const int goodWindowMs = 350;
 
   @override
   void initState() {
@@ -101,10 +109,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _countdownTimer?.cancel();
     _ticker?.dispose();
     _timeNotifier.dispose();
     _audioEngine.dispose();
     _player.dispose();
+    _beepPlayer.dispose();
     super.dispose();
   }
 
@@ -142,7 +152,53 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       try {
         await _audioEngine.start();
       } catch (_) {}
-      if (mounted) setState(() => _isLoaded = true);
+      if (mounted) {
+        setState(() => _isLoaded = true);
+        // Start 5-4-3-2-1 countdown before playing
+        _startCountdown();
+      }
+    }
+  }
+
+  /// 5-4-3-2-1 countdown with beep sounds before competitive game starts.
+  void _startCountdown() {
+    _countdownValue = 5;
+    _showGo = false;
+    _playCountdownBeep(isGo: false);
+    setState(() {});
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) { timer.cancel(); return; }
+      _countdownValue--;
+      if (_countdownValue <= 0) {
+        timer.cancel();
+        _countdownValue = 0;
+        _showGo = true;
+        _playCountdownBeep(isGo: true);
+        setState(() {});
+        // Brief "GO!" flash, then start the game
+        Future.delayed(const Duration(milliseconds: 600), () {
+          if (!mounted) return;
+          _showGo = false;
+          setState(() => _isPlaying = true);
+          _ticker?.start();
+          _player.play();
+        });
+      } else {
+        _playCountdownBeep(isGo: false);
+        setState(() {});
+      }
+    });
+  }
+
+  /// Play countdown beep sound from assets.
+  Future<void> _playCountdownBeep({required bool isGo}) async {
+    try {
+      final asset = isGo ? 'assets/sounds/countdown_go.wav' : 'assets/sounds/countdown_tick.wav';
+      await _beepPlayer.setAsset(asset);
+      await _beepPlayer.seek(Duration.zero);
+      await _beepPlayer.play();
+    } catch (e) {
+      debugPrint('[GameScreen] Beep play error: $e');
     }
   }
 
@@ -272,7 +328,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       }
     } else {
       // Waiting for pitch
-      if (_audioEngine.isFrequencyMatch(targetNote.primaryHz, toleranceHz: 10.0)) {
+      if (_audioEngine.isFrequencyMatch(targetNote.primaryHz, toleranceCents: 80.0)) {
         targetNote.isPlayed = true;
         targetNote.hitQuality = 'perfect';
         
@@ -309,7 +365,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       final diff = currentTimeMs - note.timeMs;
 
       if (diff.abs() <= goodWindowMs) {
-        if (_audioEngine.isFrequencyMatch(note.primaryHz, toleranceHz: 7.0)) {
+        if (_audioEngine.isFrequencyMatch(note.primaryHz, toleranceCents: 80.0)) {
           note.isPlayed = true;
           _combo++;
           _maxCombo = math.max(_maxCombo, _combo);
@@ -366,9 +422,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   Future<void> _restart() async {
     _ticker?.stop();
+    _countdownTimer?.cancel();
     setState(() => _isPlaying = false);
     
-    try { await _player.seek(Duration.zero); } catch (_) {}
+    try { 
+      await _player.pause();
+      await _player.seek(Duration.zero); 
+    } catch (_) {}
     for (final n in _activeNotes) { n.reset(); }
     _timeNotifier.value = 0;
     
@@ -381,7 +441,17 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       _tutorialTargetIdx = 0;
       _simulatedTimeMs = 0;
       _lastTickDuration = null;
+      _countdownValue = 0;
+      _showGo = false;
     });
+
+    // Re-trigger countdown for competitive mode
+    if (!widget.isTutorialMode && !_isTrainingMode) {
+      _startCountdown();
+    } else {
+      setState(() => _isPlaying = true);
+      _ticker?.start();
+    }
   }
 
   void _handleFinish() {
@@ -436,6 +506,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final t = context.watch<LanguageService>().t;
     final lesson = appState.selectedLesson;
     final sz = MediaQuery.of(context).size;
     final sw = sz.width, sh = sz.height;
@@ -511,6 +582,60 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
         // Bottom controls
         _buildBottomBar(sw, sh),
+
+        // Countdown overlay (competitive mode)
+        if (_countdownValue > 0 || _showGo)
+          Positioned.fill(
+            child: Container(
+              color: const Color(0xFF0A0806).withOpacity(0.7),
+              child: Center(
+                child: TweenAnimationBuilder<double>(
+                  key: ValueKey(_showGo ? -1 : _countdownValue),
+                  tween: Tween(begin: 1.5, end: 1.0),
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeOutBack,
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: child,
+                    );
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShaderMask(
+                        shaderCallback: (b) => LinearGradient(
+                          colors: _showGo
+                              ? [const Color(0xFF4CAF50), const Color(0xFF81C784), const Color(0xFF4CAF50)]
+                              : [KColors.amber, KColors.amberLight, KColors.amber],
+                        ).createShader(b),
+                        child: Text(
+                          _showGo ? 'GO!' : '$_countdownValue',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: sh * (_showGo ? 0.20 : 0.25),
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      if (!_showGo)
+                        Text(
+                          t.getReady,
+                          style: TextStyle(
+                            fontSize: sh * 0.035,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 4,
+                            fontFamily: 'monospace',
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
       ]),
     );
   }
@@ -548,25 +673,30 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             const Spacer(),
 
             // Mic display
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.005),
-              decoration: BoxDecoration(
-                color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.1) : Colors.white.withOpacity(0.04),
-                borderRadius: BorderRadius.circular(sw * 0.012),
-                border: Border.all(color: _audioEngine.currentHz > 0 ? bassColor.withOpacity(0.3) : Colors.white10),
-              ),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Text('MIC', style: TextStyle(fontSize: sh * 0.013, letterSpacing: 2, fontFamily: 'monospace', color: Colors.white30)),
-                Text(
-                  _audioEngine.currentHz > 0 ? '${_audioEngine.currentHz.toStringAsFixed(1)} Hz' : '— Hz',
-                  style: TextStyle(fontSize: sw * 0.018, fontWeight: FontWeight.w800, fontFamily: 'monospace',
-                    color: _audioEngine.currentHz > 0 ? bassColor : Colors.white24),
-                ),
-                Text(_audioEngine.currentNote, style: GoogleFonts.playfairDisplay(
-                  fontSize: sw * 0.02, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,
-                  color: _audioEngine.currentHz > 0 ? Colors.white : Colors.white24,
-                )),
-              ]),
+            AnimatedBuilder(
+              animation: _audioEngine,
+              builder: (context, child) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.005),
+                  decoration: BoxDecoration(
+                    color: _audioEngine.calibratedHz > 0 ? bassColor.withOpacity(0.1) : Colors.white.withOpacity(0.04),
+                    borderRadius: BorderRadius.circular(sw * 0.012),
+                    border: Border.all(color: _audioEngine.calibratedHz > 0 ? bassColor.withOpacity(0.3) : Colors.white10),
+                  ),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Text('MIC', style: TextStyle(fontSize: sh * 0.013, letterSpacing: 2, fontFamily: 'monospace', color: Colors.white30)),
+                    Text(
+                      _audioEngine.calibratedHz > 0 ? '${_audioEngine.calibratedHz.toStringAsFixed(1)} Hz' : '— Hz',
+                      style: TextStyle(fontSize: sw * 0.018, fontWeight: FontWeight.w800, fontFamily: 'monospace',
+                        color: _audioEngine.calibratedHz > 0 ? bassColor : Colors.white24),
+                    ),
+                    Text(_audioEngine.currentNote, style: GoogleFonts.playfairDisplay(
+                      fontSize: sw * 0.02, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,
+                      color: _audioEngine.calibratedHz > 0 ? Colors.white : Colors.white24,
+                    )),
+                  ]),
+                );
+              },
             ),
 
             const Spacer(),

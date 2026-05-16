@@ -1,4 +1,5 @@
 /// App state — central ChangeNotifier for user, lessons, and navigation state.
+library;
 import 'dart:io' as java_io;
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,6 @@ import '../services/api_service.dart';
 import '../services/connectivity_service.dart';
 import '../services/level_manager.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppState extends ChangeNotifier {
   final ApiService api = ApiService();
@@ -66,7 +66,7 @@ class AppState extends ChangeNotifier {
       _user = AppUser(
         isGuest: false,
         username: profile['username'] ?? 'User',
-        avatar: profile['avatar_url'] != null ? 'http://127.0.0.1:8000${profile['avatar_url']}' : 'https://picsum.photos/seed/${profile['username'] ?? 'guest'}/200/200',
+        avatar: profile['avatar_url'] != null ? 'http://192.168.1.72:8000${profile['avatar_url']}' : 'https://picsum.photos/seed/${profile['username'] ?? 'guest'}/200/200',
         level: profile['level'] ?? 1,
         rank: profile['rank'] ?? 'Student',
         stats: UserStats(
@@ -181,11 +181,7 @@ class AppState extends ChangeNotifier {
         );
         _googleSignInInitialized = true;
       }
-      final GoogleSignInAccount? googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
-
-      if (googleUser == null) {
-        throw Exception('Sign in aborted by user');
-      }
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(scopeHint: ['email']);
 
       _user = AppUser(
         isGuest: false,
@@ -301,7 +297,7 @@ class AppState extends ChangeNotifier {
   Future<void> uploadAvatar(java_io.File file) async {
     final response = await api.uploadAvatar(file);
     if (response['avatar_url'] != null) {
-      _user = _user.copyWith(avatar: 'http://127.0.0.1:8000${response['avatar_url']}');
+      _user = _user.copyWith(avatar: 'http://192.168.1.72:8000${response['avatar_url']}');
       notifyListeners();
     }
   }

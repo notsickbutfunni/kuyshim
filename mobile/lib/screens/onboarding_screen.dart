@@ -1,6 +1,7 @@
 /// OnboardingScreen — Login, Register, Forgot Password, Guest mode.
 /// Mirrors OnboardingScreen.tsx from the React app.
 /// All sizes are percentage-based via MediaQuery to prevent overflow.
+library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,7 +93,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Future<void> _handleRegister() async {
     if (_usernameCtrl.text.isEmpty ||
         _emailCtrl.text.isEmpty ||
-        _passwordCtrl.text.isEmpty) return;
+        _passwordCtrl.text.isEmpty) {
+      return;
+    }
     setState(() {
       _loading = true;
       _error = '';

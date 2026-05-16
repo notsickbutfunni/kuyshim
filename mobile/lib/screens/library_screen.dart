@@ -1,6 +1,7 @@
 /// LibraryScreen — Lesson browser with beginner/pro tabs.
 /// Mirrors LibraryScreen.tsx from the React app.
 /// All sizes are percentage-based via MediaQuery to prevent overflow.
+library;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +12,7 @@ import '../main.dart';
 import '../models/lesson_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
+import '../constants/strings.dart';
 import '../widgets/lang_toggle.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -244,7 +246,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     BuildContext context,
     Lesson lesson,
     AppState appState,
-    dynamic t,
+    AppStrings t,
     double sw,
     double sh,
   ) {
@@ -296,7 +298,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       colors: [KColors.amber, KColors.amberLight, KColors.amber],
                     ).createShader(b),
                     child: Text(
-                      '\"${lesson.title}\"',
+                      '"${t.lessonTitle(lesson.id, lesson.title)}"',
                       style: GoogleFonts.playfairDisplay(
                         fontSize: sh * 0.05,
                         fontWeight: FontWeight.bold,
@@ -369,7 +371,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   Widget _buildEmptyState(
-      dynamic t, double screenWidth, double screenHeight) {
+      AppStrings t, double screenWidth, double screenHeight) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -763,7 +765,7 @@ class _LessonCard extends StatelessWidget {
   final Lesson lesson;
   final bool isLocked;
   final bool isPro;
-  final dynamic t;
+  final AppStrings t;
   final double screenWidth;
   final double screenHeight;
   final VoidCallback onTap;
@@ -919,7 +921,7 @@ class _LessonCard extends StatelessWidget {
                       right: 0,
                       height: screenHeight * 0.1,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -1092,7 +1094,7 @@ class _LessonCard extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          lesson.composer,
+                                          t.lessonComposer(lesson.id, lesson.composer),
                                           style: TextStyle(
                                             fontSize:
                                                 composerFontSize,
@@ -1118,7 +1120,7 @@ class _LessonCard extends StatelessWidget {
                                           screenHeight *
                                               0.01),
                                   Text(
-                                    lesson.title,
+                                    t.lessonTitle(lesson.id, lesson.title),
                                     style: TextStyle(
                                       fontSize:
                                           titleFontSize,
@@ -1140,8 +1142,7 @@ class _LessonCard extends StatelessWidget {
                                             screenHeight *
                                                 0.005),
                                     Text(
-                                      lesson
-                                          .description!,
+                                      t.lessonDescription(lesson.id, lesson.description!),
                                       style: TextStyle(
                                         fontSize:
                                             descFontSize,
@@ -1196,7 +1197,7 @@ class _StartPracticeButton extends StatefulWidget {
   final Lesson lesson;
   final bool isLocked;
   final bool isPro;
-  final dynamic t;
+  final AppStrings t;
   final VoidCallback onTap;
   final double screenWidth;
   final double screenHeight;

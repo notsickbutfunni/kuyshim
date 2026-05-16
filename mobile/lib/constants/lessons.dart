@@ -1,5 +1,6 @@
 /// Lesson data — hybrid offline/online architecture.
 /// These are the LOCAL (bundled in assets) lessons available offline.
+library;
 import '../models/lesson_model.dart';
 
 // ── LOCAL LESSONS (offline, no auth needed) ────────────────
@@ -45,34 +46,28 @@ const List<Lesson> offlineLessons = [
   ),
   Lesson(
     id: 'b4',
-    title: 'Асыл мұра',
+    title: 'Келіншек күйі',
     composer: 'Халық күйі',
-    difficulty: 2,
+    difficulty: 1,
     storageType: StorageType.local,
     localImageAsset: 'assets/lessonImages/dombra_4.jpeg',
     image: 'assets/lessonImages/dombra_4.jpeg',
-    description: 'Халық мұрасын жеткізетін әсем күй. Бастауыштарға арналған.',
-    audioFile: 'Asyl_mura.mp3',
+    description: 'Жеңіл әрі ойнақы күй. Бастауыштарға өте қолайлы.',
+    audioFile: 'Kelinshek_kuyi.mp3',
+    jsonMapFile: 'kelinshek_kuyi.json',
     level: 'beginner',
   ),
   Lesson(
     id: 'b5',
-    title: 'Жыр күйі',
-    composer: 'Халық күйі',
-    difficulty: 2,
+    title: 'Көзімнің қарасы',
+    composer: 'Абай Құнанбайұлы',
+    difficulty: 1,
     storageType: StorageType.local,
     localImageAsset: 'assets/lessonImages/dombra_5.jpg',
     image: 'assets/lessonImages/dombra_5.jpg',
-    notes: [
-      GameNote(time: 1, string: 1, fret: 0, duration: 0.5),
-      GameNote(time: 2, string: 1, fret: 2, duration: 0.5),
-      GameNote(time: 3, string: 2, fret: 0, duration: 0.5),
-      GameNote(time: 4, string: 2, fret: 3, duration: 0.5),
-      GameNote(time: 5, string: 1, fret: 5, duration: 1),
-      GameNote(time: 7, string: 2, fret: 5, duration: 1),
-    ],
-    description: 'Жүрек толқынысын жеткізетін қарапайым әуен. Бастауыштарға арналған.',
-    audioFile: 'Zhyr_kui.mp3',
+    description: 'Абайдың әйгілі әнінің оңайлатылған нұсқасы.',
+    audioFile: 'kozimnin_karasy_abay_kunanbayulu.mp3',
+    jsonMapFile: 'kozimnin_karasy_easy.json',
     level: 'beginner',
   ),
 ];

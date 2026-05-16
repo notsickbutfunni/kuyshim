@@ -7,22 +7,29 @@
 ///   - AudioEngine изолирован от UI — предоставляет только currentHz и currentNote.
 ///   - GameScreen использует эти значения в игровом цикле для проверки попаданий.
 ///   - При dispose() все ресурсы (микрофон, подписки) корректно освобождаются.
+///   - Поддерживает калибровку тюнинга домбры (смещение в центах).
+///   - Использует pitch smoothing (медианный фильтр) для стабильности.
+library;
 import 'dart:async';
-import 'dart:typed_data';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Таблица соответствия нот → частоты (Hz) для домбры.
-/// Тюнинг: бас — A2 (110 Hz), верхняя — D3 (146.83 Hz), 9 ладов.
+/// Тюнинг: бас — A2 (110 Hz), верхняя — D3 (146.83 Hz).
+/// Расширена до 19 ладов (покрывает полный диапазон до G4).
 const Map<String, double> _noteFrequencies = {
+  // Bass string open + frets (A2 upward)
   'A2': 110.00,
   'A#2': 116.54,
   'B2': 123.47,
   'C3': 130.81,
   'C#3': 138.59,
+  // Treble string open (D3) — overlap zone
   'D3': 146.83,
   'D#3': 155.56,
   'E3': 164.81,
@@ -33,9 +40,21 @@ const Map<String, double> _noteFrequencies = {
   'A3': 220.00,
   'A#3': 233.08,
   'B3': 246.94,
+  // Extended range for higher frets (frets 10-18)
+  'C4': 261.63,
+  'C#4': 277.18,
+  'D4': 293.66,
+  'D#4': 311.13,
+  'E4': 329.63,
+  'F4': 349.23,
+  'F#4': 369.99,
+  'G4': 392.00,
 };
 
-class AudioEngine {
+/// SharedPreferences key for calibration offset
+const String _calibrationKey = 'dombra_calibration_cents';
+
+class AudioEngine extends ChangeNotifier {
   // ── Конфигурация ──────────────────────────────────────────────
   /// Частота дискретизации (44100 — стандарт для большинства устройств)
   static const int sampleRate = 44100;
@@ -45,17 +64,24 @@ class AudioEngine {
 
   /// Минимальная пороговая громкость (RMS) для фильтрации тишины.
   /// Если сигнал ниже порога — считаем, что звука нет.
-  static const double silenceThreshold = 0.02;
+  static const double silenceThreshold = 0.015;
+
+  /// Количество фреймов для медианного сглаживания pitch
+  static const int _smoothingWindow = 3;
 
   // ── Внутренние объекты ────────────────────────────────────────
   final FlutterAudioCapture _audioCapture = FlutterAudioCapture();
   late final PitchDetector _pitchDetector;
 
-  /// Буфер аудио-сэмплов для накопления до нужного размера
-  final List<double> _audioBuffer = [];
+  /// Предварительно выделенный буфер фиксированного размера для избежания аллокаций
+  final Float64List _audioBuffer = Float64List(bufferSize);
+  int _bufferIndex = 0;
 
   /// Флаг, чтобы не обрабатывать несколько чанков одновременно
   bool _isProcessing = false;
+
+  /// История pitch значений для медианного сглаживания
+  final List<double> _pitchHistory = [];
 
   // ── Публичное состояние (читается из UI) ─────────────────────
   /// Текущая определённая частота в Hz (0.0 если тишина)
@@ -70,6 +96,22 @@ class AudioEngine {
   /// Callback для уведомления UI об обновлении данных
   VoidCallback? onPitchDetected;
 
+  // ── Калибровка ────────────────────────────────────────────────
+  /// Смещение тюнинга домбры в центах.
+  /// Положительное = домбра настроена выше стандарта (sharp).
+  /// Отрицательное = домбра настроена ниже стандарта (flat).
+  /// Используется для корректировки определённой частоты перед сравнением.
+  double calibrationCents = 0.0;
+
+  /// Откалиброванная частота: currentHz со смещением на calibrationCents.
+  /// Если калибровка = 0, возвращает currentHz без изменений.
+  double get calibratedHz {
+    if (currentHz <= 0.0 || calibrationCents == 0.0) return currentHz;
+    // Сдвигаем определённую частоту в обратную сторону от смещения,
+    // чтобы компенсировать разницу в тюнинге.
+    return currentHz * math.pow(2, -calibrationCents / 1200.0);
+  }
+
   // ── Инициализация ─────────────────────────────────────────────
   AudioEngine() {
     _pitchDetector = PitchDetector(
@@ -78,12 +120,45 @@ class AudioEngine {
     );
   }
 
+  /// Загружает сохранённую калибровку из SharedPreferences.
+  Future<void> loadCalibration() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      calibrationCents = prefs.getDouble(_calibrationKey) ?? 0.0;
+      debugPrint('[AudioEngine] Калибровка загружена: ${calibrationCents.toStringAsFixed(1)} центов');
+    } catch (e) {
+      debugPrint('[AudioEngine] Ошибка загрузки калибровки: $e');
+      calibrationCents = 0.0;
+    }
+  }
+
+  /// Сохраняет калибровку в SharedPreferences.
+  Future<void> saveCalibration(double cents) async {
+    calibrationCents = cents;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble(_calibrationKey, cents);
+      debugPrint('[AudioEngine] Калибровка сохранена: ${cents.toStringAsFixed(1)} центов');
+    } catch (e) {
+      debugPrint('[AudioEngine] Ошибка сохранения калибровки: $e');
+    }
+    notifyListeners();
+  }
+
+  /// Сбрасывает калибровку к стандартному тюнингу.
+  Future<void> resetCalibration() async {
+    await saveCalibration(0.0);
+  }
+
   /// Запуск микрофона и начало прослушивания.
   ///
   /// Аудио-сэмплы поступают через callback [_onAudioData],
   /// накапливаются в буфере и обрабатываются pitch-детектором.
   Future<void> start() async {
     if (isListening) return; // Уже запущен — ничего не делаем
+
+    // Загружаем калибровку при старте
+    await loadCalibration();
 
     try {
       // Запрашиваем разрешение на микрофон перед инициализацией
@@ -103,7 +178,8 @@ class AudioEngine {
         bufferSize: 3000,
       );
       isListening = true;
-      debugPrint('[AudioEngine] Микрофон запущен (sampleRate=$sampleRate)');
+      _pitchHistory.clear();
+      debugPrint('[AudioEngine] Микрофон запущен (sampleRate=$sampleRate, calibration=${calibrationCents.toStringAsFixed(1)}c)');
     } catch (e) {
       debugPrint('[AudioEngine] Ошибка запуска микрофона: $e');
       isListening = false;
@@ -121,15 +197,18 @@ class AudioEngine {
     }
 
     isListening = false;
-    _audioBuffer.clear();
+    _bufferIndex = 0;
+    _pitchHistory.clear();
     currentHz = 0.0;
     currentNote = '-';
     debugPrint('[AudioEngine] Микрофон остановлен');
   }
 
   /// Полная очистка ресурсов. Вызывать в dispose() виджета.
-  Future<void> dispose() async {
-    await stop();
+  @override
+  void dispose() {
+    stop();
+    super.dispose();
   }
 
   // ── Обработка аудио-потока ────────────────────────────────────
@@ -137,17 +216,18 @@ class AudioEngine {
   /// Callback: получаем сырые PCM-сэмплы от микрофона.
   /// flutter_audio_capture 1.1.12 передаёт Float32List.
   void _onAudioData(Float32List data) {
-    // Конвертируем Float32List → List<double> для pitch_detector_dart
-    final samples = data.map((f) => f.toDouble()).toList();
+    if (_isProcessing) return; // Пропускаем фреймы если не успеваем, предотвращает утечки памяти
 
-    // Добавляем новые сэмплы в накопительный буфер
-    _audioBuffer.addAll(samples);
+    for (int i = 0; i < data.length; i++) {
+      _audioBuffer[_bufferIndex++] = data[i].toDouble();
 
-    // Обрабатываем, когда накопилось достаточно для pitch detection
-    if (_audioBuffer.length >= bufferSize && !_isProcessing) {
-      final chunk = List<double>.from(_audioBuffer.sublist(0, bufferSize));
-      _audioBuffer.removeRange(0, bufferSize);
-      _processChunk(chunk);
+      // Обрабатываем, когда накопилось достаточно для pitch detection
+      if (_bufferIndex >= bufferSize) {
+        final chunk = Float64List.fromList(_audioBuffer); // Копируем для асинхронной обработки
+        _bufferIndex = 0;
+        _processChunk(chunk);
+        break; // Обрабатываем только один чанк за вызов, чтобы не блокировать
+      }
     }
   }
 
@@ -169,6 +249,8 @@ class AudioEngine {
         if (currentHz != 0.0) {
           currentHz = 0.0;
           currentNote = '-';
+          _pitchHistory.clear();
+          notifyListeners();
           onPitchDetected?.call();
         }
         _isProcessing = false;
@@ -181,10 +263,15 @@ class AudioEngine {
       if (result.pitched) {
         final detectedHz = result.pitch;
 
-        // Фильтруем нереалистичные значения для домбры (80–500 Hz)
-        if (detectedHz >= 80 && detectedHz <= 500) {
-          currentHz = detectedHz;
-          currentNote = _hzToNoteName(detectedHz);
+        // Фильтруем нереалистичные значения для домбры (80–600 Hz)
+        // Расширен верхний предел для высоких ладов
+        if (detectedHz >= 80 && detectedHz <= 600) {
+          // Применяем медианное сглаживание для стабильности
+          final smoothedHz = _smoothedPitch(detectedHz);
+
+          currentHz = smoothedHz;
+          currentNote = _hzToNoteName(calibratedHz);
+          notifyListeners();
           onPitchDetected?.call();
         }
       } else {
@@ -192,6 +279,8 @@ class AudioEngine {
         if (currentHz != 0.0) {
           currentHz = 0.0;
           currentNote = '-';
+          _pitchHistory.clear();
+          notifyListeners();
           onPitchDetected?.call();
         }
       }
@@ -203,6 +292,20 @@ class AudioEngine {
   }
 
   // ── Утилиты ───────────────────────────────────────────────────
+
+  /// Медианный фильтр для сглаживания pitch-значений.
+  /// Уменьшает дрожание (jitter) от фрейма к фрейму.
+  double _smoothedPitch(double rawHz) {
+    _pitchHistory.add(rawHz);
+    if (_pitchHistory.length > _smoothingWindow) {
+      _pitchHistory.removeAt(0);
+    }
+    // Если недостаточно данных — возвращаем как есть
+    if (_pitchHistory.length < 2) return rawHz;
+    // Медиана
+    final sorted = List<double>.from(_pitchHistory)..sort();
+    return sorted[sorted.length ~/ 2];
+  }
 
   /// Вычисляет RMS (Root Mean Square) — среднюю громкость буфера.
   double _calculateRMS(List<double> samples) {
@@ -231,14 +334,36 @@ class AudioEngine {
     return closestNote;
   }
 
-  /// Проверяет, совпадает ли текущая частота с целевой (с допуском ±tolerance Hz).
+  /// Проверяет, совпадает ли текущая (откалиброванная) частота с целевой.
+  ///
+  /// Использует **цент-основанную** систему допуска вместо фиксированных Hz.
+  /// 100 центов = 1 полутон. По умолчанию 60 центов (~чуть больше половины полутона).
   ///
   /// [targetHz] — ожидаемая частота ноты из карты.
-  /// [toleranceHz] — допустимая погрешность (по умолчанию 7 Hz для акустического инструмента).
+  /// [toleranceCents] — допустимая погрешность в центах (по умолчанию 60).
   ///
-  /// Возвращает true, если |currentHz - targetHz| <= toleranceHz.
-  bool isFrequencyMatch(double targetHz, {double toleranceHz = 7.0}) {
-    if (currentHz <= 0.0) return false; // Тишина — не совпадение
-    return (currentHz - targetHz).abs() <= toleranceHz;
+  /// Цент-основанная система даёт одинаковую музыкальную точность
+  /// на всех частотах (в отличие от фиксированных Hz).
+  bool isFrequencyMatch(double targetHz, {double toleranceCents = 80.0}) {
+    final hz = calibratedHz;
+    if (hz <= 0.0 || targetHz <= 0.0) return false;
+
+    // Расстояние в центах: cents = 1200 * log2(f1 / f2)
+    final cents = (1200.0 * (math.log(hz / targetHz) / math.ln2)).abs();
+    
+    // Допускаем совпадение на октаву (1200 центов разницы) из-за особенностей pitch detection
+    final centsModulo = cents % 1200.0;
+    final distanceToOctave = math.min(centsModulo, 1200.0 - centsModulo);
+    
+    return cents <= toleranceCents || distanceToOctave <= toleranceCents;
+  }
+
+  /// Вычисляет смещение калибровки в центах между определённой частотой
+  /// и эталонной частотой.
+  ///
+  /// Используется в CalibrationDialog для расчёта offset.
+  static double calculateCentsOffset(double detectedHz, double referenceHz) {
+    if (detectedHz <= 0 || referenceHz <= 0) return 0.0;
+    return 1200.0 * (math.log(detectedHz / referenceHz) / math.ln2);
   }
 }

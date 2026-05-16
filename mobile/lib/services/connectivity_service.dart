@@ -1,4 +1,5 @@
 /// Connectivity service — monitors internet availability.
+library;
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';

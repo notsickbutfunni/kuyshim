@@ -1,4 +1,5 @@
 /// Language toggle widget — cycles through KZ, EN, RU.
+library;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/language_service.dart';
