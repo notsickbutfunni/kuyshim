@@ -11,7 +11,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../main.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
-import '../widgets/lang_toggle.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -174,12 +173,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       backgroundColor: KColors.background,
       body: Stack(
         children: [
-          // Language toggle — top right
-          Positioned(
-            top: sh * 0.06,
-            right: sw * 0.025,
-            child: const LangToggle(),
-          ),
+
 
           // Background glow
           Center(

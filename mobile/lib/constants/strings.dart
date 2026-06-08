@@ -96,6 +96,8 @@ class AppStrings {
   final String notifications;
   final String notificationsSub;
   final String saveChanges;
+  final String language;
+  final String languageSub;
 
   // ── Tuner / Recognition ────────────────────────────────────
   final String precisionTuner;
@@ -106,6 +108,8 @@ class AppStrings {
   final String tightenSlightly;
   final String upperString;
   final String lowerString;
+  final String bottomString;
+  final String topString;
   final String reference;
   final String kuiRecognition;
   final String tapToRecognize;
@@ -132,6 +136,10 @@ class AppStrings {
   final String trainingModeDesc;
   final String competitiveMode;
   final String competitiveModeDesc;
+  final String storyMode;
+  final String storyModeDesc;
+  final String startTraining;
+  final String onlineOnly;
   final String newToDombra;
   final String alreadyKnowDombra;
 
@@ -141,6 +149,7 @@ class AppStrings {
   final String calibrateNow;
   final String calibrationComplete;
   final String playOpenBass;
+  final String playOpenTreble;
   final String resetCalibration;
   final String standardTuning;
   final String centsSharp;
@@ -160,6 +169,25 @@ class AppStrings {
   final Map<String, String> lessonTitles;
   final Map<String, String> lessonDescriptions;
   final Map<String, String> lessonComposers;
+
+  // ── Learning Path ───────────────────────────────────────────
+  final String learningPath;
+  final String module;
+  final String theBasics;
+  final String masterFoundation;
+  final String upstrokes;
+  final String learnAlternatePicking;
+  final String donePercentage;
+  final String songTag;
+  final String skillTag;
+  final String videoTag;
+  final String videoIntroTitle;
+  final String videoIntroDescription;
+  final String watchVideo;
+  final String skipVideo;
+  final Map<String, String> learnNodeTitles;
+  final Map<String, String> learnNodeDescriptions;
+  final Map<String, String> learnNodeStories;
 
   const AppStrings({
     required this.appTitle,
@@ -246,6 +274,8 @@ class AppStrings {
     required this.notifications,
     required this.notificationsSub,
     required this.saveChanges,
+    required this.language,
+    required this.languageSub,
     required this.precisionTuner,
     required this.startListening,
     required this.playAString,
@@ -254,6 +284,8 @@ class AppStrings {
     required this.tightenSlightly,
     required this.upperString,
     required this.lowerString,
+    required this.bottomString,
+    required this.topString,
     required this.reference,
     required this.kuiRecognition,
     required this.tapToRecognize,
@@ -276,6 +308,10 @@ class AppStrings {
     required this.trainingModeDesc,
     required this.competitiveMode,
     required this.competitiveModeDesc,
+    required this.storyMode,
+    required this.storyModeDesc,
+    required this.startTraining,
+    required this.onlineOnly,
     required this.newToDombra,
     required this.alreadyKnowDombra,
     required this.dombraTuning,
@@ -283,6 +319,7 @@ class AppStrings {
     required this.calibrateNow,
     required this.calibrationComplete,
     required this.playOpenBass,
+    required this.playOpenTreble,
     required this.resetCalibration,
     required this.standardTuning,
     required this.centsSharp,
@@ -294,6 +331,23 @@ class AppStrings {
     this.lessonTitles = const {},
     this.lessonDescriptions = const {},
     this.lessonComposers = const {},
+    required this.learningPath,
+    required this.module,
+    required this.theBasics,
+    required this.masterFoundation,
+    required this.upstrokes,
+    required this.learnAlternatePicking,
+    required this.donePercentage,
+    required this.songTag,
+    required this.skillTag,
+    required this.videoTag,
+    required this.videoIntroTitle,
+    required this.videoIntroDescription,
+    required this.watchVideo,
+    required this.skipVideo,
+    this.learnNodeTitles = const {},
+    this.learnNodeDescriptions = const {},
+    this.learnNodeStories = const {},
   });
 }
 
@@ -385,6 +439,8 @@ const AppStrings en = AppStrings(
   notifications: 'Notifications',
   notificationsSub: 'Practice reminders, News',
   saveChanges: 'Save Changes',
+  language: 'Language',
+  languageSub: 'Change application language',
   precisionTuner: 'Precision Tuner',
   startListening: 'Start Listening',
   playAString: 'Play a string...',
@@ -393,6 +449,8 @@ const AppStrings en = AppStrings(
   tightenSlightly: 'Tighten slightly',
   upperString: 'Upper String',
   lowerString: 'Lower String',
+  bottomString: 'Bottom String (Астыңғы ішек)',
+  topString: 'Top String (Үстіңгі ішек)',
   reference: 'Reference',
   kuiRecognition: 'Küi Recognition',
   tapToRecognize: 'Tap to recognize',
@@ -411,19 +469,24 @@ const AppStrings en = AppStrings(
   badgeKuishi: 'Küishi',
   locked: 'Locked',
   selectMode: 'Select Mode',
-  trainingMode: 'Training',
+  trainingMode: 'Learning Mode',
   trainingModeDesc: 'Waits until you play\nthe correct notes',
   competitiveMode: 'Competitive',
   competitiveModeDesc: 'Real game with\nfinal scores',
+  storyMode: 'Story',
+  storyModeDesc: 'History and culture\nof this küy',
+  startTraining: 'Start Training',
+  onlineOnly: 'Online only',
   newToDombra: 'I am new to Dombra',
   alreadyKnowDombra: 'I already know how to play',
   dombraTuning: 'Dombra Tuning',
   dombraTuningSub: 'Calibrate your instrument',
   calibrateNow: 'Calibrate Now',
   calibrationComplete: 'Calibration Complete!',
-  playOpenBass: 'Play your open bass string (A2)',
+  playOpenBass: 'Play your top string — Үстіңгі ішек (D3)',
+  playOpenTreble: 'Play your bottom string — Астыңғы ішек (G3)',
   resetCalibration: 'Reset to Standard',
-  standardTuning: 'Standard Tuning (A2-D3)',
+  standardTuning: 'Standard Tuning — Оң бұрау (G3-D3)',
   centsSharp: 'cents sharp',
   centsFlat: 'cents flat',
   calibrating: 'Listening...',
@@ -450,6 +513,50 @@ const AppStrings en = AppStrings(
     'b3': 'Tattimbet Kazangapuly',
     'b4': 'Folk küi',
     'b5': 'Abai Kunanbayuly',
+  },
+  learningPath: 'Learning Path',
+  module: 'MODULE',
+  theBasics: 'The Basics',
+  masterFoundation: 'Master the foundation of Dombra play',
+  upstrokes: 'Upstrokes',
+  learnAlternatePicking: 'Learn alternate picking techniques',
+  donePercentage: '% Done',
+  songTag: 'SONG',
+  skillTag: 'SKILL',
+  videoTag: 'VIDEO',
+  videoIntroTitle: 'How Notes Work',
+  videoIntroDescription: 'Watch a short video explaining how the digital notes and tuner work.',
+  watchVideo: 'Watch Video',
+  skipVideo: 'Skip',
+  learnNodeTitles: {
+    'node_1_meet': 'Meet Your Dombra',
+    'node_2_frets': 'First Frets',
+    'node_3_erkem_1': 'Erkem-ai: Measure 1',
+    'node_3_erkem_2': 'Erkem-ai: Measure 2',
+    'node_3_erkem_3': 'Erkem-ai: Measure 3',
+    'node_3_erkem_4': 'Erkem-ai: Measure 4',
+    'node_3_erkem_full': 'Erkem-ai: Full Song',
+    'node_4_upstrokes': 'Upstrokes',
+    'node_5_kenes': 'Kenes',
+  },
+  learnNodeDescriptions: {
+    'node_1_meet': 'Learn to play the open strings (D3 and G3).',
+    'node_2_frets': 'Press the 2nd and 4th frets on the bottom string.',
+    'node_3_erkem_1': 'Learn the first measure of Erkem-ai.',
+    'node_3_erkem_2': 'Learn the second measure of Erkem-ai.',
+    'node_3_erkem_3': 'Learn the third measure of Erkem-ai.',
+    'node_3_erkem_4': 'Learn the fourth measure of Erkem-ai.',
+    'node_3_erkem_full': 'Play the complete version of Erkem-ai!',
+    'node_4_upstrokes': 'Learn alternate picking: down-up-down-up.',
+    'node_5_kenes': 'A traditional song to practice your upstrokes.',
+  },
+  learnNodeStories: {
+    'node_3_erkem_1': 'In the vast steppes, nomads carried their culture through music. "Erkem-ai" is a gentle melody often played for loved ones. Let\'s play it together.',
+    'node_3_erkem_2': 'In the vast steppes, nomads carried their culture through music. "Erkem-ai" is a gentle melody often played for loved ones. Let\'s play it together.',
+    'node_3_erkem_3': 'In the vast steppes, nomads carried their culture through music. "Erkem-ai" is a gentle melody often played for loved ones. Let\'s play it together.',
+    'node_3_erkem_4': 'In the vast steppes, nomads carried their culture through music. "Erkem-ai" is a gentle melody often played for loved ones. Let\'s play it together.',
+    'node_3_erkem_full': 'You have learned all the pieces! Now combine them to play the complete "Erkem-ai" and feel the spirit of the steppes.',
+    'node_5_kenes': '"Kenes" means council or conversation. This piece mimics a lively discussion between elders. Use your newly learned upstrokes to keep up the pace!',
   },
 );
 
@@ -541,6 +648,8 @@ const AppStrings kz = AppStrings(
   notifications: 'Хабарландырулар',
   notificationsSub: 'Жаттығу еске салғыштары, Жаңалықтар',
   saveChanges: 'Сақтау',
+  language: 'Тіл',
+  languageSub: 'Қосымша тілін өзгерту',
   precisionTuner: 'Дәл тюнер',
   startListening: 'Тыңдауды бастау',
   playAString: 'Ішекті тартыңыз...',
@@ -549,6 +658,8 @@ const AppStrings kz = AppStrings(
   tightenSlightly: 'Аздап қатайтыңыз',
   upperString: 'Жоғарғы ішек',
   lowerString: 'Төменгі ішек',
+  bottomString: 'Астыңғы ішек (әуен ішегі)',
+  topString: 'Үстіңгі ішек (бұрау ішегі)',
   reference: 'Анықтама',
   kuiRecognition: 'Күй тану',
   tapToRecognize: 'Тану үшін басыңыз',
@@ -567,19 +678,24 @@ const AppStrings kz = AppStrings(
   badgeKuishi: 'Күйші',
   locked: 'Жабық',
   selectMode: 'Режимді таңдаңыз',
-  trainingMode: 'Үйрену',
+  trainingMode: 'Үйрену режимі',
   trainingModeDesc: 'Ноталарды дұрыс\nбасқанша күтеді',
   competitiveMode: 'Жарыс',
   competitiveModeDesc: 'Ұпай саналатын\nнағыз ойын',
+  storyMode: 'Тарих',
+  storyModeDesc: 'Күйдің тарихы\nмен мәдениеті',
+  startTraining: 'Жаттығуды бастау',
+  onlineOnly: 'Тек онлайн',
   newToDombra: 'Мен домбыра тарта алмаймын',
   alreadyKnowDombra: 'Мен домбыра тарта аламын',
   dombraTuning: 'Домбыра баптау',
   dombraTuningSub: 'Аспапты калибрлеу',
   calibrateNow: 'Калибрлеу',
   calibrationComplete: 'Калибрлеу аяқталды!',
-  playOpenBass: 'Бас ішекті ашық тартыңыз (A2)',
+  playOpenBass: 'Үстіңгі ішекті тартыңыз (D3)',
+  playOpenTreble: 'Астыңғы ішекті тартыңыз (G3)',
   resetCalibration: 'Стандартқа қайтару',
-  standardTuning: 'Стандартты баптау (A2-D3)',
+  standardTuning: 'Оң бұрау (G3-D3)',
   centsSharp: 'цент жоғары',
   centsFlat: 'цент төмен',
   calibrating: 'Тыңдалуда...',
@@ -606,6 +722,50 @@ const AppStrings kz = AppStrings(
     'b3': 'Тәттімбет Қазанғапұлы',
     'b4': 'Халық күйі',
     'b5': 'Абай Құнанбайұлы',
+  },
+  learningPath: 'Оқу жолы',
+  module: 'МОДУЛЬ',
+  theBasics: 'Негіздер',
+  masterFoundation: 'Домбыра тартудың негіздерін меңгеріңіз',
+  upstrokes: 'Жоғары қағыс',
+  learnAlternatePicking: 'Алмазек қағу техникасын үйреніңіз',
+  donePercentage: '% Дайын',
+  songTag: 'КҮЙ',
+  skillTag: 'ДАҒДЫ',
+  videoTag: 'БЕЙНЕ',
+  videoIntroTitle: 'Ноталар қалай жұмыс істейді',
+  videoIntroDescription: 'Сандық ноталар мен тюнердің қалай жұмыс істейтінін түсіндіретін қысқа бейнені көріңіз.',
+  watchVideo: 'Бейнені көру',
+  skipVideo: 'Өткізіп жіберу',
+  learnNodeTitles: {
+    'node_1_meet': 'Домбырамен танысу',
+    'node_2_frets': 'Алғашқы пернелер',
+    'node_3_erkem_1': 'Еркем-ай: 1-такт',
+    'node_3_erkem_2': 'Еркем-ай: 2-такт',
+    'node_3_erkem_3': 'Еркем-ай: 3-такт',
+    'node_3_erkem_4': 'Еркем-ай: 4-такт',
+    'node_3_erkem_full': 'Еркем-ай: Толық күй',
+    'node_4_upstrokes': 'Жоғары қағыс',
+    'node_5_kenes': 'Кеңес',
+  },
+  learnNodeDescriptions: {
+    'node_1_meet': 'Ашық ішектерді тартуды үйреніңіз (D3 және G3).',
+    'node_2_frets': 'Астыңғы ішекте 2-ші және 4-ші пернелерді басыңыз.',
+    'node_3_erkem_1': 'Еркем-айдың бірінші тактісін үйреніңіз.',
+    'node_3_erkem_2': 'Еркем-айдың екінші тактісін үйреніңіз.',
+    'node_3_erkem_3': 'Еркем-айдың үшінші тактісін үйреніңіз.',
+    'node_3_erkem_4': 'Еркем-айдың төртінші тактісін үйреніңіз.',
+    'node_3_erkem_full': 'Еркем-ай күйінің толық нұсқасын ойнаңыз!',
+    'node_4_upstrokes': 'Алмазек қағуды үйреніңіз: төмен-жоғары-төмен-жоғары.',
+    'node_5_kenes': 'Жоғары қағысты жаттықтыру үшін дәстүрлі күй.',
+  },
+  learnNodeStories: {
+    'node_3_erkem_1': 'Ұлан-ғайыр далада көшпенділер мәдениетін музыка арқылы жеткізген. "Еркем-ай" - жақындарына арналған нәзік әуен. Бірге ойнап көрейік.',
+    'node_3_erkem_2': 'Ұлан-ғайыр далада көшпенділер мәдениетін музыка арқылы жеткізген. "Еркем-ай" - жақындарына арналған нәзік әуен. Бірге ойнап көрейік.',
+    'node_3_erkem_3': 'Ұлан-ғайыр далада көшпенділер мәдениетін музыка арқылы жеткізген. "Еркем-ай" - жақындарына арналған нәзік әуен. Бірге ойнап көрейік.',
+    'node_3_erkem_4': 'Ұлан-ғайыр далада көшпенділер мәдениетін музыка арқылы жеткізген. "Еркем-ай" - жақындарына арналған нәзік әуен. Бірге ойнап көрейік.',
+    'node_3_erkem_full': 'Сіз барлық бөліктерді үйрендіңіз! Енді оларды біріктіріп, толық "Еркем-ай" күйін ойнаңыз.',
+    'node_5_kenes': '"Кеңес" - ақсақалдардың қызу пікірталасын бейнелейтін күй. Оны жаңа үйренген қағыстарыңызбен ойнап көріңіз!',
   },
 );
 
@@ -697,6 +857,8 @@ const AppStrings ru = AppStrings(
   notifications: 'Уведомления',
   notificationsSub: 'Напоминания, Новости',
   saveChanges: 'Сохранить',
+  language: 'Язык',
+  languageSub: 'Изменить язык приложения',
   precisionTuner: 'Точный тюнер',
   startListening: 'Начать прослушивание',
   playAString: 'Сыграйте на струне...',
@@ -705,6 +867,8 @@ const AppStrings ru = AppStrings(
   tightenSlightly: 'Немного подтяните',
   upperString: 'Верхняя струна',
   lowerString: 'Нижняя струна',
+  bottomString: 'Нижняя струна (Астыңғы ішек)',
+  topString: 'Верхняя струна (Үстіңгі ішек)',
   reference: 'Эталон',
   kuiRecognition: 'Распознавание Күй',
   tapToRecognize: 'Нажмите для распознавания',
@@ -723,19 +887,24 @@ const AppStrings ru = AppStrings(
   badgeKuishi: 'Кюйши',
   locked: 'Закрыто',
   selectMode: 'Выберите режим',
-  trainingMode: 'Обучающий',
+  trainingMode: 'Режим обучения',
   trainingModeDesc: 'Ждет, пока вы сыграете\nправильные ноты',
   competitiveMode: 'Соревновательный',
   competitiveModeDesc: 'Настоящая игра\nс результатами',
+  storyMode: 'История',
+  storyModeDesc: 'История и культура\nэтого күя',
+  startTraining: 'Начать обучение',
+  onlineOnly: 'Только онлайн',
   newToDombra: 'Я не умею играть на домбре',
   alreadyKnowDombra: 'Я умею играть на домбре',
   dombraTuning: 'Настройка домбры',
   dombraTuningSub: 'Калибровка инструмента',
   calibrateNow: 'Калибровать',
   calibrationComplete: 'Калибровка завершена!',
-  playOpenBass: 'Сыграйте открытую басовую струну (A2)',
+  playOpenBass: 'Сыграйте верхнюю струну — Үстіңгі ішек (D3)',
+  playOpenTreble: 'Сыграйте нижнюю струну — Астыңғы ішек (G3)',
   resetCalibration: 'Сбросить настройку',
-  standardTuning: 'Стандартный строй (A2-D3)',
+  standardTuning: 'Стандартный строй — Оң бұрау (G3-D3)',
   centsSharp: 'центов выше',
   centsFlat: 'центов ниже',
   calibrating: 'Слушаю...',
@@ -760,8 +929,48 @@ const AppStrings ru = AppStrings(
     'b1': 'Народный күй',
     'b2': 'Народный күй',
     'b3': 'Таттимбет Казангапулы',
-    'b4': 'Народный күй',
-    'b5': 'Абай Кунанбаюлы',
+    'b4': 'Фольклорный кюй',
+    'b5': 'Абай Кунанбаев',
+  },
+  learningPath: 'Путь обучения',
+  module: 'МОДУЛЬ',
+  theBasics: 'Основы',
+  masterFoundation: 'Освойте основы игры на домбре',
+  upstrokes: 'Удары вверх',
+  learnAlternatePicking: 'Изучите технику переменного штриха',
+  donePercentage: '% Готово',
+  songTag: 'КЮЙ',
+  skillTag: 'НАВЫК',
+  videoTag: 'ВИДЕО',
+  videoIntroTitle: 'Как работают ноты',
+  videoIntroDescription: 'Посмотрите короткое видео о том, как работают цифровые ноты и тюнер.',
+  watchVideo: 'Смотреть видео',
+  skipVideo: 'Пропустить',
+  learnNodeTitles: {
+    'node_1_meet': 'Знакомство с домброй',
+    'node_2_frets': 'Первые лады',
+    'node_3_erkem_1': 'Еркем-ай: Такт 1',
+    'node_3_erkem_2': 'Еркем-ай: Такт 2',
+    'node_3_erkem_3': 'Еркем-ай: Такт 3',
+    'node_3_erkem_4': 'Еркем-ай: Такт 4',
+    'node_3_erkem_full': 'Еркем-ай: Полный кюй',
+    'node_4_upstrokes': 'Удары вверх (Жоғары қағыс)',
+    'node_5_kenes': 'Кеңес',
+  },
+  learnNodeDescriptions: {
+    'node_1_meet': 'Научитесь играть на открытых струнах (D3 и G3).',
+    'node_2_frets': 'Нажмите на 2-й и 4-й лады на нижней струне.',
+    'node_3_erkem_1': 'Выучите первый такт Еркем-ай.',
+    'node_3_erkem_2': 'Выучите второй такт Еркем-ай.',
+    'node_3_erkem_3': 'Выучите третий такт Еркем-ай.',
+    'node_3_erkem_4': 'Выучите четвертый такт Еркем-ай.',
+    'node_3_erkem_full': 'Сыграйте полную версию кюя Еркем-ай!',
+    'node_4_upstrokes': 'Изучите переменный штрих: вниз-вверх-вниз-вверх.',
+    'node_5_kenes': 'Традиционный кюй для отработки ударов вверх.',
+  },
+  learnNodeStories: {
+    'node_3_erkem': 'В бескрайних степях кочевники передавали свою культуру через музыку. "Еркем-ай" - нежная мелодия, часто исполняемая для близких. Давайте сыграем вместе.',
+    'node_5_kenes': '"Кеңес" означает совет или разговор. Это произведение имитирует оживленную дискуссию старейшин. Используйте новые удары вверх, чтобы не отставать!',
   },
 );
 

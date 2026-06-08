@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
-import '../widgets/lang_toggle.dart';
 import '../widgets/calibration_dialog.dart';
 
 class OnboardingSelectionScreen extends StatefulWidget {
@@ -90,13 +89,7 @@ class _OnboardingSelectionScreenState extends State<OnboardingSelectionScreen> w
               ),
             ),
           ),
-          
-          // Language toggle
-          Positioned(
-            top: sh * 0.06,
-            right: sw * 0.025,
-            child: const LangToggle(),
-          ),
+
 
           SafeArea(
             child: Center(

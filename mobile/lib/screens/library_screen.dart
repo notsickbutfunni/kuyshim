@@ -13,7 +13,6 @@ import '../models/lesson_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../constants/strings.dart';
-import '../widgets/lang_toggle.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -98,8 +97,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           ],
                         ),
                       ),
-                      const LangToggle(),
-                      SizedBox(width: screenWidth * 0.012),
                       Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.015,
@@ -268,7 +265,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
           child: Material(
             color: Colors.transparent,
             child: Container(
-              width: sw * 0.55,
+              width: sw * 0.72,
               padding: EdgeInsets.all(sh * 0.04),
               decoration: BoxDecoration(
                 color: const Color(0xFF1A1C23).withOpacity(0.95),
@@ -308,20 +305,86 @@ class _LibraryScreenState extends State<LibraryScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  SizedBox(height: sh * 0.01),
+                  // Composer subtitle
+                  Text(
+                    t.lessonComposer(lesson.id, lesson.composer),
+                    style: TextStyle(
+                      fontSize: sh * 0.025,
+                      color: Colors.white.withOpacity(0.3),
+                      fontFamily: 'monospace',
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  SizedBox(height: sh * 0.02),
+                  // Description text
+                  if (lesson.description != null)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: sw * 0.02),
+                      child: Text(
+                        t.lessonDescription(lesson.id, lesson.description!),
+                        style: TextStyle(
+                          fontSize: sh * 0.024,
+                          color: Colors.white.withOpacity(0.5),
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   SizedBox(height: sh * 0.015),
+                  // Divider
+                  Container(
+                    height: 1,
+                    margin: EdgeInsets.symmetric(horizontal: sw * 0.04),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.transparent,
+                          Colors.white.withOpacity(0.1),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: sh * 0.015),
+                  // Mode selection label
                   Text(
                     t.selectMode,
                     style: TextStyle(
-                      fontSize: sh * 0.03,
-                      color: Colors.white.withOpacity(0.4),
-                      letterSpacing: 1.5,
+                      fontSize: sh * 0.022,
+                      color: Colors.white.withOpacity(0.3),
+                      letterSpacing: 2.0,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: sh * 0.04),
+                  SizedBox(height: sh * 0.025),
 
-                  // Mode buttons row
+                  // Mode buttons row — 3 buttons
                   Row(
                     children: [
+                      // Story mode (only if story exists)
+                      if (appState.kuisWithStories.contains(lesson.id)) ...[
+                        Expanded(
+                          child: _ModeButton(
+                            icon: Icons.auto_stories_rounded,
+                            title: t.storyMode,
+                            subtitle: t.storyModeDesc,
+                            color: KColors.violet,
+                            sw: sw,
+                            sh: sh,
+                            onTap: () async {
+                              Navigator.of(context).pop();
+                              await appState.selectLesson(lesson, mode: 'training');
+                              if (context.mounted) {
+                                context.go('/story?id=${lesson.id}');
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(width: sw * 0.015),
+                      ],
                       // Training mode
                       Expanded(
                         child: _ModeButton(
@@ -340,7 +403,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           },
                         ),
                       ),
-                      SizedBox(width: sw * 0.02),
+                      SizedBox(width: sw * 0.015),
                       // Competitive mode
                       Expanded(
                         child: _ModeButton(
@@ -576,36 +639,58 @@ class _SidebarNav extends StatelessWidget {
               height: logoSize,
             ),
           ),
-          SizedBox(height: screenHeight * 0.06),
-
-          // Nav buttons
-          _NavButton(
-            icon: Icons.play_arrow,
-            isActive: true,
-            btnSize: btnSize,
-            iconSize: iconSize,
-            onTap: () {},
-          ),
           SizedBox(height: screenHeight * 0.04),
-          _NavButton(
-            icon: Icons.music_note,
-            isActive: false,
-            btnSize: btnSize,
-            iconSize: iconSize,
-            onTap: () => context.go('/tuner'),
-          ),
-          SizedBox(height: screenHeight * 0.04),
-          _NavButton(
-            icon: Icons.person,
-            isActive: false,
-            btnSize: btnSize,
-            iconSize: iconSize,
-            onTap: () => context.go('/profile'),
+
+          // Nav buttons in scrollable area
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  _NavButton(
+                    icon: Icons.play_arrow,
+                    isActive: true,
+                    btnSize: btnSize,
+                    iconSize: iconSize,
+                    onTap: () {},
+                  ),
+                  SizedBox(height: screenHeight * 0.025),
+                  _NavButton(
+                    icon: Icons.music_note,
+                    isActive: false,
+                    btnSize: btnSize,
+                    iconSize: iconSize,
+                    onTap: () => context.go('/tuner'),
+                  ),
+                  SizedBox(height: screenHeight * 0.025),
+                  _NavButton(
+                    icon: Icons.school,
+                    isActive: false,
+                    btnSize: btnSize,
+                    iconSize: iconSize,
+                    onTap: () => context.go('/learn'),
+                  ),
+                  SizedBox(height: screenHeight * 0.025),
+                  _NavButton(
+                    icon: Icons.auto_stories,
+                    isActive: false,
+                    btnSize: btnSize,
+                    iconSize: iconSize,
+                    onTap: () => context.go('/story'),
+                  ),
+                  SizedBox(height: screenHeight * 0.025),
+                  _NavButton(
+                    icon: Icons.person,
+                    isActive: false,
+                    btnSize: btnSize,
+                    iconSize: iconSize,
+                    onTap: () => context.go('/profile'),
+                  ),
+                ],
+              ),
+            ),
           ),
 
-          const Spacer(),
-          Icon(Icons.bolt,
-              color: KColors.yellow, size: iconSize * 0.85),
           SizedBox(height: screenHeight * 0.06),
         ],
       ),
@@ -781,11 +866,11 @@ class _LessonCard extends StatelessWidget {
   });
 
   Widget _getStatusBadge() {
-    final badgePaddingH = screenWidth * 0.01;
-    final badgePaddingV = screenHeight * 0.01;
-    final badgeFontSize = screenHeight * 0.025;
-    final badgeIconSize = screenHeight * 0.03;
-    final badgeRadius = screenHeight * 0.03;
+    final badgePaddingH = screenWidth * 0.006;
+    final badgePaddingV = screenHeight * 0.006;
+    final badgeFontSize = screenHeight * 0.018;
+    final badgeIconSize = screenHeight * 0.022;
+    final badgeRadius = screenHeight * 0.02;
 
     if (lesson.progressStatus == 'completed') {
       return Container(
@@ -855,23 +940,23 @@ class _LessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accentColor = isPro ? KColors.violet : KColors.emerald;
-    final cardWidth = screenWidth * 0.35;
-    final cardRadius = screenHeight * 0.06;
-    final overlayPad = screenHeight * 0.02;
-    final labelFontSize = screenHeight * 0.02;
-    final titleFontSize = screenHeight * 0.035;
-    final composerFontSize = screenHeight * 0.02;
-    final descFontSize = screenHeight * 0.022;
-    final noteDotSize = screenHeight * 0.022;
+    final cardWidth = screenWidth * 0.24;
+    final cardRadius = screenHeight * 0.04;
+    final overlayPad = screenHeight * 0.015;
+    final labelFontSize = screenHeight * 0.016;
+    final titleFontSize = screenHeight * 0.028;
+    final composerFontSize = screenHeight * 0.016;
+    final descFontSize = screenHeight * 0.018;
+    final noteDotSize = screenHeight * 0.018;
 
     return GestureDetector(
       onTap: isLocked ? null : onTap,
       child: Container(
         width: cardWidth,
         margin: EdgeInsets.only(
-          right: screenWidth * 0.02,
-          top: screenHeight * 0.01,
-          bottom: screenHeight * 0.02,
+          right: screenWidth * 0.012,
+          top: screenHeight * 0.008,
+          bottom: screenHeight * 0.015,
         ),
         decoration: BoxDecoration(
           color: KColors.surface,
@@ -999,9 +1084,10 @@ class _LessonCard extends StatelessWidget {
                       top: overlayPad,
                       left: overlayPad,
                       child: Container(
+                        constraints: BoxConstraints(maxWidth: cardWidth * 0.55),
                         padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.008,
-                          vertical: screenHeight * 0.01,
+                          horizontal: screenWidth * 0.005,
+                          vertical: screenHeight * 0.006,
                         ),
                         decoration: BoxDecoration(
                           color:
@@ -1013,44 +1099,23 @@ class _LessonCard extends StatelessWidget {
                               color: accentColor
                                   .withOpacity(0.3)),
                         ),
-                        child: Text(
-                          isPro
-                              ? '⚡ ${t.pro}'
-                              : '🎵 ${t.beginner}',
-                          style: TextStyle(
-                            fontSize: labelFontSize,
-                            fontWeight: FontWeight.bold,
-                            color: accentColor
-                                .withOpacity(0.8),
-                            letterSpacing: 1.2,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            isPro
+                                ? t.pro
+                                : t.beginner,
+                            style: TextStyle(
+                              fontSize: labelFontSize,
+                              fontWeight: FontWeight.bold,
+                              color: accentColor
+                                  .withOpacity(0.8),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    // Difficulty dots
-                    if (!lesson.isRemote ||
-                        lesson.audioFile == null)
-                      Positioned(
-                        top: overlayPad,
-                        right: overlayPad,
-                        child: Row(
-                          children: List.generate(5, (i) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      screenWidth * 0.002),
-                              child: Icon(
-                                Icons.music_note,
-                                size: noteDotSize,
-                                color: i < lesson.difficulty
-                                    ? accentColor
-                                    : Colors.white
-                                        .withOpacity(0.2),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
+                    // Difficulty dots removed as requested
                   ],
                 ),
               ),
@@ -1060,10 +1125,10 @@ class _LessonCard extends StatelessWidget {
                 flex: 1,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
-                    screenWidth * 0.012,
-                    screenHeight * 0.015,
-                    screenWidth * 0.012,
-                    screenHeight * 0.015,
+                    screenWidth * 0.008,
+                    screenHeight * 0.01,
+                    screenWidth * 0.008,
+                    screenHeight * 0.01,
                   ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {

@@ -49,7 +49,14 @@ class SyncService {
   /// 1. Fetch Remote List and Compare / Cache
   Future<List<KuiModel>> syncMetadataAndJson() async {
     try {
-      final response = await _dio.get('$_baseUrl/kuis');
+      // Read saved language and send Accept-Language header
+      final prefs = await SharedPreferences.getInstance();
+      final lang = prefs.getString('kui_lang') ?? 'kz';
+      final acceptLang = lang == 'kz' ? 'kk' : lang;
+      final response = await _dio.get(
+        '$_baseUrl/kuis',
+        options: Options(headers: {'Accept-Language': acceptLang}),
+      );
       
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;

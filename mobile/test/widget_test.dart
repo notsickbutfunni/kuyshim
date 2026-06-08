@@ -3,7 +3,7 @@ import 'package:kuyshim/main.dart';
 
 void main() {
   testWidgets('App smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(const KuyshimApp(isFirstLaunch: true));
+    await tester.pumpWidget(const KuyshimApp());
     // Basic test
   });
 }

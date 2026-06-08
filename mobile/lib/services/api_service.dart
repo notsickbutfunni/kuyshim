@@ -25,6 +25,12 @@ class ApiService {
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';
     }
+
+    // Send current language so the backend returns localized kui names.
+    // The app stores 'kz' but the backend expects 'kk' for Kazakh.
+    final lang = prefs.getString('kui_lang') ?? 'kz';
+    headers['Accept-Language'] = lang == 'kz' ? 'kk' : lang;
+
     return headers;
   }
 
@@ -262,10 +268,40 @@ class ApiService {
   Future<List<Map<String, dynamic>>> fetchKuis() async {
     final response = await http.get(
       Uri.parse('$_baseUrl/kuis'),
+      headers: await _headers(),
     ).timeout(const Duration(seconds: 10));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch kuis: ${response.statusCode}');
+    }
+
+    final list = jsonDecode(response.body) as List;
+    return list.cast<Map<String, dynamic>>();
+  }
+
+  // ── Story Slides ──────────────────────────────────────────
+  Future<List<Map<String, dynamic>>> fetchKuiStory(String kuiId) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/kuis/$kuiId/story'),
+      headers: await _headers(),
+    ).timeout(const Duration(seconds: 10));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch story: ${response.statusCode}');
+    }
+
+    final list = jsonDecode(response.body) as List;
+    return list.cast<Map<String, dynamic>>();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchStoriesPreviews() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/stories'),
+      headers: await _headers(),
+    ).timeout(const Duration(seconds: 10));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch stories previews: ${response.statusCode}');
     }
 
     final list = jsonDecode(response.body) as List;

@@ -20,6 +20,9 @@ class KuiNote {
   /// Playing technique: "sherpe" (pluck) or "qagys" (strum)
   final String technique;
 
+  /// Stroke direction: "up", "down", or null
+  final String? strokeDirection;
+
   bool isPlayed;
   bool isMissed;
 
@@ -36,6 +39,7 @@ class KuiNote {
     required this.stringName,
     required this.fret,
     required this.technique,
+    this.strokeDirection,
     this.isPlayed = false,
     this.isMissed = false,
     this.hitQuality,
@@ -52,6 +56,7 @@ class KuiNote {
       stringName: json['string'] as String? ?? 'bass',
       fret: json['fret'] as int? ?? 0,
       technique: json['technique'] as String? ?? 'sherpe',
+      strokeDirection: json['stroke_direction'] as String?,
     );
   }
 

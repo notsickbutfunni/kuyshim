@@ -18,6 +18,9 @@ import 'screens/game_screen.dart';
 import 'screens/tuner_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/results_screen.dart';
+import 'screens/story_screen.dart';
+import 'screens/learn_screen.dart';
+import 'screens/video_lesson_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -182,6 +185,10 @@ class KuyshimApp extends StatelessWidget {
           builder: (context, state) => const GameScreen(),
         ),
         GoRoute(
+          path: '/learn',
+          builder: (context, state) => const LearnScreen(),
+        ),
+        GoRoute(
           path: '/game-tutorial',
           builder: (context, state) => const GameScreen(isTutorialMode: true),
         ),
@@ -196,6 +203,17 @@ class KuyshimApp extends StatelessWidget {
         GoRoute(
           path: '/results',
           builder: (context, state) => const ResultsScreen(),
+        ),
+        GoRoute(
+          path: '/story',
+          builder: (context, state) {
+            final lessonId = state.uri.queryParameters['id'];
+            return StoryScreen(initialLessonId: lessonId);
+          },
+        ),
+        GoRoute(
+          path: '/video-lesson',
+          builder: (context, state) => const VideoLessonScreen(),
         ),
       ],
     );

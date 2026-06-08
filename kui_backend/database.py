@@ -45,7 +45,22 @@ class Kui(Base):
     difficulty = Column(String, nullable=False)
 
     lessons = relationship("Lesson", back_populates="kui")
+    story_slides = relationship("KuiStorySlide", back_populates="kui", order_by="KuiStorySlide.slide_order")
 
+class KuiStorySlide(Base):
+    """Story slides for each küy — visual novel style.
+    Each küy can have 3-7 slides with an image, localized text, and optional audio.
+    Images/audio are stored as CDN URLs (jsDelivr) to keep DB lightweight."""
+    __tablename__ = "kui_story_slides"
+
+    id = Column(Integer, primary_key=True, index=True)
+    kui_id = Column(Integer, ForeignKey("kuis.id"), nullable=False, index=True)
+    slide_order = Column(Integer, nullable=False, default=0)
+    image_url = Column(Text, nullable=False)
+    text_translations = Column(JSONB, nullable=False, server_default='{}')
+    audio_url = Column(Text, nullable=True)
+
+    kui = relationship("Kui", back_populates="story_slides")
 
 class User(Base):
     __tablename__ = "users"

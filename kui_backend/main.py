@@ -2,6 +2,7 @@ import shutil
 import os
 import uuid
 from contextlib import asynccontextmanager
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, APIRouter, UploadFile, File, Form, Depends, HTTPException, status, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +14,7 @@ from typing import List, Optional
 from datetime import datetime, timedelta
 from sqlalchemy import func, distinct
 
-from database import engine, Base, Kui, User, Lesson, Progress, Performance, TunerResult, UserAchievement, get_db
+from database import engine, Base, Kui, User, Lesson, Progress, Performance, TunerResult, UserAchievement, KuiStorySlide, get_db
 from security import verify_password, get_password_hash, create_access_token, decode_access_token
 
 # ── OAuth2-схема: указывает клиенту, куда слать логин ────────
@@ -22,6 +23,11 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=Fals
 # Папка для сохранения файлов
 UPLOAD_DIR = "storage/audio"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Папка для küй аудиофайлов — сюда вручную кладём MP3
+# Доступны по: http://localhost:8000/static/kui_mp3/filename.mp3
+KUI_AUDIO_DIR = "storage/kui_mp3"
+os.makedirs(KUI_AUDIO_DIR, exist_ok=True)
 
 AVATARS_DIR = "storage/avatars"
 os.makedirs(AVATARS_DIR, exist_ok=True)
@@ -48,8 +54,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Монтируем папку со звуками, чтобы они были доступны в браузере/флаттере
-# Файл доступен по ссылке: http://localhost:8000/static/audio/filename.mp3
+# Монтируем папку storage/, чтобы файлы были доступны в браузере/флаттере
+# Küй аудио: http://localhost:8000/static/kui_mp3/filename.mp3
+# Аватары:   http://localhost:8000/static/avatars/filename.png
 app.mount("/static", StaticFiles(directory="storage"), name="static")
 
 
@@ -379,12 +386,35 @@ def login_json(body: LoginRequest, db: Session = Depends(get_db)):
     return {"access_token": token, "token_type": "bearer"}
 
 
+def _resolve_audio_url(raw_url: str) -> str:
+    """Convert any audio URL to a local /static/kui_mp3/ path.
+    If the DB stores a B2 URL like:
+      https://f005.backblazeb2.com/file/dombra-media/kui_audio/Kelinshek_kuyi.mp3
+    we extract the filename and return:
+      /static/kui_mp3/Kelinshek_kuyi.mp3
+    The actual MP3 must be placed in storage/kui_mp3/ on the server."""
+    if not raw_url:
+        return raw_url
+    # Already a local static path — keep as-is
+    if raw_url.startswith("/static/"):
+        return raw_url
+    # B2 or any HTTP URL — extract filename and point to local storage
+    if raw_url.startswith("http://") or raw_url.startswith("https://"):
+        parsed = urlparse(raw_url)
+        filename = os.path.basename(parsed.path)
+        if filename:
+            return f"/static/kui_mp3/{filename}"
+    return raw_url
+
+
 @api.get("/kuis", response_model=List[KuiOut])
 def get_all_kuis(
     request: Request,
     db: Session = Depends(get_db)
 ):
-    """Fetch all kuis and their CDN/download links for the mobile client."""
+    """Fetch all kuis for the mobile client.
+    B2 URLs in audio_url are auto-converted to /static/kui_audio/{filename}
+    so the app streams directly from this server."""
     lang = get_lang(request)
     kuis = db.query(
         Kui.id,
@@ -404,7 +434,7 @@ def get_all_kuis(
             id=k.id,
             title=k.title or "Unknown",
             artist=k.artist or "Unknown",
-            audio_url=k.audio_url,
+            audio_url=_resolve_audio_url(k.audio_url),
             image_url=k.image_url,
             json_file=k.json_file,
             duration=k.duration,
@@ -577,7 +607,7 @@ def get_kuis_for_play(
             id=k.id,
             title=k.title or "Unknown",
             artist=k.artist or "Unknown",
-            audio_url=k.audio_url,
+            audio_url=_resolve_audio_url(k.audio_url),
             image_url=k.image_url,
             json_file=k.json_file,
             duration=k.duration,
@@ -628,7 +658,7 @@ def list_lessons(
             difficulty=row.kui_difficulty if row.kui_difficulty else None,
             description=les.description,
             content=les.content,
-            audio_url=row.kui_audio_url if row.kui_audio_url else None,
+            audio_url=_resolve_audio_url(row.kui_audio_url) if row.kui_audio_url else None,
             tab_url=les.tab_url,
             video_url=les.video_url,
             progress_status=prog.status if prog else None,
@@ -669,7 +699,7 @@ def get_lesson(
         difficulty=row.kui_difficulty if row.kui_difficulty else None,
         description=les.description,
         content=les.content,
-        audio_url=row.kui_audio_url if row.kui_audio_url else None,
+        audio_url=_resolve_audio_url(row.kui_audio_url) if row.kui_audio_url else None,
         tab_url=les.tab_url,
         video_url=les.video_url,
         progress_status=prog.status if prog else None,
@@ -901,5 +931,124 @@ async def get_tuner_results(
     return out
 
 
+# ── Story Slides ──────────────────────────────────────────────
+
+class StorySlideOut(BaseModel):
+    id: int
+    slide_order: int
+    image_url: str
+    text: str
+    audio_url: Optional[str] = None
+
+
+@api.get("/kuis/{kui_id}/story", response_model=List[StorySlideOut])
+def get_kui_story(
+    request: Request,
+    kui_id: str,
+    db: Session = Depends(get_db),
+):
+    """Fetch story slides for a küy. Public endpoint (no auth needed)."""
+    lang = get_lang(request)
+    
+    slides = (
+        db.query(KuiStorySlide)
+        .filter(KuiStorySlide.kui_id == int(kui_id))
+        .order_by(KuiStorySlide.slide_order)
+        .all()
+    )
+
+    return [
+        StorySlideOut(
+            id=s.id,
+            slide_order=s.slide_order,
+            image_url=s.image_url,
+            text=s.text_translations.get(lang, s.text_translations.get("kk", "")),
+            audio_url=s.audio_url,
+        )
+        for s in slides
+    ]
+
+
+class StoryPreviewOut(BaseModel):
+    kui_id: str
+    slide_count: int
+    first_slide_image: str
+    first_slide_text: str
+
+@api.get("/stories", response_model=List[StoryPreviewOut])
+def get_all_stories(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    """Fetch all stories previews for the story library grid."""
+    lang = get_lang(request)
+    
+    # Get all distinct online kuis that have story slides
+    kui_ids_with_stories = db.query(distinct(KuiStorySlide.kui_id)).filter(KuiStorySlide.kui_id.isnot(None)).all()
+    
+    # We store them all as strings in our list
+    all_story_ids = [str(k[0]) for k in kui_ids_with_stories]
+    
+    previews = []
+    for kid in all_story_ids:
+        slides = (
+            db.query(KuiStorySlide)
+            .filter(KuiStorySlide.kui_id == int(kid))
+            .order_by(KuiStorySlide.slide_order)
+            .all()
+        )
+        if slides:
+            first = slides[0]
+            previews.append(StoryPreviewOut(
+                kui_id=kid,
+                slide_count=len(slides),
+                first_slide_image=first.image_url,
+                first_slide_text=first.text_translations.get(lang, first.text_translations.get("kk", "")),
+            ))
+            
+    return previews
+
+
+
+class StorySlideIn(BaseModel):
+    slide_order: int
+    image_url: str
+    text_translations: dict  # {"kk": "...", "ru": "...", "en": "..."}
+    audio_url: Optional[str] = None
+
+
+@api.post("/kuis/{kui_id}/story", response_model=StorySlideOut)
+def create_story_slide(
+    request: Request,
+    kui_id: int,
+    body: StorySlideIn,
+    db: Session = Depends(get_db),
+):
+    """Add a story slide to a küy."""
+    kui = db.query(Kui).filter(Kui.id == kui_id).first()
+    if not kui:
+        raise HTTPException(status_code=404, detail="Kui not found")
+
+    slide = KuiStorySlide(
+        kui_id=kui_id,
+        slide_order=body.slide_order,
+        image_url=body.image_url,
+        text_translations=body.text_translations,
+        audio_url=body.audio_url,
+    )
+    db.add(slide)
+    db.commit()
+    db.refresh(slide)
+
+    lang = get_lang(request)
+    return StorySlideOut(
+        id=slide.id,
+        slide_order=slide.slide_order,
+        image_url=slide.image_url,
+        text=slide.text_translations.get(lang, ""),
+        audio_url=slide.audio_url,
+    )
+
+
 # ── Register the API router with the main app ────────────────
-app.include_router(api)
+app.include_router(api)

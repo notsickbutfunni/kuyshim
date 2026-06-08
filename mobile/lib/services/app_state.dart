@@ -17,6 +17,7 @@ class AppState extends ChangeNotifier {
   final LevelManager levelManager = LevelManager();
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
   bool _googleSignInInitialized = false;
+  bool _disposed = false;
 
   ConnectivityService? _connectivity;
   ConnectivityService? get connectivity => _connectivity;
@@ -28,6 +29,7 @@ class AppState extends ChangeNotifier {
   bool _isOnline = false;
   bool _backendOnline = false;
   String _gameMode = 'competitive'; // 'competitive' or 'training'
+  Set<String> _kuisWithStories = {};
 
   AppUser get user => _user;
   List<Lesson> get lessons => _lessons;
@@ -37,13 +39,23 @@ class AppState extends ChangeNotifier {
   bool get backendOnline => _backendOnline;
   String get gameMode => _gameMode;
   bool get isTrainingMode => _gameMode == 'training';
+  Set<String> get kuisWithStories => _kuisWithStories;
 
   /// Set connectivity service reference (called from main).
   void setConnectivity(ConnectivityService service) {
+    if (_connectivity == service) return;
+    _connectivity?.removeListener(_onConnectivityChanged);
     _connectivity = service;
     _isOnline = service.isOnline;
     service.addListener(_onConnectivityChanged);
-    _refreshLessons();
+    refreshLessons();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
   }
 
   void _onConnectivityChanged() {
@@ -51,7 +63,7 @@ class AppState extends ChangeNotifier {
     _isOnline = _connectivity?.isOnline ?? false;
     if (wasOnline != _isOnline) {
       _checkBackendHealth();
-      _refreshLessons();
+      refreshLessons();
       notifyListeners();
     }
   }
@@ -81,7 +93,7 @@ class AppState extends ChangeNotifier {
       // Not logged in or backend down
     }
 
-    _refreshLessons();
+    refreshLessons();
     notifyListeners();
   }
 
@@ -95,10 +107,19 @@ class AppState extends ChangeNotifier {
   }
 
   /// Refresh available lessons based on current state.
-  Future<void> _refreshLessons() async {
+  /// Public so that language changes can trigger a re-fetch with the
+  /// new Accept-Language header, returning localized kui names.
+  Future<void> refreshLessons() async {
     List<Lesson> currentLessons = List.from(lesson_data.offlineLessons);
 
     if (_isOnline && _backendOnline) {
+      try {
+        final storyData = await api.fetchStoriesPreviews();
+        _kuisWithStories = storyData.map((e) => e['kui_id'].toString()).toSet();
+      } catch (e) {
+        print('Failed to fetch stories previews: $e');
+      }
+
       // 1. Fetch all kuis from the unauthenticated endpoint (works for guests too)
       try {
         final kuisData = await api.fetchKuis();
@@ -141,7 +162,7 @@ class AppState extends ChangeNotifier {
 
   /// Start as a guest.
   void startGuest() {
-    _refreshLessons();
+    refreshLessons();
     notifyListeners();
   }
 
@@ -162,7 +183,7 @@ class AppState extends ChangeNotifier {
       badges: const [],
     );
     await refreshStats();
-    _refreshLessons();
+    refreshLessons();
     notifyListeners();
   }
 
@@ -212,7 +233,7 @@ class AppState extends ChangeNotifier {
         await refreshStats();
       }
 
-      _refreshLessons();
+      refreshLessons();
       notifyListeners();
     } catch (e) {
       throw Exception('Google Sign In failed: $e');
@@ -235,9 +256,9 @@ class AppState extends ChangeNotifier {
       )).toList();
 
       final stats = UserStats(
-        totalPractice: statsData['totalPractice'],
-        mastery: statsData['mastery'],
-        streak: statsData['streak'],
+        totalPractice: statsData['totalPractice']?.toString() ?? '0h',
+        mastery: statsData['mastery'] ?? 0,
+        streak: statsData['streak'] ?? 0,
         avgBpm: statsData['avgBpm'],
         noteAccuracy: statsData['noteAccuracy'],
       );
@@ -271,7 +292,7 @@ class AppState extends ChangeNotifier {
       badges: const [],
     );
     await refreshStats();
-    _refreshLessons();
+    refreshLessons();
     notifyListeners();
   }
 
@@ -279,7 +300,7 @@ class AppState extends ChangeNotifier {
   Future<void> logout() async {
     await api.logout();
     _user = AppUser.guest;
-    _refreshLessons();
+    refreshLessons();
     notifyListeners();
   }
 
@@ -327,6 +348,7 @@ class AppState extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _connectivity?.removeListener(_onConnectivityChanged);
     super.dispose();
   }

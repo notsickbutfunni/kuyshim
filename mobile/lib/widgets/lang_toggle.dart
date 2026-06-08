@@ -3,6 +3,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/language_service.dart';
+import '../services/app_state.dart';
 
 class LangToggle extends StatelessWidget {
   const LangToggle({super.key});
@@ -25,7 +26,14 @@ class LangToggle extends StatelessWidget {
     final langService = context.watch<LanguageService>();
 
     return GestureDetector(
-      onTap: () => langService.toggleLang(),
+      onTap: () async {
+        await langService.toggleLang();
+        // Re-fetch lessons from backend with the new Accept-Language header
+        // so that kui names update to the selected language.
+        if (context.mounted) {
+          context.read<AppState>().refreshLessons();
+        }
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

@@ -15,7 +15,6 @@ import '../models/user_model.dart';
 import '../services/app_state.dart';
 import '../services/language_service.dart';
 import '../widgets/calibration_dialog.dart';
-import '../widgets/lang_toggle.dart';
 import '../widgets/settings_item.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,6 +26,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _showSettings = false;
+
+  String _getLanguageName(String lang) {
+    switch (lang) {
+      case 'kz':
+        return 'Қазақша (KZ)';
+      case 'en':
+        return 'English (EN)';
+      case 'ru':
+        return 'Русский (RU)';
+      default:
+        return 'Қазақша (KZ)';
+    }
+  }
 
   Color _getRankGradientStart(String rank) {
     switch (rank) {
@@ -205,6 +217,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<void> _showLanguageDialog(BuildContext context) async {
+    final langService = context.read<LanguageService>();
+    final appState = context.read<AppState>();
+    final t = langService.t;
+
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: KColors.surface,
+          title: Text(t.language, style: const TextStyle(color: Colors.white)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Қазақша (KZ)', style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(dialogContext, 'kz'),
+              ),
+              ListTile(
+                title: const Text('English (EN)', style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(dialogContext, 'en'),
+              ),
+              ListTile(
+                title: const Text('Русский (RU)', style: TextStyle(color: Colors.white)),
+                onTap: () => Navigator.pop(dialogContext, 'ru'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    // Dialog is now fully closed — safe to change language
+    if (selected != null) {
+      await langService.setLang(selected);
+      appState.refreshLessons();
+    }
+  }
+
   String? _getUnlockDate(List<AppBadge> badges, String key) {
     for (final b in badges) {
       if (b.key == key) return b.unlockedAt;
@@ -275,22 +326,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Icons.chevron_left,
                                   size: 28),
                             ),
-                            Row(
-                              children: [
-                                const LangToggle(),
-                                const SizedBox(width: 8),
-                                IconButton(
-                                  onPressed: () =>
-                                      setState(() =>
-                                          _showSettings = true),
-                                  icon: Icon(
-                                    Icons.settings,
-                                    size: 20,
-                                    color: Colors.white
-                                        .withOpacity(0.4),
-                                  ),
-                                ),
-                              ],
+                            IconButton(
+                              onPressed: () =>
+                                  setState(() =>
+                                      _showSettings = true),
+                              icon: Icon(
+                                Icons.settings,
+                                size: 20,
+                                color: Colors.white
+                                    .withOpacity(0.4),
+                              ),
                             ),
                           ],
                         ),
@@ -902,14 +947,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // ── Settings Modal Overlay ────────────────────────
           // NOTE: Subscription button and related content are REMOVED.
           if (_showSettings)
-            GestureDetector(
-              onTap: () => setState(() => _showSettings = false),
-              child: Container(
-                color: Colors.black.withOpacity(0.8),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {}, // prevent close on modal tap
-                    child: Container(
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () => setState(() => _showSettings = false),
+                child: Container(
+                  color: Colors.black.withOpacity(0.8),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {}, // prevent close on modal tap
+                      child: Container(
                       width: screenSize.width > 600 ? screenSize.width * 0.5 : screenSize.width * 0.9,
                       constraints: BoxConstraints(
                         maxHeight: screenSize.height * 0.9,
@@ -984,6 +1030,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               label: t.dombraTuning,
                               sub: t.dombraTuningSub,
                               onTap: () => showCalibrationDialog(context),
+                            ),
+                            const SizedBox(height: 12),
+                            SettingsItem(
+                              icon: Icons.language_rounded,
+                              label: t.language,
+                              sub: _getLanguageName(context.read<LanguageService>().lang),
+                              onTap: () => _showLanguageDialog(context),
                             ),
 
                             const SizedBox(height: 32),
@@ -1070,6 +1123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
+            ),
             ),
         ],
       ),

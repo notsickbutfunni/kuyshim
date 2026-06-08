@@ -269,6 +269,29 @@ class GamePainter extends CustomPainter {
         final tp = _getFretText(note.fret, noteH * 0.45);
         tp.paint(canvas, Offset(x - tp.width / 2, y - tp.height / 2));
       }
+
+      // Stroke direction arrow
+      if (note.strokeDirection != null && !note.isPlayed && !note.isMissed) {
+        final isDown = note.strokeDirection == 'down';
+        final arrowIcon = isDown ? Icons.arrow_downward_rounded : Icons.arrow_upward_rounded;
+        
+        final iconPainter = TextPainter(
+          text: TextSpan(
+            text: String.fromCharCode(arrowIcon.codePoint),
+            style: TextStyle(
+              fontSize: noteH * 0.5,
+              color: color.withOpacity(0.7 + 0.3 * proximity),
+              fontFamily: arrowIcon.fontFamily,
+              package: arrowIcon.fontPackage,
+            ),
+          ),
+          textDirection: TextDirection.ltr,
+        )..layout();
+        
+        // Draw the arrow below the note for downstrokes, and above for upstrokes
+        final arrowY = isDown ? y + h / 2 + 2 : y - h / 2 - iconPainter.height - 2;
+        iconPainter.paint(canvas, Offset(x - iconPainter.width / 2, arrowY));
+      }
     }
   }
 

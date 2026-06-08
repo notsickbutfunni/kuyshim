@@ -34,4 +34,14 @@ class LanguageService extends ChangeNotifier {
     await prefs.setString(_storageKey, _lang);
     notifyListeners();
   }
+
+  Future<void> setLang(String newLang) async {
+    if (allStrings.containsKey(newLang)) {
+      _lang = newLang;
+      _t = allStrings[_lang]!;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_storageKey, _lang);
+      notifyListeners();
+    }
+  }
 }

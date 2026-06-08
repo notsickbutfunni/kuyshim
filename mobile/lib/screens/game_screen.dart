@@ -27,9 +27,11 @@ import '../models/game_models.dart';
 import '../services/app_state.dart';
 import '../services/audio_engine.dart';
 import '../services/language_service.dart';
-import '../services/level_manager.dart' show AudioSource, AudioSourceType;
+import '../services/level_manager.dart' show AudioSourceType;
 import '../constants/tutorial_data.dart';
+import '../screens/learn_screen.dart' show LearnPathState;
 import 'game_painter.dart';
+import '../widgets/calibration_dialog.dart';
 
 const List<String> _hitTexts = ['КЕРЕМЕТ!', 'ЖАРАЙСЫҢ!', 'ТАМАША!', 'ДҰРЫС!'];
 const List<String> _goodTexts = ['ЖАҚСЫ!', 'ЖАМАН ЕМЕС!'];
@@ -77,10 +79,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int _feedbackKey = 0;
 
   // Cached previous HUD values to avoid unnecessary setState
-  int _prevScore = 0, _prevPerfect = 0, _prevGood = 0, _prevMiss = 0;
 
   // Game loop
   Ticker? _ticker;
+  /// Index of the first note that hasn't been played/missed yet.
+  /// Avoids scanning all notes every frame in competitive mode.
+  int _nextNoteIndex = 0;
 
   // Tutorial mode
   bool _tutorialWaiting = false;
@@ -88,17 +92,67 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   Duration? _lastTickDuration;
   int _simulatedTimeMs = 0;
 
+  // Snappy Pitch Matching history
+  int _lastHitRealTimeMs = 0;
+  String _lastHitNote = '';
+
   // Random instance — reuse instead of creating per-hit
   final math.Random _rng = math.Random();
+
+  Future<void> _safePlay() async {
+    try {
+      if (!_player.playing) {
+        await _player.play();
+      }
+    } catch (e) {
+      debugPrint('[GameScreen] safePlay error: $e');
+    }
+  }
+
+  Future<void> _safePause() async {
+    try {
+      if (_player.playing) {
+        await _player.pause();
+      }
+    } catch (e) {
+      debugPrint('[GameScreen] safePause error: $e');
+    }
+  }
+
+  bool _isNoteMatch(KuiNote note) {
+    if (!_audioEngine.isFrequencyMatch(note.primaryHz, toleranceCents: 100.0, stringName: note.stringName)) {
+      return false;
+    }
+    // Frequency matches! Now check if we should accept it.
+    // 1. If we have a clean onset, always accept.
+    if (_audioEngine.hasRecentOnset) return true;
+    
+    // 2. If it's a different note than the last hit, accept (change of pitch is enough).
+    if (note.primaryNote != _lastHitNote) return true;
+    
+    // 3. If it's the same note but enough real-time has passed, accept.
+    //    Reduced from 600ms→250ms — a dombra player can re-pluck the same
+    //    string in ~200ms, and the old 600ms blocked fast repeated notes.
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (now - _lastHitRealTimeMs > 250) return true;
+    
+    return false;
+  }
 
   // Countdown before competitive game starts
   int _countdownValue = 0; // 5, 4, 3, 2, 1, 0 (0 = done)
   bool _showGo = false; // brief "GO!" flash
   Timer? _countdownTimer;
+  bool _audioStarted = false;
 
-  // Config
-  static const int perfectWindowMs = 150;
-  static const int goodWindowMs = 350;
+  // Config — hit windows
+  // Widened from 150/350 to give more room for audio processing latency.
+  static const int perfectWindowMs = 200;
+  static const int goodWindowMs = 450;
+  /// Latency compensation: shifts the hit window to account for
+  /// the ~80-100ms audio pipeline delay (mic → buffer → YIN → game tick).
+  /// Without this, physically-on-time plucks always register as "late".
+  static const int latencyOffsetMs = 80;
 
   @override
   void initState() {
@@ -134,8 +188,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         _ticker?.start();
       }
     } else if (_isTrainingMode) {
-      // Training mode: load real lesson map, no audio, use tutorial-style tick
+      // Training mode: load real lesson map, load audio, use tutorial-style tick
       await _loadMap();
+      if (mounted) await _initAudio();
       try {
         await _audioEngine.start();
       } catch (_) {}
@@ -144,6 +199,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           _isLoaded = true;
           _isPlaying = true;
         });
+        _simulatedTimeMs = -2000; // 2 seconds pre-roll
+        _audioStarted = false;
         _ticker?.start();
       }
     } else {
@@ -180,8 +237,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           if (!mounted) return;
           _showGo = false;
           setState(() => _isPlaying = true);
+          _simulatedTimeMs = -2000; // 2 seconds pre-roll
+          _audioStarted = false;
+          _lastTickDuration = null;
           _ticker?.start();
-          _player.play();
         });
       } else {
         _playCountdownBeep(isGo: false);
@@ -214,6 +273,15 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     if (!mounted) return;
     final lesson = context.read<AppState>().selectedLesson;
     String? jsonStr;
+
+    if (lesson?.jsonMapFile == 'learn_path' && LearnPathState.currentNode != null) {
+      _mapTitle = LearnPathState.currentNode!.title;
+      _duration = 60.0; // Default for skill nodes
+      _allNotes = List.from(LearnPathState.currentNode!.notes);
+      _activeNotes = _allNotes.toList();
+      _beatTimes = [];
+      return;
+    }
 
     // 1. Try cached kui_maps from sync service (remote lessons)
     if (lesson?.jsonMapFile != null) {
@@ -264,17 +332,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     if (lesson == null) return;
 
     try {
-      var source = await appState.levelManager.resolveAudio(lesson);
-      if (source.type == AudioSourceType.remote) {
-        final path = await appState.levelManager.downloadAndCache(lesson);
-        source = AudioSource(type: AudioSourceType.cachedFile, path: path);
-      }
+      final source = await appState.levelManager.resolveAudio(lesson);
       if (!mounted) return;
 
       if (source.type == AudioSourceType.asset) {
+        // Local bundled audio
         await _player.setAsset('assets/${source.path}');
-      } else {
+      } else if (source.type == AudioSourceType.cachedFile) {
+        // Previously cached file on device
         await _player.setFilePath(source.path);
+      } else {
+        // Remote — stream directly from backend, no download needed
+        await _player.setUrl(source.path);
       }
       await _player.setSpeed(_tempoRate);
       await _player.setVolume(_kuiOn ? 1.0 : 0.0);
@@ -286,6 +355,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       });
     } catch (e) {
       debugPrint('[GameScreen] Audio init error: $e');
+      // Game still works — notes scroll and scoring happens,
+      // just without background küy audio.
     }
   }
 
@@ -293,11 +364,55 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   void _onTick(Duration elapsed) {
     if (!_isPlaying) return;
 
-    if (widget.isTutorialMode || _isTrainingMode) {
+    bool usePitchGate = widget.isTutorialMode || _isTrainingMode;
+    
+    // Override for specific Learn Path nodes
+    if (_isTrainingMode && context.read<AppState>().selectedLesson?.jsonMapFile == 'learn_path') {
+      if (LearnPathState.currentNode != null && !LearnPathState.currentNode!.isPitchGate) {
+        usePitchGate = false;
+      }
+    }
+
+    if (usePitchGate) {
       _tutorialTick(elapsed);
     } else {
-      // Use actual audio position to guarantee perfect sync (and auto-handle tempo scaling)
-      _timeNotifier.value = _player.position.inMilliseconds;
+      _continuousTick(elapsed);
+    }
+  }
+
+  void _continuousTick(Duration elapsed) {
+    if (!_audioStarted) {
+      if (_lastTickDuration == null) {
+        _lastTickDuration = elapsed;
+        return;
+      }
+      final deltaMs = (elapsed - _lastTickDuration!).inMilliseconds;
+      _lastTickDuration = elapsed;
+
+      _simulatedTimeMs += deltaMs;
+      if (_simulatedTimeMs < 0) {
+        _timeNotifier.value = _simulatedTimeMs;
+        _gameTick();
+      } else {
+        _audioStarted = true;
+        _safePlay();
+        _timeNotifier.value = 0;
+        _gameTick();
+      }
+    } else {
+      // If there's no audio track (e.g. skill nodes), just advance simulated time
+      if (_player.duration == null || _player.duration == Duration.zero) {
+        if (_lastTickDuration == null) {
+          _lastTickDuration = elapsed;
+          return;
+        }
+        final deltaMs = (elapsed - _lastTickDuration!).inMilliseconds;
+        _lastTickDuration = elapsed;
+        _simulatedTimeMs += deltaMs;
+        _timeNotifier.value = _simulatedTimeMs;
+      } else {
+        _timeNotifier.value = _player.position.inMilliseconds;
+      }
       _gameTick();
     }
   }
@@ -318,38 +433,65 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     final targetNote = _activeNotes[_tutorialTargetIdx];
     bool hudChanged = false;
 
-    if (!_tutorialWaiting) {
-      _simulatedTimeMs += deltaMs;
-      
-      // Stop moving when note reaches hit zone
-      if (_simulatedTimeMs >= targetNote.timeMs) {
-        _tutorialWaiting = true;
-        _simulatedTimeMs = targetNote.timeMs; // freeze perfectly
-      }
-    } else {
-      // Waiting for pitch
-      if (_audioEngine.isFrequencyMatch(targetNote.primaryHz, toleranceCents: 80.0)) {
-        targetNote.isPlayed = true;
-        targetNote.hitQuality = 'perfect';
-        
-        _score += 100;
-        _combo++;
-        _maxCombo = math.max(_maxCombo, _combo);
+    // Check if the user hits the note while it is within the hit window.
+    // Apply latency compensation so on-time plucks don't register as "late".
+    final diff = (_simulatedTimeMs - targetNote.timeMs) + latencyOffsetMs;
+
+    if (_isNoteMatch(targetNote) && diff.abs() <= goodWindowMs) {
+      // User hit the note in real-time!
+      targetNote.isPlayed = true;
+      targetNote.hitQuality = diff.abs() <= perfectWindowMs ? 'perfect' : 'good';
+
+      _score += targetNote.hitQuality == 'perfect' ? 100 : 50;
+      _combo++;
+      _maxCombo = math.max(_maxCombo, _combo);
+      if (targetNote.hitQuality == 'perfect') {
         _perfectCount++;
         _feedbackText = _hitTexts[_rng.nextInt(_hitTexts.length)];
-        _feedbackKey++;
-        hudChanged = true;
-        
-        _tutorialWaiting = false;
-        _tutorialTargetIdx++;
+      } else {
+        _goodCount++;
+        _feedbackText = _goodTexts[_rng.nextInt(_goodTexts.length)];
+      }
+      _feedbackKey++;
+      hudChanged = true;
+
+      _lastHitNote = targetNote.primaryNote;
+      _lastHitRealTimeMs = DateTime.now().millisecondsSinceEpoch;
+
+      _tutorialWaiting = false;
+      _tutorialTargetIdx++;
+
+      if (_audioStarted && !_player.playing) {
+        _safePlay();
+      }
+    } else {
+      // User hasn't hit it yet
+      if (!_tutorialWaiting) {
+        if (_audioStarted && _player.duration != null) {
+          _simulatedTimeMs = _player.position.inMilliseconds;
+        } else {
+          _simulatedTimeMs += deltaMs;
+        }
+
+        // Start player when simulated time crosses 0 (pre-roll ends)
+        if (!_audioStarted && _simulatedTimeMs >= 0) {
+          _audioStarted = true;
+          _safePlay();
+        }
+
+        // If we pass the note and haven't hit it, enter waiting state
+        if (_simulatedTimeMs >= targetNote.timeMs) {
+          _tutorialWaiting = true;
+          _simulatedTimeMs = targetNote.timeMs; // freeze perfectly
+          _safePause(); // Pause backing track while waiting!
+        }
+      } else {
+        // We are waiting at the frozen note.
+        // (Note match is handled by the check at the top of the tick on the next frame)
       }
     }
 
     if (hudChanged && mounted) {
-      _prevScore = _score;
-      _prevPerfect = _perfectCount;
-      _prevGood = _goodCount;
-      _prevMiss = _missCount;
       setState(() {});
     }
 
@@ -360,12 +502,20 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     final currentTimeMs = _timeNotifier.value;
     bool hudChanged = false;
 
-    for (final note in _activeNotes) {
+    // Scan only notes near the current time (starting from _nextNoteIndex)
+    for (int i = _nextNoteIndex; i < _activeNotes.length; i++) {
+      final note = _activeNotes[i];
+      // Apply latency compensation so physically-on-time plucks
+      // aren't penalised by audio pipeline delay.
+      final diff = (currentTimeMs - note.timeMs) + latencyOffsetMs;
+
+      // Stop scanning if we're looking too far ahead
+      if (diff < -goodWindowMs) break;
+
       if (note.isPlayed || note.isMissed) continue;
-      final diff = currentTimeMs - note.timeMs;
 
       if (diff.abs() <= goodWindowMs) {
-        if (_audioEngine.isFrequencyMatch(note.primaryHz, toleranceCents: 80.0)) {
+        if (_isNoteMatch(note)) {
           note.isPlayed = true;
           _combo++;
           _maxCombo = math.max(_maxCombo, _combo);
@@ -383,6 +533,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             _feedbackText = _goodTexts[_rng.nextInt(_goodTexts.length)];
           }
           _feedbackKey++;
+          
+          _lastHitNote = note.primaryNote;
+          _lastHitRealTimeMs = DateTime.now().millisecondsSinceEpoch;
+          
           hudChanged = true;
         }
       } else if (diff > goodWindowMs) {
@@ -393,12 +547,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       }
     }
 
+    // Advance _nextNoteIndex past played/missed notes
+    while (_nextNoteIndex < _activeNotes.length &&
+        (_activeNotes[_nextNoteIndex].isPlayed || _activeNotes[_nextNoteIndex].isMissed)) {
+      _nextNoteIndex++;
+    }
+
     // Only rebuild HUD widgets when score/stats actually changed
     if (hudChanged && mounted) {
-      _prevScore = _score;
-      _prevPerfect = _perfectCount;
-      _prevGood = _goodCount;
-      _prevMiss = _missCount;
       setState(() {});
     }
 
@@ -412,11 +568,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     if (_isPlaying) {
       setState(() => _isPlaying = false);
       _ticker?.stop();
-      if (!_isTrainingMode) _player.pause();
+      _safePause();
     } else {
       setState(() => _isPlaying = true);
+      _lastTickDuration = null;
       _ticker?.start();
-      if (!_isTrainingMode) _player.play();
+      if (_audioStarted) {
+        _safePlay();
+      }
     }
   }
 
@@ -426,7 +585,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     setState(() => _isPlaying = false);
     
     try { 
-      await _player.pause();
+      await _safePause();
       await _player.seek(Duration.zero); 
     } catch (_) {}
     for (final n in _activeNotes) { n.reset(); }
@@ -435,14 +594,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     setState(() {
       _score = 0; _combo = 0; _maxCombo = 0;
       _perfectCount = 0; _goodCount = 0; _missCount = 0;
-      _prevScore = 0; _prevPerfect = 0; _prevGood = 0; _prevMiss = 0;
       _feedbackText = null;
       _tutorialWaiting = false;
       _tutorialTargetIdx = 0;
-      _simulatedTimeMs = 0;
+      _simulatedTimeMs = -2000; // Reset to -2000 for pre-roll!
       _lastTickDuration = null;
       _countdownValue = 0;
       _showGo = false;
+      _audioStarted = false;
+      
+      _lastHitRealTimeMs = 0;
+      _lastHitNote = '';
+      _nextNoteIndex = 0;
     });
 
     // Re-trigger countdown for competitive mode
@@ -464,11 +627,23 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     }
     
     final total = _perfectCount + _goodCount + _missCount;
+    final acc = total > 0 ? ((_perfectCount + _goodCount) / total * 100).round() : 100;
+    final appState = context.read<AppState>();
+    
+    // If it's a Learn Path node, report completion
+    if (appState.selectedLesson?.jsonMapFile == 'learn_path') {
+      // Pitch gate nodes require >= 70% accuracy; kui/story nodes always pass
+      final isPitchGate = LearnPathState.currentNode?.isPitchGate == true;
+      final success = isPitchGate ? (acc >= 70) : true;
+      LearnPathState.onNodeCompleted?.call(success);
+      if (mounted) context.go('/learn');
+      return;
+    }
+
     if (total == 0) return;
-    final acc = ((_perfectCount + _goodCount) / total * 100).round();
+    
     String rank = acc > 95 ? 'S' : acc > 85 ? 'A' : acc > 70 ? 'B' : 'C';
 
-    final appState = context.read<AppState>();
     appState.finishGame(GameResult(
       score: _score, perfect: _perfectCount, good: _goodCount,
       miss: _missCount, accuracy: acc,
@@ -672,29 +847,94 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
             const Spacer(),
 
-            // Mic display
+            // Mic / Tuning display
             AnimatedBuilder(
               animation: _audioEngine,
               builder: (context, child) {
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: sw * 0.015, vertical: sh * 0.005),
-                  decoration: BoxDecoration(
-                    color: _audioEngine.calibratedHz > 0 ? bassColor.withOpacity(0.1) : Colors.white.withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(sw * 0.012),
-                    border: Border.all(color: _audioEngine.calibratedHz > 0 ? bassColor.withOpacity(0.3) : Colors.white10),
-                  ),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text('MIC', style: TextStyle(fontSize: sh * 0.013, letterSpacing: 2, fontFamily: 'monospace', color: Colors.white30)),
-                    Text(
-                      _audioEngine.calibratedHz > 0 ? '${_audioEngine.calibratedHz.toStringAsFixed(1)} Hz' : '— Hz',
-                      style: TextStyle(fontSize: sw * 0.018, fontWeight: FontWeight.w800, fontFamily: 'monospace',
-                        color: _audioEngine.calibratedHz > 0 ? bassColor : Colors.white24),
+                final hasSignal = _audioEngine.calibratedHz > 0;
+                return GestureDetector(
+                  onTap: () async {
+                    // Pause game if playing
+                    if (_isPlaying) {
+                      await _togglePlay();
+                    }
+                    if (mounted) {
+                      // Stop audio engine before opening modal to avoid resource conflict
+                      await _audioEngine.stop();
+                      
+                      await showCalibrationDialog(context);
+                      
+                      // Restart audio engine and reload calibration
+                      await _audioEngine.start();
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: sw * 0.018, vertical: sh * 0.006),
+                    decoration: BoxDecoration(
+                      color: hasSignal ? bassColor.withOpacity(0.12) : Colors.white.withOpacity(0.04),
+                      borderRadius: BorderRadius.circular(sw * 0.015),
+                      border: Border.all(
+                        color: hasSignal ? bassColor.withOpacity(0.4) : Colors.white10,
+                        width: 1.5,
+                      ),
+                      boxShadow: hasSignal ? [
+                        BoxShadow(
+                          color: bassColor.withOpacity(0.1),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                        )
+                      ] : [],
                     ),
-                    Text(_audioEngine.currentNote, style: GoogleFonts.playfairDisplay(
-                      fontSize: sw * 0.02, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic,
-                      color: _audioEngine.calibratedHz > 0 ? Colors.white : Colors.white24,
-                    )),
-                  ]),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.tune_rounded, size: sw * 0.018, color: hasSignal ? bassColor : Colors.white30),
+                        SizedBox(width: sw * 0.008),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'TAP TO TUNE',
+                              style: TextStyle(
+                                fontSize: sh * 0.011,
+                                letterSpacing: 1.5,
+                                fontFamily: 'monospace',
+                                fontWeight: FontWeight.bold,
+                                color: hasSignal ? bassColor.withOpacity(0.7) : Colors.white30,
+                              ),
+                            ),
+                            Text(
+                              hasSignal ? '${_audioEngine.calibratedHz.toStringAsFixed(1)} Hz' : '— Hz',
+                              style: TextStyle(
+                                fontSize: sw * 0.016,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'monospace',
+                                color: hasSignal ? bassColor : Colors.white24,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: sw * 0.008),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: sw * 0.008, vertical: sh * 0.002),
+                          decoration: BoxDecoration(
+                            color: hasSignal ? Colors.white.withOpacity(0.1) : Colors.transparent,
+                            borderRadius: BorderRadius.circular(sw * 0.005),
+                          ),
+                          child: Text(
+                            _audioEngine.currentNote,
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: sw * 0.02,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              color: hasSignal ? Colors.white : Colors.white24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
@@ -760,31 +1000,31 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             ),
             SizedBox(height: sh * 0.008),
 
-            // Row 1: KUI toggle + Tempo slider + Stats (KUI and tempo hidden in training mode)
+            // Row 1: KUI toggle + Tempo slider + Stats
             Padding(
               padding: EdgeInsets.symmetric(horizontal: sw * 0.03),
               child: Row(children: [
-                // Kui On/Off — hidden in training mode
-                if (!_isTrainingMode) ...[
-                  GestureDetector(
-                    onTap: _toggleKui,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: sw * 0.02, vertical: sh * 0.01),
-                      decoration: BoxDecoration(
-                        color: _kuiOn ? bassColor.withOpacity(0.15) : Colors.white.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(sh * 0.015),
-                        border: Border.all(color: _kuiOn ? bassColor.withOpacity(0.3) : Colors.white10, width: 1.5),
-                      ),
-                      child: Row(mainAxisSize: MainAxisSize.min, children: [
-                        Icon(_kuiOn ? Icons.music_note : Icons.music_off, size: sh * 0.028, color: _kuiOn ? bassColor : Colors.white38),
-                        SizedBox(width: sw * 0.005),
-                        Text(_kuiOn ? 'KUI' : 'OFF', style: TextStyle(fontSize: sh * 0.02, fontWeight: FontWeight.w700, color: _kuiOn ? bassColor : Colors.white38)),
-                      ]),
+                // Kui On/Off
+                GestureDetector(
+                  onTap: _toggleKui,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: sw * 0.02, vertical: sh * 0.01),
+                    decoration: BoxDecoration(
+                      color: _kuiOn ? bassColor.withOpacity(0.15) : Colors.white.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(sh * 0.015),
+                      border: Border.all(color: _kuiOn ? bassColor.withOpacity(0.3) : Colors.white10, width: 1.5),
                     ),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(_kuiOn ? Icons.music_note : Icons.music_off, size: sh * 0.028, color: _kuiOn ? bassColor : Colors.white38),
+                      SizedBox(width: sw * 0.005),
+                      Text(_kuiOn ? 'KUI' : 'OFF', style: TextStyle(fontSize: sh * 0.02, fontWeight: FontWeight.w700, color: _kuiOn ? bassColor : Colors.white38)),
+                    ]),
                   ),
-                  SizedBox(width: sw * 0.012),
+                ),
+                SizedBox(width: sw * 0.012),
 
-                  // Tempo slider — hidden in training mode
+                // Tempo slider — hidden in training mode
+                if (!_isTrainingMode) ...[
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: sw * 0.01, vertical: sh * 0.005),
